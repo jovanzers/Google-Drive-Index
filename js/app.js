@@ -798,7 +798,7 @@ function file_others(path) {
   <input type="text" class="form-control" id="dlurl" value="${url}">
 </div>
   <div class="card-text text-center">
-  ${UI.display_drive_link ? '<a type="button" class="btn btn-info" href="https://drive.google.com/file/d/'+ obj.id +'/view" id ="file_drive_link" target="_blank">GD Link</a>': ''}
+  ${UI.display_drive_link ? '<a type="button" class="btn btn-info" href="https://sharer.winten.my.id/f/'+ obj.id +'" id ="file_drive_link" target="_blank">GD Link</a>': ''}
   <div class="btn-group text-center">
       <a href="${url}" type="button" class="btn btn-primary">Download</a>
       <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -875,7 +875,7 @@ function file_code(path) {
   <input type="text" class="form-control" id="dlurl" value="${url}">
 </div>
   <div class="card-text text-center">
-  ${UI.display_drive_link ? '<a type="button" class="btn btn-info" href="https://drive.google.com/file/d/'+ obj.id +'/view" id ="file_drive_link" target="_blank">GD Link</a>': ''}
+  ${UI.display_drive_link ? '<a type="button" class="btn btn-info" href="https://sharer.winten.my.id/f/'+ obj.id +'" id ="file_drive_link" target="_blank">GD Link</a>': ''}
   <div class="btn-group text-center">
       <a href="${url}" type="button" class="btn btn-primary">Download</a>
       <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -972,7 +972,7 @@ ${UI.disable_video_download ? `` : `
   </div>
   <input type="text" class="form-control" id="dlurl" value="${url}">
 </div>
-${UI.display_drive_link ? '<a type="button" class="btn btn-info" href="https://drive.google.com/file/d/'+ obj.id +'/view" id ="file_drive_link" target="_blank">GD Link</a>': ''}
+${UI.display_drive_link ? '<a type="button" class="btn btn-info" href="https://sharer.winten.my.id/f/'+ obj.id +'" id ="file_drive_link" target="_blank">GD Link</a>': ''}
 <div class="btn-group text-center">
     <a href="${url}" type="button" class="btn btn-primary">Download</a>
     <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -1053,7 +1053,7 @@ function file_audio(path) {
   <input type="text" class="form-control" id="dlurl" value="${url}">
 </div>
   <div class="card-text text-center">
-  ${UI.display_drive_link ? '<a type="button" class="btn btn-info" href="https://drive.google.com/file/d/'+ obj.id +'/view" id ="file_drive_link" target="_blank">GD Link</a>': ''}
+  ${UI.display_drive_link ? '<a type="button" class="btn btn-info" href="https://sharer.winten.my.id/f/'+ obj.id +'" id ="file_drive_link" target="_blank">GD Link</a>': ''}
   <div class="btn-group text-center">
       <a href="${url}" type="button" class="btn btn-primary">Download</a>
       <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -1183,7 +1183,7 @@ function file_pdf(path) {
   <input type="text" class="form-control" id="dlurl" value="${url}">
 </div>
   <div class="card-text text-center">
-  ${UI.display_drive_link ? '<a type="button" class="btn btn-info" href="https://drive.google.com/file/d/'+ obj.id +'/view" id ="file_drive_link" target="_blank">GD Link</a>': ''}
+  ${UI.display_drive_link ? '<a type="button" class="btn btn-info" href="https://sharer.winten.my.id/f/'+ obj.id +'" id ="file_drive_link" target="_blank">GD Link</a>': ''}
   <div class="btn-group text-center">
       <a href="${url}" type="button" class="btn btn-primary">Download</a>
       <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -1291,7 +1291,7 @@ function file_image(path) {
   <input type="text" class="form-control" id="dlurl" value="${url}">
 </div>
   <div class="card-text text-center">
-  ${UI.display_drive_link ? '<a type="button" class="btn btn-info" href="https://drive.google.com/file/d/'+ obj.id +'/view" id ="file_drive_link" target="_blank">GD Link</a>': ''}
+  ${UI.display_drive_link ? '<a type="button" class="btn btn-info" href="https://sharer.winten.my.id/f/'+ obj.id +'" id ="file_drive_link" target="_blank">GD Link</a>': ''}
   <div class="btn-group text-center">
       <a href="${url}" type="button" class="btn btn-primary">Download</a>
       <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
