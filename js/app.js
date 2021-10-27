@@ -798,19 +798,9 @@ function file_others(path) {
   <input type="text" class="form-control" id="dlurl" value="${url}">
 </div>
   <div class="card-text text-center">
-  ${UI.display_drive_link ? '<a type="button" class="btn btn-info" href="https://sharer.winten.my.id/f/'+ obj.id +'" id ="file_drive_link" target="_blank">GD Link</a>': ''}
-  <div class="btn-group text-center">
-      <a href="${url}" type="button" class="btn btn-primary">Download</a>
-      <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="sr-only"></span>
-      </button>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager/idm.internet.download.manager.Downloader;S.title=${decodename};end">1DM (Free)</a>
-        <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.adm.lite/idm.internet.download.manager.Downloader;S.title=${decodename};end">1DM (Lite)</a>
-        <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${decodename};end">1DM+ (Plus)</a>
-      </div>
-  </div>
-  <button onclick="copyFunction()" onmouseout="outFunc()" class="btn btn-success"> <span class="tooltiptext" id="myTooltip">Copy</span> </button>
+  <div class="btn-group btn-block" role="group" aria-label="Unduh">
+  ${UI.display_drive_link ? '<a type="button" class="btn btn-danger" href="https://sharer.winten.my.id/f/'+ obj.id +'" id ="file_drive_link" target="_blank"><i class="fab fa-google-drive"></i> GDrive</a>': ''}
+      <a href="${url}" type="button" class="btn btn-success"><i class="fas fa-bolt"></i> Index</a>
   </div>
   <br></div>`;
                 }
@@ -875,19 +865,11 @@ function file_code(path) {
   <input type="text" class="form-control" id="dlurl" value="${url}">
 </div>
   <div class="card-text text-center">
-  ${UI.display_drive_link ? '<a type="button" class="btn btn-info" href="https://sharer.winten.my.id/f/'+ obj.id +'" id ="file_drive_link" target="_blank">GD Link</a>': ''}
-  <div class="btn-group text-center">
-      <a href="${url}" type="button" class="btn btn-primary">Download</a>
-      <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="sr-only"></span>
-      </button>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager/idm.internet.download.manager.Downloader;S.title=${decodename};end">1DM (Free)</a>
-        <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.adm.lite/idm.internet.download.manager.Downloader;S.title=${decodename};end">1DM (Lite)</a>
-        <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${decodename};end">1DM+ (Plus)</a>
-      </div>
+  <div class="btn-group btn-block" role="group" aria-label="Unduh">
+  ${UI.display_drive_link ? '<a type="button" class="btn btn-danger" href="https://sharer.winten.my.id/f/'+ obj.id +'" id ="file_drive_link" target="_blank"><i class="fab fa-google-drive"></i> GDrive</a>': ''}
+      <a href="${url}" type="button" class="btn btn-success"><i class="fas fa-bolt"></i> Index</a>
   </div>
-  <button onclick="copyFunction()" onmouseout="outFunc()" class="btn btn-success"> <span class="tooltiptext" id="myTooltip">Copy</span> </button></div><br></div>
+  </div>
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/prism.js" integrity="sha256-fZOd7N/oofoKcO92RzxvC0wMm+EvsKyRT4nmcmQbgzU=" crossorigin="anonymous"></script>
 `;
             } catch (err) {
@@ -972,28 +954,10 @@ ${UI.disable_video_download ? `` : `
   </div>
   <input type="text" class="form-control" id="dlurl" value="${url}">
 </div>
-${UI.display_drive_link ? '<a type="button" class="btn btn-info" href="https://sharer.winten.my.id/f/'+ obj.id +'" id ="file_drive_link" target="_blank">GD Link</a>': ''}
-<div class="btn-group text-center">
-    <a href="${url}" type="button" class="btn btn-primary">Download</a>
-    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span class="sr-only"></span>
-    </button>
-    <div class="dropdown-menu">
-      <a class="dropdown-item" href="iina://weblink?url=${url}">IINA</a>
-      <a class="dropdown-item" href="potplayer://${url}">PotPlayer</a>
-      <a class="dropdown-item" href="vlc://${urlvlc}">VLC</a>
-      <a class="dropdown-item" href="nplayer-${url}">nPlayer</a>
-      <a class="dropdown-item" href="intent://${url_without_https}#Intent;type=video/any;package=is.xyz.mpv;scheme=https;end;">mpv-android</a>
-      <a class="dropdown-item" href="mpv://${url_base64}">mpv x64</a>
-      <a class="dropdown-item" href="intent:${url}#Intent;package=com.mxtech.videoplayer.ad;S.title=${decodename};end">MX Player (Free)</a>
-      <a class="dropdown-item" href="intent:${url}#Intent;package=com.mxtech.videoplayer.pro;S.title=${decodename};end">MX Player (Pro)</a>
-      <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager/idm.internet.download.manager.Downloader;S.title=${decodename};end">1DM (Free)</a>
-      <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.adm.lite/idm.internet.download.manager.Downloader;S.title=${decodename};end">1DM (Lite)</a>
-      <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${decodename};end">1DM+ (Plus)</a>
-    </div>
+<div class="btn-group btn-block" role="group" aria-label="Unduh">
+${UI.display_drive_link ? '<a type="button" class="btn btn-danger" href="https://sharer.winten.my.id/f/'+ obj.id +'" id ="file_drive_link" target="_blank"><i class="fab fa-google-drive"></i> GDrive</a>': ''}
+    <a href="${url}" type="button" class="btn btn-success"><i class="fas fa-bolt"></i> Index</a>
 </div>
-<button onclick="copyFunction()" onmouseout="outFunc()" class="btn btn-success"> <span class="tooltiptext" id="myTooltip">Copy</span> </button>
-<br>
   </div>
   </div>
   `}
@@ -1053,19 +1017,11 @@ function file_audio(path) {
   <input type="text" class="form-control" id="dlurl" value="${url}">
 </div>
   <div class="card-text text-center">
-  ${UI.display_drive_link ? '<a type="button" class="btn btn-info" href="https://sharer.winten.my.id/f/'+ obj.id +'" id ="file_drive_link" target="_blank">GD Link</a>': ''}
-  <div class="btn-group text-center">
-      <a href="${url}" type="button" class="btn btn-primary">Download</a>
-      <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="sr-only"></span>
-      </button>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager/idm.internet.download.manager.Downloader;S.title=${decodename};end">1DM (Free)</a>
-        <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.adm.lite/idm.internet.download.manager.Downloader;S.title=${decodename};end">1DM (Lite)</a>
-        <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${decodename};end">1DM+ (Plus)</a>
-      </div>
+  <div class="btn-group btn-block" role="group" aria-label="Unduh">
+  ${UI.display_drive_link ? '<a type="button" class="btn btn-danger" href="https://sharer.winten.my.id/f/'+ obj.id +'" id ="file_drive_link" target="_blank"><i class="fab fa-google-drive"></i> GDrive</a>': ''}
+      <a href="${url}" type="button" class="btn btn-success"><i class="fas fa-bolt"></i> Index</a>
   </div>
-  <button onclick="copyFunction()" onmouseout="outFunc()" class="btn btn-success"> <span class="tooltiptext" id="myTooltip">Copy</span> </button></div><br>
+  
   </div>
   </div>
   </div>
@@ -1183,19 +1139,11 @@ function file_pdf(path) {
   <input type="text" class="form-control" id="dlurl" value="${url}">
 </div>
   <div class="card-text text-center">
-  ${UI.display_drive_link ? '<a type="button" class="btn btn-info" href="https://sharer.winten.my.id/f/'+ obj.id +'" id ="file_drive_link" target="_blank">GD Link</a>': ''}
-  <div class="btn-group text-center">
-      <a href="${url}" type="button" class="btn btn-primary">Download</a>
-      <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="sr-only"></span>
-      </button>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager/idm.internet.download.manager.Downloader;S.title=${decodename};end">1DM (Free)</a>
-        <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.adm.lite/idm.internet.download.manager.Downloader;S.title=${decodename};end">1DM (Lite)</a>
-        <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${decodename};end">1DM+ (Plus)</a>
-      </div>
+  <div class="btn-group btn-block" role="group" aria-label="Unduh">
+  ${UI.display_drive_link ? '<a type="button" class="btn btn-danger" href="https://sharer.winten.my.id/f/'+ obj.id +'" id ="file_drive_link" target="_blank"><i class="fab fa-google-drive"></i> GDrive</a>': ''}
+      <a href="${url}" type="button" class="btn btn-success"><i class="fas fa-bolt"></i> Index</a>
   </div>
-  <button onclick="copyFunction()" onmouseout="outFunc()" class="btn btn-success"> <span class="tooltiptext" id="myTooltip">Copy</span> </button></div><br>
+  
   </div>
   </div>
   </div>
@@ -1291,19 +1239,11 @@ function file_image(path) {
   <input type="text" class="form-control" id="dlurl" value="${url}">
 </div>
   <div class="card-text text-center">
-  ${UI.display_drive_link ? '<a type="button" class="btn btn-info" href="https://sharer.winten.my.id/f/'+ obj.id +'" id ="file_drive_link" target="_blank">GD Link</a>': ''}
-  <div class="btn-group text-center">
-      <a href="${url}" type="button" class="btn btn-primary">Download</a>
-      <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="sr-only"></span>
-      </button>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager/idm.internet.download.manager.Downloader;S.title=${decodename};end">1DM (Free)</a>
-        <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.adm.lite/idm.internet.download.manager.Downloader;S.title=${decodename};end">1DM (Lite)</a>
-        <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${decodename};end">1DM+ (Plus)</a>
-      </div>
+  <div class="btn-group btn-block" role="group" aria-label="Unduh">
+  ${UI.display_drive_link ? '<a type="button" class="btn btn-danger" href="https://sharer.winten.my.id/f/'+ obj.id +'" id ="file_drive_link" target="_blank"><i class="fab fa-google-drive"></i> GDrive</a>': ''}
+      <a href="${url}" type="button" class="btn btn-success"><i class="fas fa-bolt"></i> Index</a>
   </div>
-  <button onclick="copyFunction()" onmouseout="outFunc()" class="btn btn-success"> <span class="tooltiptext" id="myTooltip">Copy</span> </button></div><br>
+  
   </div>
   </div>
   </div>
