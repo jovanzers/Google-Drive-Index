@@ -795,7 +795,7 @@ function file_others(path) {
   <div class="input-group-prepend">
     <span class="input-group-text" id="">Full URL</span>
   </div>
-  <input type="text" class="form-control" id="dlurl" value="${url}">
+  <input type="text" class="form-control" id="dlurl" value="${url}" readonly>
 </div>
   <div class="card-text text-center">
   <div class="btn-group btn-block" role="group" aria-label="Unduh">
@@ -862,7 +862,7 @@ function file_code(path) {
   <div class="input-group-prepend">
     <span class="input-group-text" id="">Full URL</span>
   </div>
-  <input type="text" class="form-control" id="dlurl" value="${url}">
+  <input type="text" class="form-control" id="dlurl" value="${url}" readonly>
 </div>
   <div class="card-text text-center">
   <div class="btn-group btn-block" role="group" aria-label="Unduh">
@@ -952,7 +952,7 @@ ${UI.disable_video_download ? `` : `
   <div class="input-group-prepend">
     <span class="input-group-text" id="">Full URL</span>
   </div>
-  <input type="text" class="form-control" id="dlurl" value="${url}">
+  <input type="text" class="form-control" id="dlurl" value="${url}" readonly>
 </div>
 <div class="btn-group btn-block" role="group" aria-label="Unduh">
 ${UI.display_drive_link ? '<a type="button" class="btn btn-danger" href="https://sharer.winten.my.id/f/'+ obj.id +'" id ="file_drive_link" target="_blank"><i class="fab fa-google-drive"></i> GDrive</a>': ''}
@@ -1014,7 +1014,7 @@ function file_audio(path) {
   <div class="input-group-prepend">
     <span class="input-group-text" id="">Full URL</span>
   </div>
-  <input type="text" class="form-control" id="dlurl" value="${url}">
+  <input type="text" class="form-control" id="dlurl" value="${url}" readonly>
 </div>
   <div class="card-text text-center">
   <div class="btn-group btn-block" role="group" aria-label="Unduh">
@@ -1136,7 +1136,7 @@ function file_pdf(path) {
   <div class="input-group-prepend">
     <span class="input-group-text" id="">Full URL</span>
   </div>
-  <input type="text" class="form-control" id="dlurl" value="${url}">
+  <input type="text" class="form-control" id="dlurl" value="${url}" readonly>
 </div>
   <div class="card-text text-center">
   <div class="btn-group btn-block" role="group" aria-label="Unduh">
@@ -1236,7 +1236,7 @@ function file_image(path) {
   <div class="input-group-prepend">
     <span class="input-group-text" id="">Full URL</span>
   </div>
-  <input type="text" class="form-control" id="dlurl" value="${url}">
+  <input type="text" class="form-control" id="dlurl" value="${url}" readonly>
 </div>
   <div class="card-text text-center">
   <div class="btn-group btn-block" role="group" aria-label="Unduh">
