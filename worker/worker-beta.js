@@ -598,7 +598,7 @@ class googleDrive {
             'supportsAllDrives': true
         };
         params.q = `'${parent}' in parents and name = '${name}' and trashed = false`;
-        params.fields = "files(id, name, mimeType, size ,createdTime, modifiedTime, iconLink, thumbnailLink)";
+        params.fields = "files(id, name, mimeType, size, md5Checksum, createdTime, modifiedTime, iconLink, thumbnailLink)";
         url += '?' + this.enQuery(params);
         let requestOption = await this.requestOption();
         let response = await fetch(url, requestOption);
