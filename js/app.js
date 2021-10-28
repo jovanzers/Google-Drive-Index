@@ -1058,78 +1058,13 @@ function file_pdf(path) {
                 var obj = jQuery.parseJSON(gdidecode(read(data)));
                 var size = formatFileSize(obj.size);
                 var content = `
-  <script>
-  var url = "https://" + window.location.hostname + window.location.pathname;
-  var pdfjsLib = window['pdfjs-dist/build/pdf'];
-  pdfjsLib.GlobalWorkerOptions.workerSrc = '//cdn.jsdelivr.net/gh/mozilla/pdf.js@gh-pages/build/pdf.worker.js';
-  var pdfDoc = null,
-      pageNum = 1,
-      pageRendering = false,
-      pageNumPending = null,
-      scale = 0.8,
-      canvas = document.getElementById('the-canvas'),
-      ctx = canvas.getContext('2d');
-  function renderPage(num) {
-    pageRendering = true;
-    pdfDoc.getPage(num).then(function(page) {
-      var viewport = page.getViewport({scale: scale});
-      canvas.height = viewport.height;
-      canvas.width = viewport.width;
-      var renderContext = {
-        canvasContext: ctx,
-        viewport: viewport
-      };
-      var renderTask = page.render(renderContext);
-      renderTask.promise.then(function() {
-        pageRendering = false;
-        if (pageNumPending !== null) {
-          renderPage(pageNumPending);
-          pageNumPending = null;
-        }
-      });
-    });
-    document.getElementById('page_num').textContent = num;
-  }
-  function queueRenderPage(num) {
-    if (pageRendering) {
-      pageNumPending = num;
-    } else {
-      renderPage(num);
-    }
-  }
-  function onPrevPage() {
-    if (pageNum <= 1) {
-      return;
-    }
-    pageNum--;
-    queueRenderPage(pageNum);
-  }
-  document.getElementById('prev').addEventListener('click', onPrevPage);
-  function onNextPage() {
-    if (pageNum >= pdfDoc.numPages) {
-      return;
-    }
-    pageNum++;
-    queueRenderPage(pageNum);
-  }
-  document.getElementById('next').addEventListener('click', onNextPage);
-  pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
-    pdfDoc = pdfDoc_;
-    document.getElementById('page_count').textContent = pdfDoc.numPages;
-    renderPage(pageNum);
-  });
-  </script>
   <div class="container"><br>
   <div class="card">
   <div class="card-body text-center">
   <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${obj.name}<br>MD5: <code>${obj.md5Checksum}</code><br>${obj.mimeType}<br>${size}</div>
-  <div>
-  <button id="prev" class="btn btn-info">Previous</button>
-  <button id="next" class="btn btn-info">Next</button>
-  &nbsp; &nbsp;
-  <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
-  </div><br>
-  <canvas id="the-canvas" style="max-width: 100%;"></canvas>
+  <div style="margin-top: 20px; height: 400px;">
+    <object width="100%" height="100%" data="${url}" type="application/pdf"></object>
+  </div>
   </div>
   <div class="card-body">
 <div class="input-group mb-4">
