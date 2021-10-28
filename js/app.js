@@ -922,7 +922,7 @@ function file_video(path) {
                 var content = `
   <div class="container text-center"><br>
   <div class="card text-center">
-  <div class="text-center">
+  <div class="card-body text-center">
   <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${obj.name}<br>MD5: <code>${obj.md5Checksum}</code><br>${obj.mimeType}<br>${size}</div>
   <video id="vplayer" width="100%" height="100%" playsinline controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen']; data-plyr-config="{ "title": "${decodename}"}" data-poster="${poster}" style="--plyr-captions-text-color: #ffffff;--plyr-captions-background: #000000;">
     <source src="${url}" type="video/mp4" />
@@ -945,7 +945,7 @@ function file_video(path) {
   ${UI.disable_player ? '<style>.plyr{display:none;}</style>' : ''}
   <script>
    const player = new Plyr('#vplayer',{ratio: "${UI.plyr_io_video_resolution}"});
-  </script></br>
+  </script>
 ${UI.disable_video_download ? `` : `
 <div class="card-body">
 <div class="input-group mb-4">
@@ -1008,7 +1008,7 @@ function file_audio(path) {
   ${UI.disable_player ? '<style>.plyr{display:none;}</style>' : ''}
   <script>
    const player = new Plyr('#vplayer');
-  </script></br>
+  </script>
   <div class="card-body">
 <div class="input-group mb-4">
   <div class="input-group-prepend">
