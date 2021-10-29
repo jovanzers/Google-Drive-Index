@@ -3,6 +3,7 @@
 // Initialize the page
 function init() {
     document.siteName = $('title').html();
+    var domainz = window.location.host
     var html = `<header>
    <div id="nav">
    </div>
@@ -25,6 +26,35 @@ function init() {
       </div>
     </div>
   </div>
+</div>
+<div class="col-md-12" style="margin-top: 60px">
+    <div class="text-center">
+        <p class="">Buy me a coffee ☕️</p>
+        <a class="btn donate btn-info" href="https://t.me/WinTenGroup" title="Telegram">
+            <span class="icon is-small"><i class="fab fa-telegram"></i> </span><span>Telegram</span>
+        </a>
+        <a class="btn donate btn-success" href="https://facebook.com/WinTenID/" title="Facebook">
+            <span class="icon is-small"><i class="fab fa-facebook"></i> </span><span></span>
+        </a>
+        <a class="btn donate btn-warning" href="https://twitter.com/WinTenID" title="Twitter">
+            <span class="icon is-small"><i class="fab fa-twitter"></i> </span><span></span>
+        </a>
+        <a class="btn donate btn-danger" href=https://saweria.co/jovanzers title="Click me!">
+            <span class="icon is-small"><i class="fab fa-paypal"></i> </span><span>Donate</span>
+            <div class=qrcode>
+                <img alt="Love" src=https://i.postimg.cc/Yq0mZMKg/love.jpg>
+                <span style=position:absolute;top:30px;left:0;right:0;color:#000>Thank you very much ❤</span>
+            </div>
+        </a>
+        <p style="padding-top: 20px">
+            <a href="https://akannikah.id" target="_blank" title="Akannikah.id">
+                <img class="image" alt="Akannikah.id" style="margin: auto;width: 200px;" src="https://akannikah.id/wp-content/uploads/2019/08/Akannikah-logo.png">
+            </a>
+        </p>
+        <p>
+            <a href="#"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2F${domainz}&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false"/></a>
+        </p>
+    </div>
 </div>
 <br>
 <footer class="footer mt-auto py-3 text-muted ${UI.footer_style_class}" style="${UI.fixed_footer ?'position: fixed; ': ''}left: 0; bottom: 0; width: 100%; color: white; z-index: 9999;${UI.hide_footer ? ' display:none;': ' display:block;'}"> <div class="container" style="width: auto; padding: 0 10px;"> <p class="float-end"> <a href="#">Back to top</a> </p> ${UI.credit ? '<p>Redesigned with <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart-fill" fill="red" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" /> </svg> by <a href="https://www.npmjs.com/package/@googledrive/index" target="_blank">TheFirstSpeedster</a>, based on Open Source Softwares.</p>' : ''} <p>© ${UI.copyright_year} - <a href=" ${UI.company_link}" target="_blank"> ${UI.company_name}</a>, All Rights Reserved.</p> </div> </footer>
