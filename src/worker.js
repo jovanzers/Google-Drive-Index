@@ -660,7 +660,7 @@ const SearchFunction = {
 };
 
 const DriveFixedTerms = new(class {
-  default_file_fields = 'parents,id,name,mimeType,modifiedTime,createdTime,fileExtension,size';
+  default_file_fields = 'parents,id,name,mimeType,modifiedTime,createdTime,fileExtension,size,md5Checksum';
   gd_root_type = {
     user_drive: 0,
     share_drive: 1
