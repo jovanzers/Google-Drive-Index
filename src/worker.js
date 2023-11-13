@@ -153,6 +153,29 @@ function html(current_drive_order = 0, model = {}) {
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
   <style>
+    .navbar {
+      border-radius: 0 0 .5rem .5rem;
+      border: 1px solid rgba(140, 130, 115, 0.13);
+      box-shadow: 0 16px 48px 0 rgba(0, 0, 0, 0.5);
+      border-top: none;
+    }
+    nav::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      z-index: -1;
+      border-radius: 0 0 .5rem .5rem;
+    }
+    .dropdown-menu {
+      background: rgba(24, 26, 27, 0.2);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+    }
     .donate {
       position: relative;
     }
@@ -210,6 +233,29 @@ const homepage = `<!DOCTYPE html>
     <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.0.0/dist/${uiConfig.theme}/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <style>
+      .navbar {
+        border-radius: 0 0 .5rem .5rem;
+        border: 1px solid rgba(140, 130, 115, 0.13);
+        box-shadow: 0 16px 48px 0 rgba(0, 0, 0, 0.5);
+        border-top: none;
+      }
+      nav::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        z-index: -1;
+        border-radius: 0 0 .5rem .5rem;
+      }
+      .dropdown-menu {
+        background: rgba(24, 26, 27, 0.2);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+      }
       .donate {
         position: relative;
       }
