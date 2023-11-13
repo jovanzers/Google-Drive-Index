@@ -3,6 +3,7 @@
 // Initialize the page
 function init() {
 	document.siteName = $('title').html();
+	var domainz = window.location.host
 	var html = `<header>
    <div id="nav">
    </div>
@@ -26,6 +27,36 @@ function init() {
       </div>
     </div>
   </div>
+</div>
+<div class="col-md-12" style="margin-top: 60px">
+	<div class="text-center">
+		<p class="">Donate a coffee ☕️</p>
+		<a class="btn donate btn-info" href="https://t.me/WinTenDev" title="Telegram">
+			<span class="icon is-small"><i class="fab fa-telegram"></i> </span><span>Telegram</span>
+		</a>
+		<a class="btn donate" href="https://trakteer.id/jovanzers/tip" title="Click me!" style="background: #BE1E2D;" target="_blank">
+			<span class="icon is-small"><i class="fab fa-paypal"></i> </span><span>Trakteer</span>
+			<div class="qrcode">
+				<img alt="Love" src="https://i.postimg.cc/Yq0mZMKg/love.jpg">
+				<span style="position:absolute;top:30px;left:0;right:0;color:#000">Thank you very much ❤</span>
+			</div>
+		</a>
+		<a class="btn donate" href="https://saweria.co/jovanzers" title="Click me!" style="background: #f5a623FF;" target="_blank">
+			<span class="icon is-small"><i class="fab fa-paypal"></i> </span><span>Saweria</span>
+			<div class="qrcode">
+				<img alt="Love" src="https://i.postimg.cc/Yq0mZMKg/love.jpg">
+				<span style="position:absolute;top:30px;left:0;right:0;color:#000">Thank you very much ❤</span>
+			</div>
+		</a>
+        <p style="padding-top: 20px">
+            <a href="https://akannikah.id" target="_blank" title="Akannikah.id">
+                <img class="image" alt="Akannikah.id" style="margin: auto;width: 200px;" src="https://akannikah.id/wp-content/uploads/2019/08/Akannikah-logo.png">
+            </a>
+        </p>
+        <p>
+            <a href="#"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2F${domainz}&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false"/></a>
+        </p>
+    </div>
 </div>
 <br>
 <footer class="footer mt-auto py-3 text-muted text-center ${UI.footer_style_class}" style="${UI.fixed_footer ?'position: fixed; ': ''}left: 0; bottom: 0; width: 100%; color: white; z-index: 9999;${UI.hide_footer ? ' display:none;': ' display:block;'}"> <div class="container" style="width: auto; padding: 0 10px;"> <div class="row">
