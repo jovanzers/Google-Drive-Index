@@ -1137,15 +1137,15 @@ async function fallback(id, type) {
 						const poster = obj.thumbnailLink ? obj.thumbnailLink.replace("s220", "s0") : UI.poster;
 						file_video(name, encoded_name, size, poster, url, mimeType, file_id, cookie_folder_id);
 					} else if (mimeType.includes("audio") || audio.includes(fileExtension)) {
-						file_audio(name, encoded_name, size, url, file_id, cookie_folder_id);
+						file_audio(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id);
 					} else if (mimeType.includes("image") || image.includes(fileExtension)) {
-						file_image(name, encoded_name, size, url, file_id, cookie_folder_id);
+						file_image(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id);
 					} else if (mimeType.includes("pdf") || pdf.includes(fileExtension)) {
-						file_pdf(name, encoded_name, size, url, file_id, cookie_folder_id);
+						file_pdf(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id);
 					} else if (code.includes(fileExtension)) {
-						file_code(name, encoded_name, size, url, file_id, cookie_folder_id);
+						file_code(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id);
 					} else {
-						file_others(name, encoded_name, size, url, file_id, cookie_folder_id);
+						file_others(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id);
 					}
 				}
 			})
@@ -1212,15 +1212,15 @@ async function file(path) {
 					const poster = obj.thumbnailLink ? obj.thumbnailLink.replace("s220", "s0") : UI.poster;
 					file_video(name, encoded_name, size, poster, url, mimeType, file_id, cookie_folder_id);
 				} else if (mimeType.includes("audio") || audio.includes(fileExtension)) {
-					file_audio(name, encoded_name, size, url, file_id, cookie_folder_id);
+					file_audio(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id);
 				} else if (mimeType.includes("image") || image.includes(fileExtension)) {
-					file_image(name, encoded_name, size, url, file_id, cookie_folder_id);
+					file_image(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id);
 				} else if (mimeType.includes("pdf") || pdf.includes(fileExtension)) {
-					file_pdf(name, encoded_name, size, url, file_id, cookie_folder_id);
+					file_pdf(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id);
 				} else if (code.includes(fileExtension)) {
-					file_code(name, encoded_name, size, url, file_id, cookie_folder_id);
+					file_code(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id);
 				} else {
-					file_others(name, encoded_name, size, url, file_id, cookie_folder_id);
+					file_others(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id);
 				}
 			}
 		})
@@ -1256,7 +1256,7 @@ function generateCopyFileBox(file_id, cookie_folder_id) {
 }
 
 // Document display |zip|.exe/others direct downloads
-function file_others(name, encoded_name, size, url, file_id, cookie_folder_id) {
+function file_others(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id) {
 	// Split the file path into parts
 	var path = window.location.pathname;
 	var pathParts = path.split('/');
@@ -1291,7 +1291,7 @@ function file_others(name, encoded_name, size, url, file_id, cookie_folder_id) {
       </nav>
             <div class="card text-center">
             <div class="card-body text-center">
-              <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>${size}</div>
+              <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>${mimeType}<br>${size}</div>
             </div>
             <div class="card-body">
             <div class="input-group mb-4">
@@ -1315,7 +1315,7 @@ function file_others(name, encoded_name, size, url, file_id, cookie_folder_id) {
 	$("#content").html(content);
 }
 
-function file_code(name, encoded_name, size, bytes, url, ext, file_id, cookie_folder_id) {
+function file_code(name, encoded_name, size, bytes, url, mimeType, ext, file_id, cookie_folder_id) {
 	var type = {
 		"html": "html",
 		"php": "php",
@@ -1363,7 +1363,7 @@ function file_code(name, encoded_name, size, bytes, url, ext, file_id, cookie_fo
       </nav>
       <div class="card text-center">
         <div class="card-body text-center">
-          <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>${size}</div>
+          <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>${mimeType}<br>${size}</div>
         </div>
         <div id="code_spinner"></div>` +
 		(UI.second_domain_for_dl ? `` : `<pre class="line-numbers language-markup" data-src="plugins/line-numbers/index.html" data-start="-5" style="white-space: pre-wrap; counter-reset: linenumber -6;" data-src-status="loaded" tabindex="0"><code id="editor"></code></pre>`) +
@@ -1473,7 +1473,7 @@ function file_video(name, encoded_name, size, poster, url, mimeType, file_id, co
       </nav>
       <div class="card text-center">
         <div class="text-center">
-          <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>${size}</div>${player}</div>
+          <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>${mimeType}<br>${size}</div>${player}</div>
         </br>
         ${UI.disable_video_download ? `` : `
           <div class="card-body">
@@ -1565,7 +1565,7 @@ function file_video(name, encoded_name, size, poster, url, mimeType, file_id, co
 
 
 // File display Audio |mp3|flac|m4a|wav|ogg|
-function file_audio(name, encoded_name, size, url, file_id, cookie_folder_id) {
+function file_audio(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id) {
 	var url_base64 = btoa(url);
 	// Split the file path into parts
 	var path = window.location.pathname;
@@ -1601,7 +1601,7 @@ function file_audio(name, encoded_name, size, url, file_id, cookie_folder_id) {
       </nav>
       <div class="card text-center">
         <div class="text-center">
-          <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>${size}</div>
+          <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>${mimeType}<br>${size}</div>
           ${UI.disable_player ? `` : `
           <video id="aplayer" poster="${UI.audioposter}" muted=true class="video-js vjs-default-skin" controls preload="auto" width="100%" height="100%" data-setup='{"fluid": true}' style="--plyr-captions-text-color: #ffffff;--plyr-captions-background: #000000;">
             <source src="${url}" type="audio/mpeg" />
@@ -1663,7 +1663,7 @@ function file_audio(name, encoded_name, size, url, file_id, cookie_folder_id) {
 
 
 // Document display pdf
-function file_pdf(name, encoded_name, size, url, file_id, cookie_folder_id) {
+function file_pdf(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id) {
 	// Split the file path into parts
 	var path = window.location.pathname;
 	var pathParts = path.split('/');
@@ -1698,7 +1698,7 @@ function file_pdf(name, encoded_name, size, url, file_id, cookie_folder_id) {
       </nav>
     <div class="card">
     <div class="card-body text-center">
-    <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>${size}</div>
+    <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>${mimeType}<br>${size}</div>
     <div>
     </div><br>
     <iframe src="https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true" style="width:100%; height:500px;" frameborder="0"></iframe>
@@ -1731,7 +1731,7 @@ function file_pdf(name, encoded_name, size, url, file_id, cookie_folder_id) {
 }
 
 // image display
-function file_image(name, encoded_name, size, url, file_id, cookie_folder_id) {
+function file_image(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id) {
 	// Split the file path into parts
 	var path = window.location.pathname;
 	var pathParts = path.split('/');
@@ -1766,7 +1766,7 @@ function file_image(name, encoded_name, size, url, file_id, cookie_folder_id) {
       </nav>
       <div class="card">
         <div class="card-body text-center">
-          <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>${size}</div>
+          <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>${mimeType}<br>${size}</div>
           <img src="${url}" id="load_image" width="100%">
         </div>
         <div class="card-body">
