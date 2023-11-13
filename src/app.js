@@ -181,7 +181,7 @@ function nav(path) {
 	var cur = window.current_drive_order || 0;
 	html += `<nav class="navbar navbar-expand-lg${UI.fixed_header ?' fixed-top': ''} ${UI.header_style_class}">
     <div class="container-fluid">
-  <a class="navbar-brand" href="/">${UI.logo_image ? '<img border="0" alt="'+UI.company_name+'" src="'+UI.logo_link_name+'" height="'+UI.logo_height+'" width="'+UI.logo_width+'">' : UI.logo_link_name}</a>
+  <a class="navbar-brand" href="/">${UI.logo_image ? '<img border="0" style="margin-top: -5px;" alt="'+UI.company_name+'" src="'+UI.logo_link_name+'" height="'+UI.logo_height+'" width="'+UI.logo_width+'"> &nbsp; '+UI.siteName+' &nbsp;' : UI.logo_link_name} <span class="badge rounded-pill bg-success">BETA</span></a>
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
