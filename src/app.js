@@ -188,29 +188,31 @@ function nav(path) {
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       <li class="nav-item">
-        <a class="nav-link" href="/${cur}:/">${UI.nav_link_1}</a>
+        <a class="nav-link" href="/${cur}:/"><i class='fas fa-home'></i>&nbsp; ${UI.nav_link_1}</a>
       </li>`;
 	var names = window.drive_names;
 	var drive_name = window.drive_names[cur];
 
 	// Dropdown to select different drive roots.
-	html += `<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${drive_name}</a><div class="dropdown-menu" aria-labelledby="navbarDropdown">`;
+	html += `<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class='fab fa-google-drive'></i>&nbsp; ${drive_name}</a><div class="dropdown-menu" aria-labelledby="navbarDropdown">`;
 	names.forEach((name, idx) => {
-		html += `<a class="dropdown-item"  href="/${idx}:/">${name}</a>`;
+		html += `<a class="dropdown-item"  href="/${idx}:/"><i class='fab fa-google-drive'></i>&nbsp; ${name}</a>`;
 	});
 	html += `</div></li>`;
 
 
 	html += `<li class="nav-item">
-    <a class="nav-link" href="${UI.contact_link}" target="_blank">${UI.nav_link_4}</a>
+    <a class="nav-link" href="${UI.contact_link}" target="_blank"><i class='fab fa-telegram'></i>&nbsp; ${UI.nav_link_4}</a>
   </li>${UI.show_logout_button ?'<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>': ''}`;
 
 	var search_text = model.is_search_page ? (model.q || '') : '';
 	var search_bar = `
 </ul>
 <form class="d-flex" method="get" action="/${cur}:search">
-<input class="form-control me-2" name="q" type="search" placeholder="Search" aria-label="Search" value="${search_text}" required>
-<button class="btn ${UI.search_button_class}" onclick="if($('#search_bar_form>input').val()) $('#search_bar_form').submit();" type="submit">Search</button>
+<div class="input-group">
+	<input class="form-control" name="q" type="search" placeholder="Search" aria-label="Search" value="${search_text}" required>
+	<button class="btn ${UI.search_button_class}" onclick="if($('#search_bar_form>input').val()) $('#search_bar_form').submit();" type="submit"><i class="fas fa-search"></i></button>
+</div>
 </form>
 </div>
 </div>
@@ -372,10 +374,9 @@ function list(path, id = '', fallback = false) {
         <button id="handle-multiple-items-copy" style="padding: 5px 10px; font-size: 12px;" class="btn btn-success">Copy</button>
       </div>
     </div>
-    <div class="${UI.path_nav_alert_class} d-flex align-items-center" role="alert" style="margin-bottom: 0; padding-bottom: 0rem;">
-      <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-        <ol class="breadcrumb" id="folderne">
-          <li class="breadcrumb-item"><a href="/">Home</a></li>`;
+	<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
+		<ol class="breadcrumb" id="folderne">
+			<li class="breadcrumb-item"><a href="/">Roots</a></li>`;
 
 	var navfulllink = window.location.pathname;
 	var navarray = navfulllink.trim('/').split('/');
@@ -401,9 +402,8 @@ function list(path, id = '', fallback = false) {
 
 	containerContent += `</ol>
     </nav>
-  </div>
   <div id="list" class="list-group text-break"></div>
-  <div class="${UI.file_count_alert_class} text-center d-none" role="alert" id="count"><span class="number text-center"></span> | <span class="totalsize text-center"></span></div>
+  <div class="card-footer text-center mt-3 rounded-2" id="count"><span class="number text-center"></span> | <span class="totalsize text-center"></span></div>
   <div id="readme_md" style="display:none; padding: 20px 20px;"></div>
 </div>`;
 
@@ -586,7 +586,8 @@ function append_files_to_fallback_list(path, files) {
 			item['modifiedTime'] = utc2delhi(item['modifiedTime']);
 			// replace / with %2F
 			if (item['mimeType'] == 'application/vnd.google-apps.folder') {
-				html += `<a href="${p}" style="color: ${UI.folder_text_color};" class="countitems list-group-item list-group-item-action"> ${folder_icon} ${item.name} ${UI.display_time ? `<span class="badge bg-info float-end"> ` + item['modifiedTime'] + ` </span>` : ``}</a>`;
+				html += `<div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">`;
+				html += `<a href="${p}" style="color: ${UI.folder_text_color};" class="countitems list-group-item-action d-flex align-items-center"><span style="margin-right: 0.5rem;">${folder_icon}</span>${item.name}</a> ${UI.display_time ? `<span class="badge bg-info"> ` + item['modifiedTime'] + ` </span>` : ``} </div>`;
 			} else {
 				var totalsize = totalsize + Number(item.size);
 				item['size'] = formatFileSize(item['size']);
@@ -614,7 +615,7 @@ function append_files_to_fallback_list(path, files) {
 				pn += "?a=view";
 				c += " view";
 				//}
-				html += `<div class="list-group-item list-group-item-action">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}`
+				html += `<div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}<a class="countitems size_items list-group-item-action d-flex align-items-center" style="text-decoration: none; color: ${UI.css_a_tag_color};" href="${pn}"><span style="margin-right: 0.5rem;">`
 
 				if ("|mp4|webm|avi|mpg|mpeg|mkv|rm|rmvb|mov|wmv|asf|ts|flv|".indexOf(`|${ext}|`) >= 0) {
 					html += video_icon
@@ -634,7 +635,7 @@ function append_files_to_fallback_list(path, files) {
 					html += file_icon
 				}
 
-				html += ` <a class="countitems size_items list-group-item-action" style="text-decoration: none; color: ${UI.css_a_tag_color};" href="${p}&a=view">${item.name}</a>${UI.display_download ? `<a href="${link}"><svg class="float-end"width="25px" style="margin-left: 8px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path> <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path> </svg></a>` : ``}${UI.display_size ? `<span class="badge bg-primary float-end"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info float-end"> ` + item['modifiedTime'] + ` </span>` : ``}</div>`;
+				html += `</span>${item.name}</a>${UI.display_size ? `<span class="badge bg-primary"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info mx-1"> ` + item['modifiedTime'] + ` </span>` : ``}${UI.display_download ? `<a href="${link}"><svg class="float-end"width="25px" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path> <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path> </svg></a>` : ``}</div>`;
 			}
 		}
 		if (is_file && UI.allow_selecting_files) {
@@ -727,7 +728,8 @@ function append_files_to_list(path, files) {
 		item['modifiedTime'] = utc2delhi(item['modifiedTime']);
 		// replace / with %2F
 		if (item['mimeType'] == 'application/vnd.google-apps.folder') {
-			html += `<a href="${p}" style="color: ${UI.folder_text_color};" class="countitems list-group-item list-group-item-action"> ${folder_icon} ${item.name} ${UI.display_time ? `<span class="badge bg-info float-end"> ` + item['modifiedTime'] + ` </span>` : ``}</a>`;
+			html += `<div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">`;
+			html += `<a href="${p}" style="color: ${UI.folder_text_color};" class="countitems list-group-item-action d-flex align-items-center"><span style="margin-right: 0.5rem;">${folder_icon}</span>${item.name}</a> ${UI.display_time ? `<span class="badge bg-info"> ` + item['modifiedTime'] + ` </span>` : ``} </div>`;
 		} else {
 			var totalsize = totalsize + Number(item.size);
 			item['size'] = formatFileSize(item['size']);
@@ -756,7 +758,7 @@ function append_files_to_list(path, files) {
 			pn += "?a=view";
 			c += " view";
 			//}
-			html += `<div class="list-group-item list-group-item-action">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}`
+			html += `<div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}<a class="countitems size_items list-group-item-action d-flex align-items-center" style="text-decoration: none; color: ${UI.css_a_tag_color};" href="${pn}"><span style="margin-right: 0.5rem;">`
 
       if ("|mp4|webm|avi|mpg|mpeg|mkv|rm|rmvb|mov|wmv|asf|ts|flv|".indexOf(`|${ext}|`) >= 0) {
         html += video_icon
@@ -776,7 +778,7 @@ function append_files_to_list(path, files) {
         html += file_icon
       }
 
-			html += ` <a class="countitems size_items list-group-item-action" style="text-decoration: none; color: ${UI.css_a_tag_color};" href="${pn}">${item.name}</a>${UI.display_download ? `<a href="${link}"><svg class="float-end"width="25px" style="margin-left: 8px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path> <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path> </svg></a>` : ``}${UI.display_size ? `<span class="badge bg-primary float-end"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info float-end"> ` + item['modifiedTime'] + ` </span>` : ``}</div>`;
+			html += `</span>${item.name}</a>${UI.display_size ? `<span class="badge bg-primary"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info mx-1"> ` + item['modifiedTime'] + ` </span>` : ``}${UI.display_download ? `<a href="${link}"><svg class="float-end"width="25px" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path> <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path> </svg></a>` : ``}</div>`;
 		}
 	}
 	if (is_file && UI.allow_selecting_files) {
@@ -848,25 +850,26 @@ function append_files_to_list(path, files) {
  * Render the search results list. There is a lot of repetitive code, but there are different logics in it.
  */
 function render_search_result_list() {
+	var model = window.MODEL;
 	var content = `
   <div class="container"><br>
-  <div id="update"></div>
-  <div class="container" id="select_items" style="padding: 0px 50px 10px; display:none;">
-  <div class="d-flex align-items-center justify-content-between">
-    <div class="form-check mr-3">
-      <input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" id="select-all-checkboxes">
-      <label class="form-check-label" for="select-all-checkboxes">Select all</label>
-    </div>
-    <button id="handle-multiple-items-copy" style="padding: 5px 10px; font-size: 12px;" class="btn btn-success">Copy</button>
-  </div>
-  </div>
-  <div class="card">
-  <div class="${UI.path_nav_alert_class} d-flex align-items-center" role="alert" style="margin-bottom: 0;">Search Results</div>
-  <div id="list" class="list-group text-break">
-  </div>
-  </div>
-  <div class="${UI.file_count_alert_class} text-center d-none" role="alert" id="count"><span class="number text-center"></span> | <span class="totalsize text-center"></span></div>
-  <div id="readme_md" style="display:none; padding: 20px 20px;"></div>
+	<div id="update"></div>
+	<div class="container" id="select_items" style="padding: 0px 50px 10px; display:none;">
+		<div class="d-flex align-items-center justify-content-between">
+			<div class="form-check mr-3">
+			<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" id="select-all-checkboxes">
+			<label class="form-check-label" for="select-all-checkboxes">Select all</label>
+			</div>
+			<button id="handle-multiple-items-copy" style="padding: 5px 10px; font-size: 12px;" class="btn btn-success">Copy</button>
+		</div>
+	</div>
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><i class="fas fa-search me-1"></i>&nbsp; Search results for <code>${model.q}</code></li>
+	</ol>
+	<div id="list" class="list-group text-break">
+	</div>
+	<div class="card-footer text-center mt-3 rounded-2" id="count"><span class="number text-center"></span> | <span class="totalsize text-center"></span></div>
+	<div id="readme_md" style="display:none; padding: 20px 20px;"></div>
   </div>
   `;
 	$('#content').html(content);
@@ -1015,14 +1018,15 @@ function append_search_result_to_list(files) {
 
 			item['modifiedTime'] = utc2delhi(item['modifiedTime']);
 			if (item['mimeType'] == 'application/vnd.google-apps.folder') {
-				html += `<a style="color: ${UI.folder_text_color};" onclick="onSearchResultItemClick('${item['id']}', false)" data-bs-toggle="modal" data-bs-target="#SearchModel" class="countitems list-group-item list-group-item-action"> ${folder_icon} ${item.name} ${UI.display_time ? `<span class="badge bg-info float-end"> ` + item['modifiedTime'] + ` </span>` : ``}</a>`;
+				html += `<div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">`;
+				html += `<a href="#" class="countitems list-group-item-action d-flex align-items-center" style="color: ${UI.folder_text_color};" onclick="onSearchResultItemClick('${item['id']}', false)" data-bs-toggle="modal" data-bs-target="#SearchModel"><span style="margin-right: 0.5rem;">${folder_icon}</span>${item.name}</a> ${UI.display_time ? `<span class="badge bg-info"> ` + item['modifiedTime'] + ` </span>` : ``} </div>`;
 			} else {
 				var is_file = true;
 				var totalsize = totalsize + Number(item.size);
 				item['size'] = formatFileSize(item['size']);
 				var ext = item.fileExtension
 				var link = UI.second_domain_for_dl ? UI.downloaddomain + item.link : window.location.origin + item.link;
-				html += `<div style="color: ${UI.css_a_tag_color};" gd-type="$item['mimeType']}" class="countitems size_items list-group-item list-group-item-action">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}`
+				html += `<div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" gd-type="$item['mimeType']}">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}<a href="#" onclick="onSearchResultItemClick('${item['id']}', true)" data-bs-toggle="modal" data-bs-target="#SearchModel" class="countitems size_items list-group-item-action d-flex align-items-center" style="text-decoration: none; color: ${UI.css_a_tag_color};"><span style="margin-right: 0.5rem;">`
 
 				if ("|mp4|webm|avi|mpg|mpeg|mkv|rm|rmvb|mov|wmv|asf|ts|flv|".indexOf(`|${ext}|`) >= 0) {
 					html += video_icon
@@ -1042,7 +1046,7 @@ function append_search_result_to_list(files) {
 					html += file_icon
 				}
 
-				html += ` <span onclick="onSearchResultItemClick('${item['id']}', true)" data-bs-toggle="modal" data-bs-target="#SearchModel">${item.name}</span>${UI.display_download ? `<a href="${link}"><svg class="float-end"width="25px" style="margin-left: 8px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path> <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path> </svg></a>` : ``}<span class="badge float-end csize"> ${UI.display_size ? `<span class="badge bg-primary float-end"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info float-end"> ` + item['modifiedTime'] + ` </span>` : ``}</div>`;
+				html += `</span>${item.name}</a>${UI.display_size ? `<span class="badge bg-primary"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info mx-1"> ` + item['modifiedTime'] + ` </span>` : ``}${UI.display_download ? `<a href="${link}"><svg class="float-end"width="25px" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path> <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path> </svg></a>` : ``}</div>`;
 
 			}
 		}
@@ -1283,7 +1287,7 @@ async function file(path) {
 		});
 }
 
-const copyButton = `<button onclick="copyFunction()" onmouseout="outFunc()" class="btn btn-success"> <span class="tooltiptext" id="myTooltip">Copy</span> </button>`
+const copyButton = `<button onclick="copyFunction()" onmouseout="outFunc()" class="btn btn-success"> <span class="tooltiptext" id="myTooltip"><i class="fas fa-copy"></i>&nbsp; Copy</span> </button>`
 
 function generateCopyFileBox(file_id, cookie_folder_id) {
 	const copyFileBox = `<div class="row justify-content-center mt-3" id="copyresult">
@@ -1316,7 +1320,7 @@ function file_others(name, encoded_name, size, url, mimeType, md5Checksum, file_
 			part = part.substring(0, 10) + '...';
 		}
 		if (part == '') {
-			part = 'Home'
+			part = 'Roots'
 		}
 		navigation += '<a href="' + new_path + '" class="breadcrumb-item">' + part + '</a>';
 	}
@@ -1335,11 +1339,13 @@ function file_others(name, encoded_name, size, url, mimeType, md5Checksum, file_
             </div>
             <div class="card-body">
             <div class="input-group mb-4">
+			  <span class="input-group-text" id="">Full URL</span>
               <input type="text" class="form-control" id="dlurl" value="${url}" readonly>
+			  ` + copyButton + `
             </div>
             <div class="card-text text-center">
             <div class="btn-group text-center">
-                <a href="${url}" type="button" class="btn btn-primary">Download</a>
+                <a href="${url}" type="button" class="btn btn-primary">Index</a>
                 <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <span class="sr-only"></span>
                 </button>
@@ -1349,7 +1355,7 @@ function file_others(name, encoded_name, size, url, mimeType, md5Checksum, file_
                   <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM+ (Plus)</a>
                 </div>
             </div>
-            ` + copyButton + copyFileBox+`
+            `+ copyFileBox +`
             </div>
             <br></div>`;
 	$("#content").html(content);
@@ -1388,7 +1394,7 @@ function file_code(name, encoded_name, size, bytes, url, mimeType, md5Checksum, 
 			part = part.substring(0, 10) + '...';
 		}
 		if (part == '') {
-			part = 'Home'
+			part = 'Roots'
 		}
 		navigation += '<a href="' + new_path + '" class="breadcrumb-item">' + part + '</a>';
 	}
@@ -1409,11 +1415,13 @@ function file_code(name, encoded_name, size, bytes, url, mimeType, md5Checksum, 
 		(UI.second_domain_for_dl ? `` : `<pre class="line-numbers language-markup" data-src="plugins/line-numbers/index.html" data-start="-5" style="white-space: pre-wrap; counter-reset: linenumber -6;" data-src-status="loaded" tabindex="0"><code id="editor"></code></pre>`) +
 		`<div class="card-body">
           <div class="input-group mb-4">
+			<span class="input-group-text" id="">Full URL</span>
             <input type="text" class="form-control" id="dlurl" value="${url}" readonly>
+			` + copyButton + `
           </div>
           <div class="card-text text-center">
             <div class="btn-group text-center">
-              <a href="${url}" type="button" class="btn btn-primary">Download</a>
+              <a href="${url}" type="button" class="btn btn-primary">Index</a>
               <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="sr-only"></span>
               </button>
@@ -1423,7 +1431,7 @@ function file_code(name, encoded_name, size, bytes, url, mimeType, md5Checksum, 
                 <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM+ (Plus)</a>
               </div>
             </div>
-            ` + copyButton + copyFileBox + `
+            `+ copyFileBox +`
           </div>
           <br>
         </div>
@@ -1472,7 +1480,7 @@ function file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum
 			part = part.substring(0, 10) + '...';
 		}
 		if (part == '') {
-			part = 'Home'
+			part = 'Roots'
 		}
 		navigation += '<a href="' + new_path + '" class="breadcrumb-item">' + part + '</a>';
 	}
@@ -1518,10 +1526,12 @@ function file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum
         ${UI.disable_video_download ? `` : `
           <div class="card-body">
           <div class="input-group mb-4">
-          <input type="text" class="form-control" id="dlurl" value="${url}" readonly>
+			<span class="input-group-text" id="">Full URL</span>
+			<input type="text" class="form-control" id="dlurl" value="${url}" readonly>
+			` + copyButton + `
           </div>
           <div class="btn-group text-center">
-              <a href="${url}" type="button" class="btn btn-primary">Download</a>
+              <a href="${url}" type="button" class="btn btn-primary">Index</a>
               <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="sr-only"></span>
               </button>
@@ -1540,7 +1550,7 @@ function file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum
               <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM+ (Plus)</a>
               </div>
           </div>
-          `+copyButton+copyFileBox+`
+          `+ copyFileBox +`
           
           </div>
           </div>
@@ -1626,7 +1636,7 @@ function file_audio(name, encoded_name, size, url, mimeType, md5Checksum, file_i
 			part = part.substring(0, 10) + '...';
 		}
 		if (part == '') {
-			part = 'Home'
+			part = 'Roots'
 		}
 		navigation += '<a href="' + new_path + '" class="breadcrumb-item">' + part + '</a>';
 	}
@@ -1653,10 +1663,12 @@ function file_audio(name, encoded_name, size, url, mimeType, md5Checksum, file_i
         ${UI.disable_audio_download ? `` : `
           <div class="card-body">
           <div class="input-group mb-4">
-          <input type="text" class="form-control" id="dlurl" value="${url}" readonly>
+			<span class="input-group-text" id="">Full URL</span>
+			<input type="text" class="form-control" id="dlurl" value="${url}" readonly>
+			` + copyButton + `
           </div>
           <div class="btn-group text-center">
-              <a href="${url}" type="button" class="btn btn-primary">Download</a>
+              <a href="${url}" type="button" class="btn btn-primary">Index</a>
               <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="sr-only"></span>
               </button>
@@ -1675,7 +1687,7 @@ function file_audio(name, encoded_name, size, url, mimeType, md5Checksum, file_i
               <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM+ (Plus)</a>
               </div>
           </div>
-          `+copyButton+copyFileBox+`
+          `+ copyFileBox +`
           <br>
           </div>
           </div>
@@ -1723,7 +1735,7 @@ function file_pdf(name, encoded_name, size, url, mimeType, md5Checksum, file_id,
 			part = part.substring(0, 10) + '...';
 		}
 		if (part == '') {
-			part = 'Home'
+			part = 'Roots'
 		}
 		navigation += '<a href="' + new_path + '" class="breadcrumb-item">' + part + '</a>';
 	}
@@ -1745,11 +1757,13 @@ function file_pdf(name, encoded_name, size, url, mimeType, md5Checksum, file_id,
     </div>
     <div class="card-body">
     <div class="input-group mb-4">
-    <input type="text" class="form-control" id="dlurl" value="${url}" readonly>
+		<span class="input-group-text" id="">Full URL</span>
+		<input type="text" class="form-control" id="dlurl" value="${url}" readonly>
+		` + copyButton + `
     </div>
     <div class="card-text text-center">
     <div class="btn-group text-center">
-        <a href="${url}" type="button" class="btn btn-primary">Download</a>
+        <a href="${url}" type="button" class="btn btn-primary">Index</a>
         <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="sr-only"></span>
         </button>
@@ -1791,7 +1805,7 @@ function file_image(name, encoded_name, size, url, mimeType, md5Checksum, file_i
 			part = part.substring(0, 10) + '...';
 		}
 		if (part == '') {
-			part = 'Home'
+			part = 'Roots'
 		}
 		navigation += '<a href="' + new_path + '" class="breadcrumb-item">' + part + '</a>';
 	}
@@ -1811,14 +1825,13 @@ function file_image(name, encoded_name, size, url, mimeType, md5Checksum, file_i
         </div>
         <div class="card-body">
           <div class="input-group mb-4">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="">Full URL</span>
-            </div>
+			<span class="input-group-text" id="">Full URL</span>
             <input type="text" class="form-control" id="dlurl" value="${url}" readonly>
+			` + copyButton + `
           </div>
           <div class="card-text text-center">
             <div class="btn-group text-center">
-              <a href="${url}" type="button" class="btn btn-primary">Download</a>
+              <a href="${url}" type="button" class="btn btn-primary">Index</a>
               <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="sr-only"></span>
               </button>
@@ -1828,7 +1841,7 @@ function file_image(name, encoded_name, size, url, mimeType, md5Checksum, file_i
                 <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM+ (Plus)</a>
               </div>
             </div>
-            ` + copyButton + copyFileBox + `
+            `+ copyFileBox +`
           </div>
           <br>
         </div>
@@ -1925,7 +1938,7 @@ function copyFunction() {
 	navigator.clipboard.writeText(copyText.value)
 		.then(function() {
 			var tooltip = document.getElementById("myTooltip");
-			tooltip.innerHTML = "Copied";
+			tooltip.innerHTML = "<i class='fas fa-check'></i>&nbsp; Copied";
 		})
 		.catch(function(error) {
 			console.error("Failed to copy text: ", error);
@@ -1934,7 +1947,7 @@ function copyFunction() {
 
 function outFunc() {
 	var tooltip = document.getElementById("myTooltip");
-	tooltip.innerHTML = "Copy";
+	tooltip.innerHTML = "<i class='fas fa-copy'></i>&nbsp; Copy";
 }
 
 // function to update the list of checkboxes

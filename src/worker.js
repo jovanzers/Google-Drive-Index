@@ -158,6 +158,7 @@ function html(current_drive_order = 0, model = {}) {
       border: 1px solid rgba(140, 130, 115, 0.13);
       box-shadow: 0 16px 48px 0 rgba(0, 0, 0, 0.5);
       border-top: none;
+      background: rgba(24, 26, 27, 0.5);
     }
     nav::before {
       content: '';
@@ -171,8 +172,11 @@ function html(current_drive_order = 0, model = {}) {
       z-index: -1;
       border-radius: 0 0 .5rem .5rem;
     }
+    .dropdown-item:focus, .dropdown-item:hover {
+      background-color: #007053;
+    }
     .dropdown-menu {
-      background: rgba(24, 26, 27, 0.2);
+      background: rgba(24, 26, 27, 0.6);
       backdrop-filter: blur(5px);
       -webkit-backdrop-filter: blur(5px);
     }
@@ -197,6 +201,22 @@ function html(current_drive_order = 0, model = {}) {
     }
     .donate:hover .qrcode {
       display: block;
+    }
+    .form-control, .form-select, .form-control:disabled, .form-control:read-only {
+      color: rgb(189, 183, 175);
+      background-color: rgb(24, 26, 27);
+      border-color: rgb(129, 120, 106);
+    }
+    .form-control:focus {
+      color: rgb(189, 183, 175);
+      background-color: rgb(24, 26, 27);
+      border-color: rgb(49, 81, 113);
+    }
+    .input-group-text {
+      border-color: rgb(129, 120, 106);
+    }
+    .list-group-item-action:focus {
+      background-color: unset;
     }
     @media (min-width: 768px) {
       .kiri { text-align: left; }
@@ -238,6 +258,7 @@ const homepage = `<!DOCTYPE html>
         border: 1px solid rgba(140, 130, 115, 0.13);
         box-shadow: 0 16px 48px 0 rgba(0, 0, 0, 0.5);
         border-top: none;
+        background: rgba(24, 26, 27, 0.5);
       }
       nav::before {
         content: '';
@@ -251,8 +272,11 @@ const homepage = `<!DOCTYPE html>
         z-index: -1;
         border-radius: 0 0 .5rem .5rem;
       }
+      .dropdown-item:focus, .dropdown-item:hover {
+        background-color: #007053;
+      }
       .dropdown-menu {
-        background: rgba(24, 26, 27, 0.2);
+        background: rgba(24, 26, 27, 0.6);
         backdrop-filter: blur(5px);
         -webkit-backdrop-filter: blur(5px);
       }
@@ -278,6 +302,19 @@ const homepage = `<!DOCTYPE html>
       .donate:hover .qrcode {
         display: block;
       }
+      .form-control, .form-select, .form-control:disabled, .form-control:read-only {
+        color: rgb(189, 183, 175);
+        background-color: rgb(24, 26, 27);
+        border-color: rgb(129, 120, 106);
+      }
+      .form-control:focus {
+        color: rgb(189, 183, 175);
+        background-color: rgb(24, 26, 27);
+        border-color: rgb(49, 81, 113);
+      }
+      .input-group-text {
+        border-color: rgb(129, 120, 106);
+      }
       @media (min-width: 768px) {
         .kiri { text-align: left; }
         .kanan { text-align: right; }
@@ -300,19 +337,21 @@ const homepage = `<!DOCTYPE html>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link" href="/">${uiConfig.nav_link_1}</a>
+              <a class="nav-link" href="/"><i class="fas fa-home"></i>&nbsp; ${uiConfig.nav_link_1}</a>
             </li>
             <li class="nav-item dropdown">
-               <div class="dropdown-menu" aria-labelledby="navbarDropdown"><a class="dropdown-item" href="/">&gt; ${uiConfig.nav_link_1}</a></div>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown"><a class="dropdown-item" href="/">&gt; ${uiConfig.nav_link_1}</a></div>
             </li>
             <li class="nav-item">
-               <a class="nav-link" href="${uiConfig.contact_link}" target="_blank">${uiConfig.nav_link_4}</a>
+                <a class="nav-link" href="${uiConfig.contact_link}" target="_blank"><i class='fab fa-telegram'></i>&nbsp; ${uiConfig.nav_link_4}</a>
             </li>
             ${uiConfig.show_logout_button ?'<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>': ''}
            </ul>
            <form class="d-flex" method="get" action="/0:search">
-            <input class="form-control me-2" name="q" type="search" placeholder="Search" aria-label="Search" value="" required="">
-            <button class="btn btn btn-danger" onclick="if($('#search_bar_form>input').val()) $('#search_bar_form').submit();" type="submit">Search</button>
+            <div class="input-group">
+              <input class="form-control" name="q" type="search" placeholder="Search" aria-label="Search" value="" required="" aria-describedby="button-addon2">
+              <button class="btn ${uiConfig.search_button_class}" onclick="if($('#search_bar_form>input').val()) $('#search_bar_form').submit();" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
+            </div>
            </form>
           </div>
          </div>
@@ -322,17 +361,15 @@ const homepage = `<!DOCTYPE html>
     <div>
      <div id="content" style="padding-top: ${uiConfig.header_padding}px;">
       <div class="container">
-         <div class="alert alert-primary d-flex align-items-center" role="alert" style="margin-bottom: 0; padding-bottom: 0rem;">
-          <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-           <ol class="breadcrumb" id="folderne">
-            <li class="breadcrumb-item"><a href="/">Home</a></li>
-           </ol>
-          </nav>
-         </div>
-         <div id="list" class="list-group text-break">
+        <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
+          <ol class="breadcrumb" id="folderne">
+            <li class="breadcrumb-item"><a href="/">❤️&nbsp; Roots of Everythings</a></li>
+          </ol>
+        </nav>
+          <div id="list" class="list-group text-break">
 
-         </div>
-         <div class="${uiConfig.file_count_alert_class} text-center" role="alert" id="count">Total <span id="n_drives" class="number text-center"></span> drives</div>
+          </div>
+          <div class="card-footer text-center mt-3 rounded-2" id="count">Total <span id="n_drives" class="number text-center"></span> drives</div>
       </div>
      </div>
      <div class="modal fade" id="SearchModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="SearchModelLabel" aria-hidden="true">
@@ -393,7 +430,7 @@ const homepage = `<!DOCTYPE html>
      </div> ${uiConfig.credit ? '<p>Redesigned with <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart-fill" fill="red" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" /> </svg> by <a href="https://www.npmjs.com/package/@googledrive/index" target="_blank">TheFirstSpeedster</a>, based on Open Source Softwares.</p>' : ''} </div> </footer>
     </div>
    </body>
-  <script src="${uiConfig.jsdelivr_cdn_src}@${uiConfig.version}/assets/homepage.min.js"></script>
+  <script src="${uiConfig.jsdelivr_cdn_src}@${uiConfig.version}/assets/homepage.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
 </html>`
 
@@ -866,7 +903,21 @@ async function handleRequest(request, event) {
     return fetch("https://arc.io/arc-sw.js")
   }
   if (path == '/app.js') {
-    const js = await fetch('https://gitlab.com/GoogleDriveIndex/Google-Drive-Index/-/raw/dev/src/app.js', {
+    const js = await fetch('https://gitlab.com/jovanzers/Google-Drive-Index/-/raw/dev/src/app.js', {
+      method: 'GET',
+    })
+    const data = await js.text()
+    return new Response(data, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/javascript; charset=utf-8',
+        'Access-Control-Allow-Origin': '*', // Required for CORS support to work
+        'Access-Control-Allow-Credentials': true, // Required for cookies, authorization headers with HTTPS
+      }
+    });
+  }
+  if (path == '/assets/homepage.js') {
+    const js = await fetch('https://gitlab.com/jovanzers/Google-Drive-Index/-/raw/dev/assets/homepage.js', {
       method: 'GET',
     })
     const data = await js.text()
