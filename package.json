@@ -1,19 +1,14 @@
 {
   "name": "@googledrive/index",
-  "version": "2.0.25",
-  "description": "A Google Drive Index to List, Watch and Download Files using a Beautiful UI.",
-  "main": "README.md",
-  "keywords": [
-    "google-drive-index, bhadoo, bhadoo-drive-index"
-  ],
-  "author": "Parveen Bhadoo",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://gitlab.com/ParveenBhadooOfficial/Google-Drive-Index.git"
+  "version": "2.3.6",
+  "private": false,
+  "scripts": {
+    "deploy": "wrangler publish",
+    "start": "wrangler dev"
   },
-  "bugs": {
-    "url": "https://gitlab.com/ParveenBhadooOfficial/Google-Drive-Index/issues"
-  },
-  "homepage": "https://gitlab.com/ParveenBhadooOfficial/Google-Drive-Index/-/blob/master/README.md"
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20230419.0",
+    "typescript": "^5.0.4",
+    "wrangler": "^3.4.0"
+  }
 }
