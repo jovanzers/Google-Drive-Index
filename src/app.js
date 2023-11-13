@@ -3,6 +3,7 @@
 // Initialize the page
 function init() {
 	document.siteName = $('title').html();
+	var domainz = window.location.host
 	var html = `<header>
    <div id="nav">
    </div>
@@ -27,8 +28,45 @@ function init() {
     </div>
   </div>
 </div>
+<div class="col-md-12" style="margin-top: 60px">
+	<div class="text-center">
+		<p class="">Donate a coffee ☕️</p>
+		<a class="btn donate btn-info" href="https://t.me/WinTenDev" title="Telegram">
+			<span class="icon is-small"><i class="fab fa-telegram"></i> </span><span>Telegram</span>
+		</a>
+		<a class="btn donate" href="https://trakteer.id/jovanzers/tip" title="Click me!" style="background: #BE1E2D;" target="_blank">
+			<span class="icon is-small"><i class="fab fa-paypal"></i> </span><span>Trakteer</span>
+			<div class="qrcode">
+				<img alt="Love" src="https://i.postimg.cc/Yq0mZMKg/love.jpg">
+				<span style="position:absolute;top:30px;left:0;right:0;color:#000">Thank you very much ❤</span>
+			</div>
+		</a>
+		<a class="btn donate" href="https://saweria.co/jovanzers" title="Click me!" style="background: #f5a623FF;" target="_blank">
+			<span class="icon is-small"><i class="fab fa-paypal"></i> </span><span>Saweria</span>
+			<div class="qrcode">
+				<img alt="Love" src="https://i.postimg.cc/Yq0mZMKg/love.jpg">
+				<span style="position:absolute;top:30px;left:0;right:0;color:#000">Thank you very much ❤</span>
+			</div>
+		</a>
+        <p style="padding-top: 20px">
+            <a href="https://akannikah.id" target="_blank" title="Akannikah.id">
+                <img class="image" alt="Akannikah.id" style="margin: auto;width: 200px;" src="https://akannikah.id/wp-content/uploads/2019/08/Akannikah-logo.png">
+            </a>
+        </p>
+        <p>
+            <a href="#"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2F${domainz}&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false"/></a>
+        </p>
+    </div>
+</div>
 <br>
-<footer class="footer mt-auto py-3 text-muted ${UI.footer_style_class}" style="${UI.fixed_footer ?'position: fixed; ': ''}left: 0; bottom: 0; width: 100%; color: white; z-index: 9999;${UI.hide_footer ? ' display:none;': ' display:block;'}"> <div class="container" style="width: auto; padding: 0 10px;"> <p class="float-end"> <a href="#">Back to top</a> </p> ${UI.credit ? '<p>Redesigned with <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart-fill" fill="red" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" /> </svg> by <a href="https://www.npmjs.com/package/@googledrive/index" target="_blank">TheFirstSpeedster</a>, based on Open Source Softwares.</p>' : ''} <p>© ${UI.copyright_year} - <a href=" ${UI.company_link}" target="_blank"> ${UI.company_name}</a>, All Rights Reserved.</p> </div> </footer>
+<footer class="footer mt-auto py-3 text-muted text-center ${UI.footer_style_class}" style="${UI.fixed_footer ?'position: fixed; ': ''}left: 0; bottom: 0; width: 100%; color: white; z-index: 9999;${UI.hide_footer ? ' display:none;': ' display:block;'}"> <div class="container" style="width: auto; padding: 0 10px;"> <div class="row">
+<div class="col-md-6">
+	<p class="kiri">© ${UI.copyright_year} <a href="${UI.company_link}" target="_blank">${UI.company_name}</a> ∙ <a href="${UI.contact_link}" target="_blank" title="Please allow us up to 48 hours to process DMCA requests.">DMCA</a></p>
+</div>
+<div class="col-md-6">
+	<p class="kanan"><a href="#">🔼 Back to top</a></p>
+</div>
+</div> ${UI.credit ? '<p>Redesigned with <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart-fill" fill="red" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" /> </svg> by <a href="https://www.npmjs.com/package/@googledrive/index" target="_blank">TheFirstSpeedster</a>, based on Open Source Softwares.</p>' : ''} </div> </footer>
   `;
 	$('body').html(html);
 }
@@ -1120,6 +1158,7 @@ async function fallback(id, type) {
 				console.log(obj);
 				var mimeType = obj.mimeType;
 				var fileExtension = obj.fileExtension
+				var md5Checksum = obj.md5Checksum
 				const code = ["php", "css", "go", "java", "js", "json", "txt", "sh", "md", "html", "xml", "py", "rb", "c", "cpp", "h", "hpp"];
 				const video = ["mp4", "webm", "avi", "mpg", "mpeg", "mkv", "rm", "rmvb", "mov", "wmv", "asf", "ts", "flv", "3gp", "m4v"];
 				const audio = ["mp3", "flac", "wav", "ogg", "m4a", "aac", "wma", "alac"];
@@ -1135,17 +1174,17 @@ async function fallback(id, type) {
 					const file_id = obj.id;
 					if (mimeType.includes("video") || video.includes(fileExtension)) {
 						const poster = obj.thumbnailLink ? obj.thumbnailLink.replace("s220", "s0") : UI.poster;
-						file_video(name, encoded_name, size, poster, url, mimeType, file_id, cookie_folder_id);
+						file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum, file_id, cookie_folder_id);
 					} else if (mimeType.includes("audio") || audio.includes(fileExtension)) {
-						file_audio(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id);
+						file_audio(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id);
 					} else if (mimeType.includes("image") || image.includes(fileExtension)) {
-						file_image(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id);
+						file_image(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id);
 					} else if (mimeType.includes("pdf") || pdf.includes(fileExtension)) {
-						file_pdf(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id);
+						file_pdf(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id);
 					} else if (code.includes(fileExtension)) {
-						file_code(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id);
+						file_code(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id);
 					} else {
-						file_others(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id);
+						file_others(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id);
 					}
 				}
 			})
@@ -1195,6 +1234,7 @@ async function file(path) {
 			console.log(obj);
 			var mimeType = obj.mimeType;
 			var fileExtension = obj.fileExtension
+			var md5Checksum = obj.md5Checksum
 			const code = ["php", "css", "go", "java", "js", "json", "txt", "sh", "md", "html", "xml", "py", "rb", "c", "cpp", "h", "hpp"];
 			const video = ["mp4", "webm", "avi", "mpg", "mpeg", "mkv", "rm", "rmvb", "mov", "wmv", "asf", "ts", "flv", "3gp", "m4v"];
 			const audio = ["mp3", "flac", "wav", "ogg", "m4a", "aac", "wma", "alac"];
@@ -1210,17 +1250,17 @@ async function file(path) {
 				const file_id = obj.id;
 				if (mimeType.includes("video") || video.includes(fileExtension)) {
 					const poster = obj.thumbnailLink ? obj.thumbnailLink.replace("s220", "s0") : UI.poster;
-					file_video(name, encoded_name, size, poster, url, mimeType, file_id, cookie_folder_id);
+					file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum, file_id, cookie_folder_id);
 				} else if (mimeType.includes("audio") || audio.includes(fileExtension)) {
-					file_audio(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id);
+					file_audio(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id);
 				} else if (mimeType.includes("image") || image.includes(fileExtension)) {
-					file_image(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id);
+					file_image(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id);
 				} else if (mimeType.includes("pdf") || pdf.includes(fileExtension)) {
-					file_pdf(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id);
+					file_pdf(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id);
 				} else if (code.includes(fileExtension)) {
-					file_code(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id);
+					file_code(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id);
 				} else {
-					file_others(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id);
+					file_others(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id);
 				}
 			}
 		})
@@ -1256,7 +1296,7 @@ function generateCopyFileBox(file_id, cookie_folder_id) {
 }
 
 // Document display |zip|.exe/others direct downloads
-function file_others(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id) {
+function file_others(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id) {
 	// Split the file path into parts
 	var path = window.location.pathname;
 	var pathParts = path.split('/');
@@ -1291,7 +1331,7 @@ function file_others(name, encoded_name, size, url, mimeType, file_id, cookie_fo
       </nav>
             <div class="card text-center">
             <div class="card-body text-center">
-              <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>${mimeType}<br>${size}</div>
+              <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>MD5: <code>${md5Checksum}</code><br>${mimeType}<br>${size}</div>
             </div>
             <div class="card-body">
             <div class="input-group mb-4">
@@ -1315,7 +1355,7 @@ function file_others(name, encoded_name, size, url, mimeType, file_id, cookie_fo
 	$("#content").html(content);
 }
 
-function file_code(name, encoded_name, size, bytes, url, mimeType, ext, file_id, cookie_folder_id) {
+function file_code(name, encoded_name, size, bytes, url, mimeType, md5Checksum, ext, file_id, cookie_folder_id) {
 	var type = {
 		"html": "html",
 		"php": "php",
@@ -1363,7 +1403,7 @@ function file_code(name, encoded_name, size, bytes, url, mimeType, ext, file_id,
       </nav>
       <div class="card text-center">
         <div class="card-body text-center">
-          <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>${mimeType}<br>${size}</div>
+          <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>MD5: <code>${md5Checksum}</code><br>${mimeType}<br>${size}</div>
         </div>
         <div id="code_spinner"></div>` +
 		(UI.second_domain_for_dl ? `` : `<pre class="line-numbers language-markup" data-src="plugins/line-numbers/index.html" data-start="-5" style="white-space: pre-wrap; counter-reset: linenumber -6;" data-src-status="loaded" tabindex="0"><code id="editor"></code></pre>`) +
@@ -1411,7 +1451,7 @@ function file_code(name, encoded_name, size, bytes, url, mimeType, ext, file_id,
 
 
 // Document display video |mp4|webm|avi|
-function file_video(name, encoded_name, size, poster, url, mimeType, file_id, cookie_folder_id) {
+function file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum, file_id, cookie_folder_id) {
 	var url_base64 = btoa(url);
 	// Split the file path into parts
 	var path = window.location.pathname;
@@ -1473,7 +1513,7 @@ function file_video(name, encoded_name, size, poster, url, mimeType, file_id, co
       </nav>
       <div class="card text-center">
         <div class="text-center">
-          <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>${mimeType}<br>${size}</div>${player}</div>
+          <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>MD5: <code>${md5Checksum}</code><br>${mimeType}<br>${size}</div>${player}</div>
         </br>
         ${UI.disable_video_download ? `` : `
           <div class="card-body">
@@ -1565,7 +1605,7 @@ function file_video(name, encoded_name, size, poster, url, mimeType, file_id, co
 
 
 // File display Audio |mp3|flac|m4a|wav|ogg|
-function file_audio(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id) {
+function file_audio(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id) {
 	var url_base64 = btoa(url);
 	// Split the file path into parts
 	var path = window.location.pathname;
@@ -1601,7 +1641,7 @@ function file_audio(name, encoded_name, size, url, mimeType, file_id, cookie_fol
       </nav>
       <div class="card text-center">
         <div class="text-center">
-          <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>${mimeType}<br>${size}</div>
+          <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>MD5: <code>${md5Checksum}</code><br>${mimeType}<br>${size}</div>
           ${UI.disable_player ? `` : `
           <video id="aplayer" poster="${UI.audioposter}" muted=true class="video-js vjs-default-skin" controls preload="auto" width="100%" height="100%" data-setup='{"fluid": true}' style="--plyr-captions-text-color: #ffffff;--plyr-captions-background: #000000;">
             <source src="${url}" type="audio/mpeg" />
@@ -1663,7 +1703,7 @@ function file_audio(name, encoded_name, size, url, mimeType, file_id, cookie_fol
 
 
 // Document display pdf
-function file_pdf(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id) {
+function file_pdf(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id) {
 	// Split the file path into parts
 	var path = window.location.pathname;
 	var pathParts = path.split('/');
@@ -1698,7 +1738,7 @@ function file_pdf(name, encoded_name, size, url, mimeType, file_id, cookie_folde
       </nav>
     <div class="card">
     <div class="card-body text-center">
-    <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>${mimeType}<br>${size}</div>
+    <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>MD5: <code>${md5Checksum}</code><br>${mimeType}<br>${size}</div>
     <div>
     </div><br>
     <iframe src="https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true" style="width:100%; height:500px;" frameborder="0"></iframe>
@@ -1731,7 +1771,7 @@ function file_pdf(name, encoded_name, size, url, mimeType, file_id, cookie_folde
 }
 
 // image display
-function file_image(name, encoded_name, size, url, mimeType, file_id, cookie_folder_id) {
+function file_image(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id) {
 	// Split the file path into parts
 	var path = window.location.pathname;
 	var pathParts = path.split('/');
@@ -1766,7 +1806,7 @@ function file_image(name, encoded_name, size, url, mimeType, file_id, cookie_fol
       </nav>
       <div class="card">
         <div class="card-body text-center">
-          <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>${mimeType}<br>${size}</div>
+          <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>MD5: <code>${md5Checksum}</code><br>${mimeType}<br>${size}</div>
           <img src="${url}" id="load_image" width="100%">
         </div>
         <div class="card-body">

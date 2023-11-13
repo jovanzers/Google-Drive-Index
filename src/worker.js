@@ -105,6 +105,7 @@ const uiConfig = {
   "render_readme_md": true, // Render Readme.md
   "unauthorized_owner_link": "https://telegram.dog/Telegram", // Unauthorized Error Page Link to Owner
   "unauthorized_owner_email": "abuse@telegram.org", // Unauthorized Error Page Owner Email
+  "arc_code": "XsaTW23Y", // arc.io Integration Code, get yours from https://portal.arc.io
   "downloaddomain": domain_for_dl, // Ignore this and set domains at top of this page after service accounts.
   "show_logout_button": authConfig.enable_login ? true : false, // set to true if you want to add logout button
   "allow_file_copy": false, // set to false if you want to disable file copy
@@ -150,10 +151,41 @@ function html(current_drive_order = 0, model = {}) {
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.0.0/dist/${uiConfig.theme}/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-  <style>a{color:${uiConfig.css_a_tag_color};}p{color:${uiConfig.css_p_tag_color};}</style>
+  <style>
+    .donate {
+      position: relative;
+    }
+    .donate:last-child:not(:first-child) .qrcode {
+      right: -.75rem;
+    }
+    .donate .qrcode {
+      display: none;
+      position: absolute;
+      z-index: 99;
+      bottom: 2.5em;
+      line-height: 0;
+      overflow: hidden;
+      border-radius: 4px;
+      box-shadow: 0 4px 10px rgba(0,0,0,.1), 0 0 1px rgba(0,0,0,.2);
+      overflow: hidden;
+      width: max-content;
+      left: -215px;
+    }
+    .donate:hover .qrcode {
+      display: block;
+    }
+    @media (min-width: 768px) {
+      .kiri { text-align: left; }
+      .kanan { text-align: right; }
+    }
+    a {
+      text-decoration: none!important;
+    }
+  </style>
   <script src="${app_js_file}"></script>
   <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.12.313/build/pdf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked@5.1.1/lib/marked.umd.min.js"></script>
+  <script async src="https://arc.io/widget.min.js#${uiConfig.arc_code}"></script>
 </head>
 <body>
 </body>
@@ -175,7 +207,38 @@ const homepage = `<!DOCTYPE html>
     </script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.0.0/dist/${uiConfig.theme}/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-    <style>a{color:${uiConfig.css_a_tag_color};}p{color:${uiConfig.css_p_tag_color};}</style>
+    <style>
+      .donate {
+        position: relative;
+      }
+      .donate:last-child:not(:first-child) .qrcode {
+        right: -.75rem;
+      }
+      .donate .qrcode {
+        display: none;
+        position: absolute;
+        z-index: 99;
+        bottom: 2.5em;
+        line-height: 0;
+        overflow: hidden;
+        border-radius: 4px;
+        box-shadow: 0 4px 10px rgba(0,0,0,.1), 0 0 1px rgba(0,0,0,.2);
+        overflow: hidden;
+        width: max-content;
+        left: -215px;
+      }
+      .donate:hover .qrcode {
+        display: block;
+      }
+      @media (min-width: 768px) {
+        .kiri { text-align: left; }
+        .kanan { text-align: right; }
+      }
+      a {
+        text-decoration: none!important;
+      }
+    </style>
+    <script async src="https://arc.io/widget.min.js#${uiConfig.arc_code}"></script>
    </head>
    <body>
     <header>
@@ -240,8 +303,46 @@ const homepage = `<!DOCTYPE html>
          </div>
       </div>
      </div>
+     <div class="col-md-12" style="margin-top: 60px">
+      <div class="text-center">
+        <p class="">Donate a coffee ☕️</p>
+        <a class="btn donate btn-info" href="https://t.me/WinTenDev" title="Telegram">
+          <span class="icon is-small"><i class="fab fa-telegram"></i> </span><span>Telegram</span>
+        </a>
+        <a class="btn donate" href="https://trakteer.id/jovanzers/tip" title="Click me!" style="background: #BE1E2D;" target="_blank">
+          <span class="icon is-small"><i class="fab fa-paypal"></i> </span><span>Trakteer</span>
+          <div class="qrcode">
+            <img alt="Love" src="https://i.postimg.cc/Yq0mZMKg/love.jpg">
+            <span style="position:absolute;top:30px;left:0;right:0;color:#000">Thank you very much ❤</span>
+          </div>
+        </a>
+        <a class="btn donate" href="https://saweria.co/jovanzers" title="Click me!" style="background: #f5a623FF;" target="_blank">
+          <span class="icon is-small"><i class="fab fa-paypal"></i> </span><span>Saweria</span>
+          <div class="qrcode">
+            <img alt="Love" src="https://i.postimg.cc/Yq0mZMKg/love.jpg">
+            <span style="position:absolute;top:30px;left:0;right:0;color:#000">Thank you very much ❤</span>
+          </div>
+        </a>
+            <p style="padding-top: 20px">
+                <a href="https://akannikah.id" target="_blank" title="Akannikah.id">
+                    <img class="image" alt="Akannikah.id" style="margin: auto;width: 200px;" src="https://akannikah.id/wp-content/uploads/2019/08/Akannikah-logo.png">
+                </a>
+            </p>
+            <p>
+              <a href="#"><img id="hits" src=""/></a>
+            </p>
+            <script>document.getElementById("hits").src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2F" + window.location.host + "&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false";</script>
+        </div>
+     </div>
      <br>
-     <footer class="footer mt-auto py-3 text-muted ${uiConfig.footer_style_class}" style="${uiConfig.fixed_footer ?'position: fixed; ': ''}left: 0; bottom: 0; width: 100%; color: white; z-index: 9999;${uiConfig.hide_footer ? ' display:none;': ' display:block;'}"> <div class="container" style="width: auto; padding: 0 10px;"> <p class="float-end"> <a href="#">Back to top</a> </p> ${uiConfig.credit ? '<p>Redesigned with <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart-fill" fill="red" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" /> </svg> by <a href="https://www.npmjs.com/package/@googledrive/index" target="_blank">TheFirstSpeedster</a>, based on Open Source Softwares.</p>' : ''} <p>© ${uiConfig.copyright_year} - <a href=" ${uiConfig.company_link}" target="_blank"> ${uiConfig.company_name}</a>, All Rights Reserved.</p> </div> </footer>
+     <footer class="footer mt-auto py-3 text-muted text-center ${uiConfig.footer_style_class}" style="${uiConfig.fixed_footer ?'position: fixed; ': ''}left: 0; bottom: 0; width: 100%; color: white; z-index: 9999;${uiConfig.hide_footer ? ' display:none;': ' display:block;'}"> <div class="container" style="width: auto; padding: 0 10px;"> <div class="row">
+     <div class="col-md-6">
+       <p class="kiri">© ${uiConfig.copyright_year} <a href="${uiConfig.company_link}" target="_blank">${uiConfig.company_name}</a> ∙ <a href="${uiConfig.contact_link}" target="_blank" title="Please allow us up to 48 hours to process DMCA requests.">DMCA</a></p>
+     </div>
+     <div class="col-md-6">
+       <p class="kanan"><a href="#">🔼 Back to top</a></p>
+     </div>
+     </div> ${uiConfig.credit ? '<p>Redesigned with <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart-fill" fill="red" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" /> </svg> by <a href="https://www.npmjs.com/package/@googledrive/index" target="_blank">TheFirstSpeedster</a>, based on Open Source Softwares.</p>' : ''} </div> </footer>
     </div>
    </body>
   <script src="${uiConfig.jsdelivr_cdn_src}@${uiConfig.version}/assets/homepage.min.js"></script>
@@ -302,6 +403,7 @@ const login_html = `<html>
       }		  
      });
     </script>
+    <script async src="https://arc.io/widget.min.js#${uiConfig.arc_code}"></script>
    </head>
    <body>
     <div class="container-fluid">
@@ -399,6 +501,7 @@ const signup_html = `<html>
       }		  
      });
     </script>
+    <script async src="https://arc.io/widget.min.js#${uiConfig.arc_code}"></script>
    </head>
    <body>
     <div class="container-fluid">
@@ -492,6 +595,7 @@ const asn_blocked = `<html>
   }
 
   </style>
+  <script async src="https://arc.io/widget.min.js#${uiConfig.arc_code}"></script>
   </head>
   <body>
   <div class="container">
@@ -537,6 +641,7 @@ const directlink = `
   }
 
   </style>
+  <script async src="https://arc.io/widget.min.js#${uiConfig.arc_code}"></script>
   </head>
   <body>
   <div class="container">
@@ -562,7 +667,7 @@ const SearchFunction = {
 };
 
 const DriveFixedTerms = new(class {
-  default_file_fields = 'parents,id,name,mimeType,modifiedTime,createdTime,fileExtension,size';
+  default_file_fields = 'parents,id,name,mimeType,modifiedTime,createdTime,fileExtension,size,md5Checksum';
   gd_root_type = {
     user_drive: 0,
     share_drive: 1
@@ -709,6 +814,9 @@ async function handleRequest(request, event) {
   let url = new URL(request.url);
   let path = url.pathname;
   let hostname = url.hostname;
+  if (path.toLowerCase() == '/arc-sw.js') {
+    return fetch("https://arc.io/arc-sw.js")
+  }
   if (path == '/app.js') {
     const js = await fetch('https://gitlab.com/GoogleDriveIndex/Google-Drive-Index/-/raw/dev/src/app.js', {
       method: 'GET',
@@ -1704,7 +1812,7 @@ class googleDrive {
       'supportsAllDrives': true
     };
     params.q = `'${parent}' in parents and name = '${name}' and trashed = false and mimeType != 'application/vnd.google-apps.shortcut'`;
-    params.fields = "files(id, name, mimeType, size ,createdTime, modifiedTime, iconLink, thumbnailLink, driveId, fileExtension)";
+    params.fields = "files(id, name, mimeType, size ,createdTime, modifiedTime, iconLink, thumbnailLink, driveId, fileExtension, md5Checksum)";
     url += '?' + enQuery(params);
     let requestOption = await this.requestOptions();
     let response;
@@ -1767,7 +1875,7 @@ class googleDrive {
     };
     params.q = `'${parent}' in parents and trashed = false AND name !='.password' and mimeType != 'application/vnd.google-apps.shortcut' and mimeType != 'application/vnd.google-apps.document' and mimeType != 'application/vnd.google-apps.spreadsheet' and mimeType != 'application/vnd.google-apps.form' and mimeType != 'application/vnd.google-apps.site'`;
     params.orderBy = 'folder, name, modifiedTime desc';
-    params.fields = "nextPageToken, files(id, name, mimeType, size, modifiedTime, driveId, kind, fileExtension)";
+    params.fields = "nextPageToken, files(id, name, mimeType, size, modifiedTime, driveId, kind, fileExtension, md5Checksum)";
     params.pageSize = this.authConfig.files_list_page_size;
 
     if (page_token) {
@@ -1854,7 +1962,7 @@ class googleDrive {
       params.pageToken = page_token;
     }
     params.q = `trashed = false AND mimeType != 'application/vnd.google-apps.shortcut' and mimeType != 'application/vnd.google-apps.document' and mimeType != 'application/vnd.google-apps.spreadsheet' and mimeType != 'application/vnd.google-apps.form' and mimeType != 'application/vnd.google-apps.site' AND name !='.password' AND (${name_search_str})`;
-    params.fields = "nextPageToken, files(id, driveId, name, mimeType, size , modifiedTime)";
+    params.fields = "nextPageToken, files(id, driveId, name, mimeType, size, modifiedTime, md5Checksum)";
     params.pageSize = this.authConfig.search_result_list_page_size;
     params.orderBy = 'folder, name, modifiedTime desc';
 
