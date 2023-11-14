@@ -328,7 +328,7 @@ const homepage = `<!DOCTYPE html>
    <body>
     <header>
      <div id="nav">
-      <nav class="navbar navbar-expand-lg${uiConfig.fixed_header ?' fixed-top': ''} ${uiConfig.header_style_class}">
+      <nav class="navbar navbar-expand-lg${uiConfig.fixed_header ?' fixed-top': ''} ${uiConfig.header_style_class} container">
          <div class="container-fluid">
          <a class="navbar-brand" href="/">${uiConfig.logo_image ? '<img border="0" style="margin-top: -5px;" alt="'+uiConfig.company_name+'" src="'+uiConfig.logo_link_name+'" height="'+uiConfig.height+'" width="'+uiConfig.logo_width+'"> &nbsp; '+uiConfig.siteName+' &nbsp;' : uiConfig.logo_link_name} <span class="badge rounded-pill bg-success">BETA</span></a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
