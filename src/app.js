@@ -599,7 +599,9 @@ function append_files_to_fallback_list(path, files) {
 			// replace / with %2F
 			if (item['mimeType'] == 'application/vnd.google-apps.folder') {
 				html += `<div class="list-group-item list-group-item-action d-flex justify-content-start align-items-center flex-sm-nowrap flex-wrap justify-content-sm-between">`;
-				html += `<a href="${p}" style="color: ${UI.folder_text_color};" class="countitems list-group-item-action d-flex align-items-start align-items-md-center"><span style="margin-right: 0.5rem;">${folder_icon}</span>${item.name}</a> ${UI.display_time ? `<span class="badge bg-info my-1" style="margin-left: 2rem;"> ` + item['modifiedTime'] + ` </span>` : ``} </div>`;
+				html += `<a href="${p}" style="color: ${UI.folder_text_color};" class="countitems list-group-item-action d-flex align-items-start align-items-md-center"><span style="margin-right: 0.5rem;">${folder_icon}</span>${item.name}</a> ${UI.display_time ? `<span class="badge bg-info my-1 me-2" style="margin-left: 2rem;"> ` + item['modifiedTime'] + ` </span>` : ``}
+				${UI.display_drive_link ? `<a class="d-flex align-items-center" href="https://sharer.winten.my.id/f/${item['fid']}" target="_blank" title="via Google Drive">${gdrive_icon}</a>` : ``}
+				${UI.display_download ? `<a class="d-flex align-items-center" href="${p}" title="via Index"><i class="far fa-folder-open fa-lg"></i></a>` : ``}</div>`;
 			} else {
 				var totalsize = totalsize + Number(item.size);
 				item['size'] = formatFileSize(item['size']);
@@ -627,7 +629,7 @@ function append_files_to_fallback_list(path, files) {
 				pn += "?a=view";
 				c += " view";
 				//}
-				html += `<div class="list-group-item list-group-item-action d-flex justify-content-start align-items-center flex-md-nowrap flex-wrap justify-content-md-between">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}<a class="countitems size_items list-group-item-action d-flex align-items-start align-items-xl-center" style="text-decoration: none; color: ${UI.css_a_tag_color};" href="${pn}"><span style="margin-right: 0.5rem;">`
+				html += `<div class="list-group-item list-group-item-action d-flex justify-content-start align-items-center flex-md-nowrap flex-wrap justify-content-md-between">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}<a class="countitems size_items list-group-item-action d-flex align-items-start align-items-xl-center" style="text-decoration: none; color: ${UI.css_a_tag_color};" href="${p}&a=view"><span style="margin-right: 0.5rem;">`
 
 				if ("|mp4|webm|avi|mpg|mpeg|mkv|rm|rmvb|mov|wmv|asf|ts|flv|".indexOf(`|${ext}|`) >= 0) {
 					html += video_icon
@@ -647,7 +649,9 @@ function append_files_to_fallback_list(path, files) {
 					html += file_icon
 				}
 
-				html += `</span>${item.name}</a>${UI.display_size ? `<span class="badge bg-primary my-1" style="margin-left: 2rem;"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info mx-2"> ` + item['modifiedTime'] + ` </span>` : ``}${UI.display_download ? `<a class="d-flex align-items-center" href="${link}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"> <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path> <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path> </svg></a>` : ``}</div>`;
+				html += `</span>${item.name}</a>${UI.display_size ? `<span class="badge bg-primary my-1" style="margin-left: 2rem;"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info mx-2"> ` + item['modifiedTime'] + ` </span>` : ``}
+				${UI.display_drive_link ? `<a class="d-flex align-items-center" href="https://sharer.winten.my.id/f/${item['fid']}" target="_blank" title="via Google Drive">${gdrive_icon}</a>` : ``}
+				${UI.display_download ? `<a class="d-flex align-items-center" href="${link}" title="via Index"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="20" fill="currentColor" viewBox="0 0 16 16"> <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path></svg></a>` : ``}</div>`;
 			}
 		}
 		if (is_file && UI.allow_selecting_files) {
@@ -741,7 +745,9 @@ function append_files_to_list(path, files) {
 		// replace / with %2F
 		if (item['mimeType'] == 'application/vnd.google-apps.folder') {
 			html += `<div class="list-group-item list-group-item-action d-flex justify-content-start align-items-center flex-sm-nowrap flex-wrap justify-content-sm-between">`;
-			html += `<a href="${p}" style="color: ${UI.folder_text_color};" class="countitems list-group-item-action d-flex align-items-start align-items-md-center"><span style="margin-right: 0.5rem;">${folder_icon}</span>${item.name}</a> ${UI.display_time ? `<span class="badge bg-info my-1" style="margin-left: 2rem;"> ` + item['modifiedTime'] + ` </span>` : ``} </div>`;
+			html += `<a href="${p}" style="color: ${UI.folder_text_color};" class="countitems list-group-item-action d-flex align-items-start align-items-md-center"><span style="margin-right: 0.5rem;">${folder_icon}</span>${item.name}</a> ${UI.display_time ? `<span class="badge bg-info my-1 me-2" style="margin-left: 2rem;"> ` + item['modifiedTime'] + ` </span>` : ``}
+			${UI.display_drive_link ? `<a class="d-flex align-items-center" href="https://sharer.winten.my.id/f/${item['id']}" target="_blank" title="via Google Drive">${gdrive_icon}</a>` : ``}
+			${UI.display_download ? `<a class="d-flex align-items-center" href="${p}" title="via Index"><i class="far fa-folder-open fa-lg"></i></a>` : ``}</div>`;
 		} else {
 			var totalsize = totalsize + Number(item.size);
 			item['size'] = formatFileSize(item['size']);
@@ -790,7 +796,9 @@ function append_files_to_list(path, files) {
         html += file_icon
       }
 
-			html += `</span>${item.name}</a>${UI.display_size ? `<span class="badge bg-primary my-1" style="margin-left: 2rem;"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info mx-2"> ` + item['modifiedTime'] + ` </span>` : ``}${UI.display_download ? `<a class="d-flex align-items-center" href="${link}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"> <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path> <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path> </svg></a>` : ``}</div>`;
+			html += `</span>${item.name}</a>${UI.display_size ? `<span class="badge bg-primary my-1" style="margin-left: 2rem;"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info mx-2"> ` + item['modifiedTime'] + ` </span>` : ``}
+			${UI.display_drive_link ? `<a class="d-flex align-items-center" href="https://sharer.winten.my.id/f/${item['id']}" target="_blank" title="via Google Drive">${gdrive_icon}</a>` : ``}
+			${UI.display_download ? `<a class="d-flex align-items-center" href="${link}" title="via Index"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="20" fill="currentColor" viewBox="0 0 16 16"> <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path></svg></a>` : ``}</div>`;
 		}
 	}
 	if (is_file && UI.allow_selecting_files) {
@@ -1034,7 +1042,9 @@ function append_search_result_to_list(files) {
 			item['modifiedTime'] = utc2delhi(item['modifiedTime']);
 			if (item['mimeType'] == 'application/vnd.google-apps.folder') {
 				html += `<div class="list-group-item list-group-item-action d-flex justify-content-start align-items-center flex-sm-nowrap flex-wrap justify-content-sm-between">`;
-				html += `<a href="#" class="countitems list-group-item-action d-flex align-items-start align-items-md-center" style="color: ${UI.folder_text_color};" onclick="onSearchResultItemClick('${item['id']}', false)" data-bs-toggle="modal" data-bs-target="#SearchModel"><span style="margin-right: 0.5rem;">${folder_icon}</span>${item.name}</a> ${UI.display_time ? `<span class="badge bg-info my-1" style="margin-left: 2rem;"> ` + item['modifiedTime'] + ` </span>` : ``} </div>`;
+				html += `<a href="#" class="countitems list-group-item-action d-flex align-items-start align-items-md-center" style="color: ${UI.folder_text_color};" onclick="onSearchResultItemClick('${item['id']}', false)" data-bs-toggle="modal" data-bs-target="#SearchModel"><span style="margin-right: 0.5rem;">${folder_icon}</span>${item.name}</a> ${UI.display_time ? `<span class="badge bg-info my-1 me-2" style="margin-left: 2rem;"> ` + item['modifiedTime'] + ` </span>` : ``}
+				${UI.display_drive_link ? `<a class="d-flex align-items-center" href="https://sharer.winten.my.id/f/${item['fid']}" target="_blank" title="via Google Drive">${gdrive_icon}</a>` : ``}
+				${UI.display_download ? `<a class="d-flex align-items-center" href="#" title="via Index" onclick="onSearchResultItemClick('${item['id']}', false)" data-bs-toggle="modal" data-bs-target="#SearchModel"><i class="far fa-folder-open fa-lg"></i></a>` : ``}</div>`;
 			} else {
 				var is_file = true;
 				var totalsize = totalsize + Number(item.size);
@@ -1061,7 +1071,9 @@ function append_search_result_to_list(files) {
 					html += file_icon
 				}
 
-				html += `</span>${item.name}</a>${UI.display_size ? `<span class="badge bg-primary my-1" style="margin-left: 2rem;"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info mx-2"> ` + item['modifiedTime'] + ` </span>` : ``}${UI.display_download ? `<a class="d-flex align-items-center" href="${link}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"> <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path> <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path> </svg></a>` : ``}</div>`;
+				html += `</span>${item.name}</a>${UI.display_size ? `<span class="badge bg-primary my-1" style="margin-left: 2rem;"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info mx-2"> ` + item['modifiedTime'] + ` </span>` : ``}
+				${UI.display_drive_link ? `<a class="d-flex align-items-center" href="https://sharer.winten.my.id/f/${item['fid']}" target="_blank" title="via Google Drive">${gdrive_icon}</a>` : ``}
+				${UI.display_download ? `<a class="d-flex align-items-center" href="${link}" title="via Index"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path> <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path></svg></a>` : ``}</div>`;
 
 			}
 		}
@@ -1368,7 +1380,9 @@ function file_others(name, encoded_name, size, url, mimeType, md5Checksum, file_
 			  ` + copyButton + `
             </div>
             <div class="card-text text-center">
+			<p class="mb-2">Download via</p>
             <div class="btn-group text-center">
+				${UI.display_drive_link ? `<a class="btn btn-secondary d-flex align-items-center" href="https://sharer.winten.my.id/f/${file_id}" id="file_drive_link" target="_blank">`+gdrive_icon+` Google Drive</a>` : ``}
                 <a href="${url}" type="button" class="btn btn-success"><i class="fas fa-bolt"></i>&nbsp; Index</a>
                 <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <span class="sr-only"></span>
@@ -1380,8 +1394,7 @@ function file_others(name, encoded_name, size, url, mimeType, md5Checksum, file_
                 </div>
             </div>
             `+ copyFileBox +`
-            </div>
-            <br></div>`;
+            </div></div>`;
 	$("#content").html(content);
 }
 
@@ -1445,7 +1458,9 @@ function file_code(name, encoded_name, size, bytes, url, mimeType, md5Checksum, 
 			` + copyButton + `
           </div>
           <div class="card-text text-center">
-            <div class="btn-group text-center">
+		  <p class="mb-2">Download via</p>
+		  <div class="btn-group text-center">
+			  ${UI.display_drive_link ? `<a class="btn btn-secondary d-flex align-items-center" href="https://sharer.winten.my.id/f/${file_id}" id="file_drive_link" target="_blank">`+gdrive_icon+` Google Drive</a>` : ``}
               <a href="${url}" type="button" class="btn btn-success"><i class="fas fa-bolt"></i>&nbsp; Index</a>
               <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="sr-only"></span>
@@ -1458,7 +1473,6 @@ function file_code(name, encoded_name, size, bytes, url, mimeType, md5Checksum, 
             </div>
             `+ copyFileBox +`
           </div>
-          <br>
         </div>
       </div>
     </div>`;
@@ -1556,7 +1570,9 @@ function file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum
 			<input type="text" class="form-control" id="dlurl" value="${url}" readonly>
 			` + copyButton + `
           </div>
-          <div class="btn-group text-center">
+          <p class="mb-2">Download via</p>
+            <div class="btn-group text-center">
+				${UI.display_drive_link ? `<a class="btn btn-secondary d-flex align-items-center" href="https://sharer.winten.my.id/f/${file_id}" id="file_drive_link" target="_blank">`+gdrive_icon+` Google Drive</a>` : ``}
               <a href="${url}" type="button" class="btn btn-success"><i class="fas fa-bolt"></i>&nbsp; Index</a>
               <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="sr-only"></span>
@@ -1577,7 +1593,6 @@ function file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum
               </div>
           </div>
           `+ copyFileBox +`
-          
           </div>
           </div>
           `}
@@ -1694,7 +1709,9 @@ function file_audio(name, encoded_name, size, url, mimeType, md5Checksum, file_i
 			<input type="text" class="form-control" id="dlurl" value="${url}" readonly>
 			` + copyButton + `
           </div>
-          <div class="btn-group text-center">
+          <p class="mb-2">Download via</p>
+            <div class="btn-group text-center">
+				${UI.display_drive_link ? `<a class="btn btn-secondary d-flex align-items-center" href="https://sharer.winten.my.id/f/${file_id}" id="file_drive_link" target="_blank">`+gdrive_icon+` Google Drive</a>` : ``}
               <a href="${url}" type="button" class="btn btn-success"><i class="fas fa-bolt"></i>&nbsp; Index</a>
               <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="sr-only"></span>
@@ -1715,7 +1732,6 @@ function file_audio(name, encoded_name, size, url, mimeType, md5Checksum, file_i
               </div>
           </div>
           `+ copyFileBox +`
-          <br>
           </div>
           </div>
           `}
@@ -1790,7 +1806,9 @@ function file_pdf(name, encoded_name, size, url, mimeType, md5Checksum, file_id,
 		` + copyButton + `
     </div>
     <div class="card-text text-center">
-    <div class="btn-group text-center">
+    <p class="mb-2">Download via</p>
+	<div class="btn-group text-center">
+		${UI.display_drive_link ? `<a class="btn btn-secondary d-flex align-items-center" href="https://sharer.winten.my.id/f/${file_id}" id="file_drive_link" target="_blank">`+gdrive_icon+` Google Drive</a>` : ``}
         <a href="${url}" type="button" class="btn btn-success"><i class="fas fa-bolt"></i>&nbsp; Index</a>
         <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="sr-only"></span>
@@ -1803,8 +1821,6 @@ function file_pdf(name, encoded_name, size, url, mimeType, md5Checksum, file_id,
     </div>
     ` + copyFileBox + `
     </div>
-    <br>
-    
     </div>
     </div>
     </div>  
@@ -1859,7 +1875,9 @@ function file_image(name, encoded_name, size, url, mimeType, md5Checksum, file_i
 			` + copyButton + `
           </div>
           <div class="card-text text-center">
-            <div class="btn-group text-center">
+		  <p class="mb-2">Download via</p>
+		  <div class="btn-group text-center">
+			  ${UI.display_drive_link ? `<a class="btn btn-secondary d-flex align-items-center" href="https://sharer.winten.my.id/f/${file_id}" id="file_drive_link" target="_blank">`+gdrive_icon+` Google Drive</a>` : ``}
               <a href="${url}" type="button" class="btn btn-success"><i class="fas fa-bolt"></i>&nbsp; Index</a>
               <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="sr-only"></span>
@@ -1872,7 +1890,6 @@ function file_image(name, encoded_name, size, url, mimeType, md5Checksum, file_i
             </div>
             `+ copyFileBox +`
           </div>
-          <br>
         </div>
       </div>
     </div>

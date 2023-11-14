@@ -94,6 +94,7 @@ const uiConfig = {
   "display_size": true, // Set this to false to hide display file size
   "display_time": false, // Set this to false to hide display modified time for folder and files
   "display_download": true, // Set this to false to hide download icon for folder and files on main index
+  "display_drive_link": true, // This will add a Link Button to Google Drive of that particular file.
   "disable_player": false, // Set this to true to hide audio and video players
   "disable_video_download": false, // Remove Download, Copy Button on Videos
   "allow_selecting_files": true, // Disable Selecting Files to Download in Bulk
@@ -1487,6 +1488,7 @@ async function handleRequest(request, event) {
           if (file.mimeType != 'application/vnd.google-apps.folder') {
             file.link = await generateLink(file.id, user_ip);
           }
+          file.fid = file.id;
           file.driveId = await encryptString(file.driveId);
           file.id = await encryptString(file.id);
         }
@@ -1716,8 +1718,8 @@ async function apiRequest(request, gd, user_ip) {
 
       return {
         ...fileWithoutId,
-        id: encryptedId,
-        driveId: encryptedDriveId,
+        id: id,
+        driveId: driveId,
         mimeType: mimeType,
         link: link,
       };
@@ -1798,6 +1800,7 @@ async function handleSearch(request, gd, user_ip = '') {
     const link = await generateLink(id, user_ip);
     return {
       ...fileWithoutId,
+      fid: id,
       id: encryptedId,
       driveId: encryptedDriveId,
       link: link,
