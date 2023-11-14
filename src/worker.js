@@ -149,7 +149,7 @@ function html(current_drive_order = 0, model = {}) {
   window.player_config = JSON.parse('${JSON.stringify(player_config)}');
   </script>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.0.0/dist/${uiConfig.theme}/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/${uiConfig.theme}/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
   <style>
@@ -250,7 +250,7 @@ const homepage = `<!DOCTYPE html>
       window.UI = JSON.parse('${JSON.stringify(uiConfig)}');
     </script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.0.0/dist/${uiConfig.theme}/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/${uiConfig.theme}/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <style>
       .navbar {
@@ -329,7 +329,7 @@ const homepage = `<!DOCTYPE html>
     <header>
      <div id="nav">
       <nav class="navbar navbar-expand-lg${uiConfig.fixed_header ?' fixed-top': ''} ${uiConfig.header_style_class} container">
-         <div class="container-fluid">
+         <div class="container-fluid mx-2">
          <a class="navbar-brand" href="/">${uiConfig.logo_image ? '<img border="0" style="margin-top: -5px;" alt="'+uiConfig.company_name+'" src="'+uiConfig.logo_link_name+'" height="'+uiConfig.height+'" width="'+uiConfig.logo_width+'"> &nbsp; '+uiConfig.siteName+' &nbsp;' : uiConfig.logo_link_name} <span class="badge rounded-pill bg-success">BETA</span></a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -374,7 +374,9 @@ const homepage = `<!DOCTYPE html>
           <div id="list" class="list-group text-break">
 
           </div>
-          <div class="card-footer text-center mt-3 rounded-2" id="count">Total <span id="n_drives" class="number text-center"></span> drives</div>
+          <div class="card mt-3">
+            <div class="card-footer text-center rounded-2" id="count">Total <span id="n_drives" class="number text-center"></span> drives</div>
+          </div>
       </div>
      </div>
      <div class="modal fade" id="SearchModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="SearchModelLabel" aria-hidden="true">

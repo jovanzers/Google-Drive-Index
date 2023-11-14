@@ -189,7 +189,7 @@ function nav(path) {
 	var html = "";
 	var cur = window.current_drive_order || 0;
 	html += `<nav class="navbar navbar-expand-lg${UI.fixed_header ?' fixed-top': ''} ${UI.header_style_class} container">
-    <div class="container-fluid">
+    <div class="container-fluid mx-2">
   <a class="navbar-brand" href="/">${UI.logo_image ? '<img border="0" style="margin-top: -5px;" alt="'+UI.company_name+'" src="'+UI.logo_link_name+'" height="'+UI.logo_height+'" width="'+UI.logo_width+'"> &nbsp; '+UI.siteName+' &nbsp;' : UI.logo_link_name} <span class="badge rounded-pill bg-success">BETA</span></a>
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -413,7 +413,9 @@ function list(path, id = '', fallback = false) {
 	containerContent += `</ol>
     </nav>
   <div id="list" class="list-group text-break"></div>
-  <div class="card-footer text-center mt-3 rounded-2" id="count"><span class="number text-center"></span> | <span class="totalsize text-center"></span></div>
+  <div class="card mt-3">
+  	<div class="card-footer text-center rounded-2" id="count"><span class="number text-center"></span> | <span class="totalsize text-center"></span></div>
+  </div>
   <div id="readme_md" style="display:none; padding: 20px 20px;"></div>
 </div>`;
 
@@ -879,7 +881,9 @@ function render_search_result_list() {
 	</ol>
 	<div id="list" class="list-group text-break">
 	</div>
-	<div class="card-footer text-center mt-3 rounded-2" id="count"><span class="number text-center"></span> | <span class="totalsize text-center"></span></div>
+	<div class="card mt-3">
+		<div class="card-footer text-center rounded-2" id="count"><span class="number text-center"></span> | <span class="totalsize text-center"></span></div>
+	</div>
 	<div id="readme_md" style="display:none; padding: 20px 20px;"></div>
   </div>
   `;
