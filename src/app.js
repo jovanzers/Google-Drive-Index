@@ -362,7 +362,8 @@ function requestSearch(params, resultCallback, retries = 3) {
 // Render file list
 function list(path, id = '', fallback = false) {
 	console.log(id);
-	var containerContent = `<div class="container">${UI.fixed_header ?'<br>': ''}
+	var containerContent = `<div class="container">${UI.fixed_header ?'': ''}
+	`+trakteerWidget+`
     <div id="update"></div>
     <div id="head_md" style="display:none; padding: 20px 20px;"></div>
     <div class="container" id="select_items" style="padding: 0px 50px 10px; display:none;">
@@ -852,7 +853,8 @@ function append_files_to_list(path, files) {
 function render_search_result_list() {
 	var model = window.MODEL;
 	var content = `
-  <div class="container"><br>
+  <div class="container">
+  `+trakteerWidget+`
 	<div id="update"></div>
 	<div class="container" id="select_items" style="padding: 0px 50px 10px; display:none;">
 		<div class="d-flex align-items-center justify-content-between">
@@ -1194,7 +1196,8 @@ async function fallback(id, type) {
 			})
 			.catch(function(error) {
 				var content = `
-          <div class="container"><br>
+          <div class="container">
+		  `+trakteerWidget+`
           <div class="card text-center">
             <div class="card-body text-center">
               <div class="${UI.file_view_alert_class}" id="file_details" role="alert"><b>404.</b> That’s an error. ` + error + `</div>
@@ -1270,7 +1273,8 @@ async function file(path) {
 		})
 		.catch(function(error) {
 			var content = `
-          <div class="container"><br>
+          <div class="container">
+		  `+trakteerWidget+`
           <div class="card text-center">
             <div class="card-body text-center">
               <div class="${UI.file_view_alert_class}" id="file_details" role="alert"><b>404.</b> That’s an error. ` + error + `</div>
@@ -1287,7 +1291,13 @@ async function file(path) {
 		});
 }
 
-const copyButton = `<button onclick="copyFunction()" onmouseout="outFunc()" class="btn btn-success"> <span class="tooltiptext" id="myTooltip"><i class="fas fa-copy"></i>&nbsp; Copy</span> </button>`
+const trakteerWidget = `<div class="col-md-12" style="margin-bottom: 1rem;">
+<div style="padding:0px;background:#BE1E2D;border-radius:0.25rem;width:100%;overflow:hidden;">
+	<iframe src="https://widget.trakteer.id/running-text-default.html?rt_count=10&amp;rt_speed=normal&amp;rt_theme=default&amp;rt_2_clr1=rgba%28190%2C+30%2C+45%2C+1%29&amp;rt_2_clr2=rgba%28255%2C+255%2C+255%2C+1%29&amp;rt_2_clr3=rgba%28255%2C+200%2C+73%2C+1%29&amp;rt_septype=image&amp;rt_messages=Donasi+via+%26nbsp%3B%3Ca+href%3D%27https%3A%2F%2Ftrakteer.id%2Fjovanzers%2Ftip%27+style%3D%27color%3A%23FFC849%3B+text-decoration%3A+none%3B%27+target%3D%27_blank%27%3ETrakteer%3C%2Fa%3E+%2F+%26nbsp%3B%3Ca+href%3D%27https%3A%2F%2Fsaweria.co%2Fjovanzers%27+style%3D%27color%3A%23FFC849%3B+text-decoration%3A+none%3B%27+target%3D%27_blank%27%3ESaweria%3C%2Fa%3E&amp;rt_txtshadow=true&amp;creator_name=jovanzers&amp;page_url=trakteer.id/jovanzers&amp;mod=3&amp;key=trstream-0Cd1Li6Gi6gLtK6GT84w&amp;hash=q07y4nqv7kp4wkxv" height="40px" width="100%" style="border:none;"></iframe>
+</div>
+</div>`;
+
+const copyButton = `<button onclick="copyFunction()" onmouseout="outFunc()" class="btn btn-primary"><span class="tooltiptext" id="myTooltip"><i class="fas fa-copy"></i>&nbsp; Copy</span></button>`
 
 function generateCopyFileBox(file_id, cookie_folder_id) {
 	const copyFileBox = `<div class="row justify-content-center mt-3" id="copyresult">
@@ -1327,7 +1337,8 @@ function file_others(name, encoded_name, size, url, mimeType, md5Checksum, file_
 
 	// Add the container and card elements
 	var content = `
-    <div class="container"><br>
+    <div class="container">
+	`+trakteerWidget+`
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           ${navigation}
@@ -1401,7 +1412,8 @@ function file_code(name, encoded_name, size, bytes, url, mimeType, md5Checksum, 
 
 	// Add the container and card elements
 	var content = `
-    <div class="container"><br>
+    <div class="container">
+	`+trakteerWidget+`
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           ${navigation}
@@ -1513,7 +1525,8 @@ function file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum
 	}
 	// Add the container and card elements
 	var content = `
-    <div class="container text-center"><br>
+    <div class="container">
+	`+trakteerWidget+`
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           ${navigation}
@@ -1643,7 +1656,8 @@ function file_audio(name, encoded_name, size, url, mimeType, md5Checksum, file_i
 
 	// Add the container and card elements
 	var content = `
-    <div class="container text-center"><br>
+    <div class="container">
+	`+trakteerWidget+`
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           ${navigation}
@@ -1742,7 +1756,8 @@ function file_pdf(name, encoded_name, size, url, mimeType, md5Checksum, file_id,
 
 	// Add the container and card elements
 	var content = `
-    <div class="container text-center"><br>
+    <div class="container">
+	`+trakteerWidget+`
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           ${navigation}
@@ -1812,7 +1827,8 @@ function file_image(name, encoded_name, size, url, mimeType, md5Checksum, file_i
 
 	// Add the container and card elements // wait until image is loaded and then hide spinner
 	var content = `
-    <div class="container text-center"><br>
+    <div class="container">
+	`+trakteerWidget+`
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           ${navigation}
