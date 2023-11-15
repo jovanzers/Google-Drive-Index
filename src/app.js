@@ -1199,6 +1199,7 @@ async function fallback(id, type) {
 					window.location.href = window.location.pathname + "/";
 				} else if (fileExtension) {
 					const name = obj.name;
+					const bytes = obj.size;
 					const encoded_name = encodeURIComponent(name);
 					const size = formatFileSize(obj.size);
 					const url = UI.second_domain_for_dl ? UI.downloaddomain + obj.link : window.location.origin + obj.link;
@@ -1213,7 +1214,7 @@ async function fallback(id, type) {
 					} else if (mimeType.includes("pdf") || pdf.includes(fileExtension)) {
 						file_pdf(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id);
 					} else if (code.includes(fileExtension)) {
-						file_code(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id);
+						file_code(name, encoded_name, size, bytes, url, mimeType, md5Checksum, file_id, cookie_folder_id);
 					} else {
 						file_others(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id);
 					}
@@ -1276,6 +1277,7 @@ async function file(path) {
 				window.location.href = window.location.pathname + "/";
 			} else if (fileExtension) {
 				const name = obj.name;
+				const bytes = obj.size;
 				const encoded_name = encodeURIComponent(name);
 				const size = formatFileSize(obj.size);
 				const url = UI.second_domain_for_dl ? UI.downloaddomain + obj.link : window.location.origin + obj.link;
@@ -1290,7 +1292,7 @@ async function file(path) {
 				} else if (mimeType.includes("pdf") || pdf.includes(fileExtension)) {
 					file_pdf(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id);
 				} else if (code.includes(fileExtension)) {
-					file_code(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id);
+					file_code(name, encoded_name, size, bytes, url, mimeType, md5Checksum, file_id, cookie_folder_id);
 				} else {
 					file_others(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id);
 				}
@@ -1480,7 +1482,7 @@ function file_code(name, encoded_name, size, bytes, url, mimeType, md5Checksum, 
 	$('#content').html(content);
 	var spinner = '<div class="d-flex justify-content-center"><div class="spinner-border m-5" role="status"><span class="sr-only"></span></div></div>';
 	$("#code_spinner").html(spinner);
-	if (bytes <= 1024 * 1024 * 2) {
+	if (bytes <= 1024 * 1024 * 2 && UI.second_domain_for_dl === false) {
 		$.get(url, function(data) {
 			$('#editor').html($('<div/>').text(data).html());
 			$("#code_spinner").html("");
