@@ -276,6 +276,21 @@ function requestListPath(path, params, resultCallback, authErrorCallback, retrie
 				body: JSON.stringify(requestData)
 			})
 			.then(function(response) {
+				if (response.status === 500) {
+					document.getElementById('list').innerHTML = `<div class="card text-center">
+					<div class="card-body text-center">
+					  <div class="${UI.file_view_alert_class}" id="file_details" role="alert"><b>500.</b> That’s an error.</div>
+					</div>
+					<p>The requested URL was not found on this server. That’s all we know.</p>
+					<div class="card-text text-center">
+					  <div class="btn-group text-center">
+						<a href="/" type="button" class="btn btn-primary">Homepage</a>
+					  </div>
+					</div><br>
+				  </div>`;
+					$('#update').hide();
+					return 500
+				}
 				if (!response.ok) {
 					throw new Error('Request failed');
 				}
