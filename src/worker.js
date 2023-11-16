@@ -14,7 +14,6 @@ const domain_for_dl = domains_for_dl[Math.floor(Math.random() * domains_for_dl.l
 const blocked_region = ['']; // add regional codes seperated by comma, eg. ['IN', 'US', 'PK']
 const blocked_asn = []; // add ASN numbers from http://www.bgplookingglass.com/list-of-autonomous-system-numbers, eg. [16509, 12345]
 const authConfig = {
-  "siteName": "Google Drive Index", // Website name
   "client_id": "", // Client id from Google Cloud Console
   "client_secret": "", // Client Secret from Google Cloud Console
   "refresh_token": "", // Authorize token
@@ -59,6 +58,7 @@ const authConfig = {
 const crypto_base_key = "a4affcad11ea4c7f696e63edaf92095e" // Example 256 bit key used.
 const encrypt_iv = new Uint8Array([38,100,240,76,189,111,227,246,178,254,115,201,91,244,245,171]); // Example 128 bit IV used.
 const uiConfig = {
+  "siteName": "Google Drive Index", // Website name
   "theme": "darkly", // switch between themes, default set to slate, select from https://gitlab.com/GoogleDriveIndex/Google-Drive-Index
   "version": "2.3.6", // don't touch this one. get latest code using generator at https://bdi-generator.hashhackers.com
   // If you're using Image then set to true, If you want text then set it to false
@@ -94,6 +94,7 @@ const uiConfig = {
   "display_size": true, // Set this to false to hide display file size
   "display_time": false, // Set this to false to hide display modified time for folder and files
   "display_download": true, // Set this to false to hide download icon for folder and files on main index
+  "display_drive_link": true, // This will add a Link Button to Google Drive of that particular file.
   "disable_player": false, // Set this to true to hide audio and video players
   "disable_video_download": false, // Remove Download, Copy Button on Videos
   "allow_selecting_files": true, // Disable Selecting Files to Download in Bulk
@@ -136,11 +137,11 @@ function html(current_drive_order = 0, model = {}) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
-  <title>${authConfig.siteName}</title>
+  <title>${uiConfig.siteName}</title>
   <meta name="robots" content="noindex" />
   <link rel="icon" href="${uiConfig.favicon}">
   <style>
-  .navbar-brand {font-family: Cinemathic Visualation;font-size: 30px;}.footer-text {font-family: Cinemathic Visualation;font-size: 40px;}a {color:white;}p {color:white;} .logo_new {font-family: Cinemathic Visualation;font-size: 50px;color:white;} .loading {position: fixed;z-index: 999;height: 2em;width: 2em;overflow: show;margin: auto;top: 0;left: 0;bottom: 0;right: 0;}.loading:before {content: '';display: block;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: radial-gradient(rgba(20, 20, 20,.8), rgba(0, 0, 0, .8));background: -webkit-radial-gradient(rgba(20, 20, 20,.8), rgba(0, 0, 0,.8));}.loading:not(:required) {font: 0/0 a;color: transparent;text-shadow: none;background-color: transparent;border: 0;}.loading:not(:required):after {content: '';display: block;font-size: 10px;width: 1em;height: 1em;margin-top: -0.5em;-webkit-animation: spinner 150ms infinite linear;-moz-animation: spinner 150ms infinite linear;-ms-animation: spinner 150ms infinite linear;-o-animation: spinner 150ms infinite linear;animation: spinner 150ms infinite linear;border-radius: 0.5em;-webkit-box-shadow: rgba(255,255,255, 0.75) 1.5em 0 0 0, rgba(255,255,255, 0.75) 1.1em 1.1em 0 0, rgba(255,255,255, 0.75) 0 1.5em 0 0, rgba(255,255,255, 0.75) -1.1em 1.1em 0 0, rgba(255,255,255, 0.75) -1.5em 0 0 0, rgba(255,255,255, 0.75) -1.1em -1.1em 0 0, rgba(255,255,255, 0.75) 0 -1.5em 0 0, rgba(255,255,255, 0.75) 1.1em -1.1em 0 0;box-shadow: rgba(255,255,255, 0.75) 1.5em 0 0 0, rgba(255,255,255, 0.75) 1.1em 1.1em 0 0, rgba(255,255,255, 0.75) 0 1.5em 0 0, rgba(255,255,255, 0.75) -1.1em 1.1em 0 0, rgba(255,255,255, 0.75) -1.5em 0 0 0, rgba(255,255,255, 0.75) -1.1em -1.1em 0 0, rgba(255,255,255, 0.75) 0 -1.5em 0 0, rgba(255,255,255, 0.75) 1.1em -1.1em 0 0;}@-webkit-keyframes spinner {0% {-webkit-transform: rotate(0deg);-moz-transform: rotate(0deg);-ms-transform: rotate(0deg);-o-transform: rotate(0deg);transform: rotate(0deg);}100% {-webkit-transform: rotate(360deg);-moz-transform: rotate(360deg);-ms-transform: rotate(360deg);-o-transform: rotate(360deg);transform: rotate(360deg);}}@-moz-keyframes spinner {0% {-webkit-transform: rotate(0deg);-moz-transform: rotate(0deg);-ms-transform: rotate(0deg);-o-transform: rotate(0deg);transform: rotate(0deg);}100% {-webkit-transform: rotate(360deg);-moz-transform: rotate(360deg);-ms-transform: rotate(360deg);-o-transform: rotate(360deg);transform: rotate(360deg);}}@-o-keyframes spinner {0% {-webkit-transform: rotate(0deg);-moz-transform: rotate(0deg);-ms-transform: rotate(0deg);-o-transform: rotate(0deg);transform: rotate(0deg);}100% {-webkit-transform: rotate(360deg);-moz-transform: rotate(360deg);-ms-transform: rotate(360deg);-o-transform: rotate(360deg);transform: rotate(360deg);}}@keyframes spinner {0% {-webkit-transform: rotate(0deg);-moz-transform: rotate(0deg);-ms-transform: rotate(0deg);-o-transform: rotate(0deg);transform: rotate(0deg);}100% {-webkit-transform: rotate(360deg);-moz-transform: rotate(360deg);-ms-transform: rotate(360deg);-o-transform: rotate(360deg);transform: rotate(360deg);}}	  </style>
+  .navbar-brand {font-size: 30px;}.footer-text {font-size: 40px;}a {color:white;}p {color:white;} .logo_new {font-size: 50px;color:white;} .loading {position: fixed;z-index: 999;height: 2em;width: 2em;overflow: show;margin: auto;top: 0;left: 0;bottom: 0;right: 0;}.loading:before {content: '';display: block;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: radial-gradient(rgba(20, 20, 20,.8), rgba(0, 0, 0, .8));background: -webkit-radial-gradient(rgba(20, 20, 20,.8), rgba(0, 0, 0,.8));}.loading:not(:required) {font: 0/0 a;color: transparent;text-shadow: none;background-color: transparent;border: 0;}.loading:not(:required):after {content: '';display: block;font-size: 10px;width: 1em;height: 1em;margin-top: -0.5em;-webkit-animation: spinner 150ms infinite linear;-moz-animation: spinner 150ms infinite linear;-ms-animation: spinner 150ms infinite linear;-o-animation: spinner 150ms infinite linear;animation: spinner 150ms infinite linear;border-radius: 0.5em;-webkit-box-shadow: rgba(255,255,255, 0.75) 1.5em 0 0 0, rgba(255,255,255, 0.75) 1.1em 1.1em 0 0, rgba(255,255,255, 0.75) 0 1.5em 0 0, rgba(255,255,255, 0.75) -1.1em 1.1em 0 0, rgba(255,255,255, 0.75) -1.5em 0 0 0, rgba(255,255,255, 0.75) -1.1em -1.1em 0 0, rgba(255,255,255, 0.75) 0 -1.5em 0 0, rgba(255,255,255, 0.75) 1.1em -1.1em 0 0;box-shadow: rgba(255,255,255, 0.75) 1.5em 0 0 0, rgba(255,255,255, 0.75) 1.1em 1.1em 0 0, rgba(255,255,255, 0.75) 0 1.5em 0 0, rgba(255,255,255, 0.75) -1.1em 1.1em 0 0, rgba(255,255,255, 0.75) -1.5em 0 0 0, rgba(255,255,255, 0.75) -1.1em -1.1em 0 0, rgba(255,255,255, 0.75) 0 -1.5em 0 0, rgba(255,255,255, 0.75) 1.1em -1.1em 0 0;}@-webkit-keyframes spinner {0% {-webkit-transform: rotate(0deg);-moz-transform: rotate(0deg);-ms-transform: rotate(0deg);-o-transform: rotate(0deg);transform: rotate(0deg);}100% {-webkit-transform: rotate(360deg);-moz-transform: rotate(360deg);-ms-transform: rotate(360deg);-o-transform: rotate(360deg);transform: rotate(360deg);}}@-moz-keyframes spinner {0% {-webkit-transform: rotate(0deg);-moz-transform: rotate(0deg);-ms-transform: rotate(0deg);-o-transform: rotate(0deg);transform: rotate(0deg);}100% {-webkit-transform: rotate(360deg);-moz-transform: rotate(360deg);-ms-transform: rotate(360deg);-o-transform: rotate(360deg);transform: rotate(360deg);}}@-o-keyframes spinner {0% {-webkit-transform: rotate(0deg);-moz-transform: rotate(0deg);-ms-transform: rotate(0deg);-o-transform: rotate(0deg);transform: rotate(0deg);}100% {-webkit-transform: rotate(360deg);-moz-transform: rotate(360deg);-ms-transform: rotate(360deg);-o-transform: rotate(360deg);transform: rotate(360deg);}}@keyframes spinner {0% {-webkit-transform: rotate(0deg);-moz-transform: rotate(0deg);-ms-transform: rotate(0deg);-o-transform: rotate(0deg);transform: rotate(0deg);}100% {-webkit-transform: rotate(360deg);-moz-transform: rotate(360deg);-ms-transform: rotate(360deg);-o-transform: rotate(360deg);transform: rotate(360deg);}}	  </style>
   <script>
   window.drive_names = JSON.parse('${JSON.stringify(authConfig.roots.map(it => it.name))}');
   window.MODEL = JSON.parse('${JSON.stringify(model)}');
@@ -149,9 +150,37 @@ function html(current_drive_order = 0, model = {}) {
   window.player_config = JSON.parse('${JSON.stringify(player_config)}');
   </script>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.0.0/dist/${uiConfig.theme}/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/${uiConfig.theme}/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
   <style>
+    .navbar {
+      border-radius: 0 0 .5rem .5rem;
+      border: 1px solid rgba(140, 130, 115, 0.13);
+      box-shadow: 0 16px 48px 0 rgba(0, 0, 0, 0.5);
+      border-top: none;
+      background: rgba(24, 26, 27, 0.5);
+    }
+    nav::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      z-index: -1;
+      border-radius: 0 0 .5rem .5rem;
+    }
+    .dropdown-item:focus, .dropdown-item:hover {
+      background-color: #007053;
+    }
+    .dropdown-menu {
+      background: rgba(24, 26, 27, 0.6);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+    }
     .donate {
       position: relative;
     }
@@ -173,6 +202,22 @@ function html(current_drive_order = 0, model = {}) {
     }
     .donate:hover .qrcode {
       display: block;
+    }
+    .form-control, .form-select, .form-control:disabled, .form-control:read-only {
+      color: rgb(189, 183, 175);
+      background-color: rgb(24, 26, 27);
+      border-color: rgb(129, 120, 106);
+    }
+    .form-control:focus {
+      color: rgb(189, 183, 175);
+      background-color: rgb(24, 26, 27);
+      border-color: rgb(49, 81, 113);
+    }
+    .input-group-text {
+      border-color: rgb(129, 120, 106);
+    }
+    .list-group-item-action:focus {
+      background-color: unset;
     }
     @media (min-width: 768px) {
       .kiri { text-align: left; }
@@ -198,7 +243,7 @@ const homepage = `<!DOCTYPE html>
    <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
-    <title>${authConfig.siteName}</title>
+    <title>${uiConfig.siteName}</title>
     <meta name="robots" content="noindex">
     <link rel="icon" href="${uiConfig.favicon}">
     <script>
@@ -206,8 +251,36 @@ const homepage = `<!DOCTYPE html>
       window.UI = JSON.parse('${JSON.stringify(uiConfig)}');
     </script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.0.0/dist/${uiConfig.theme}/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/${uiConfig.theme}/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <style>
+      .navbar {
+        border-radius: 0 0 .5rem .5rem;
+        border: 1px solid rgba(140, 130, 115, 0.13);
+        box-shadow: 0 16px 48px 0 rgba(0, 0, 0, 0.5);
+        border-top: none;
+        background: rgba(24, 26, 27, 0.5);
+      }
+      nav::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        z-index: -1;
+        border-radius: 0 0 .5rem .5rem;
+      }
+      .dropdown-item:focus, .dropdown-item:hover {
+        background-color: #007053;
+      }
+      .dropdown-menu {
+        background: rgba(24, 26, 27, 0.6);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+      }
       .donate {
         position: relative;
       }
@@ -230,6 +303,19 @@ const homepage = `<!DOCTYPE html>
       .donate:hover .qrcode {
         display: block;
       }
+      .form-control, .form-select, .form-control:disabled, .form-control:read-only {
+        color: rgb(189, 183, 175);
+        background-color: rgb(24, 26, 27);
+        border-color: rgb(129, 120, 106);
+      }
+      .form-control:focus {
+        color: rgb(189, 183, 175);
+        background-color: rgb(24, 26, 27);
+        border-color: rgb(49, 81, 113);
+      }
+      .input-group-text {
+        border-color: rgb(129, 120, 106);
+      }
       @media (min-width: 768px) {
         .kiri { text-align: left; }
         .kanan { text-align: right; }
@@ -243,28 +329,30 @@ const homepage = `<!DOCTYPE html>
    <body>
     <header>
      <div id="nav">
-      <nav class="navbar navbar-expand-lg${uiConfig.fixed_header ?' fixed-top': ''} ${uiConfig.header_style_class}">
-         <div class="container-fluid">
-         <a class="navbar-brand" href="/">${uiConfig.logo_image ? '<img border="0" alt="'+uiConfig.company_name+'" src="'+uiConfig.logo_link_name+'" height="'+uiConfig.height+'" width="'+uiConfig.logo_width+'">' : uiConfig.logo_link_name}</a>
+      <nav class="navbar navbar-expand-lg${uiConfig.fixed_header ?' fixed-top': ''} ${uiConfig.header_style_class} container">
+         <div class="container-fluid mx-2">
+         <a class="navbar-brand" href="/">${uiConfig.logo_image ? '<img border="0" style="margin-top: -5px;" alt="'+uiConfig.company_name+'" src="'+uiConfig.logo_link_name+'" height="'+uiConfig.height+'" width="'+uiConfig.logo_width+'"> &nbsp; '+uiConfig.siteName+' &nbsp;' : uiConfig.logo_link_name} <span class="badge rounded-pill bg-success">BETA</span></a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link" href="/">${uiConfig.nav_link_1}</a>
+              <a class="nav-link" href="/"><i class="fas fa-home"></i>&nbsp; ${uiConfig.nav_link_1}</a>
             </li>
             <li class="nav-item dropdown">
-               <div class="dropdown-menu" aria-labelledby="navbarDropdown"><a class="dropdown-item" href="/">&gt; ${uiConfig.nav_link_1}</a></div>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown"><a class="dropdown-item" href="/">&gt; ${uiConfig.nav_link_1}</a></div>
             </li>
             <li class="nav-item">
-               <a class="nav-link" href="${uiConfig.contact_link}" target="_blank">${uiConfig.nav_link_4}</a>
+                <a class="nav-link" href="${uiConfig.contact_link}" target="_blank"><i class='fab fa-telegram'></i>&nbsp; ${uiConfig.nav_link_4}</a>
             </li>
             ${uiConfig.show_logout_button ?'<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>': ''}
            </ul>
            <form class="d-flex" method="get" action="/0:search">
-            <input class="form-control me-2" name="q" type="search" placeholder="Search" aria-label="Search" value="" required="">
-            <button class="btn btn btn-danger" onclick="if($('#search_bar_form>input').val()) $('#search_bar_form').submit();" type="submit">Search</button>
+            <div class="input-group">
+              <input class="form-control" name="q" type="search" placeholder="Search" aria-label="Search" value="" required="" aria-describedby="button-addon2">
+              <button class="btn ${uiConfig.search_button_class}" onclick="if($('#search_bar_form>input').val()) $('#search_bar_form').submit();" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
+            </div>
            </form>
           </div>
          </div>
@@ -274,17 +362,22 @@ const homepage = `<!DOCTYPE html>
     <div>
      <div id="content" style="padding-top: ${uiConfig.header_padding}px;">
       <div class="container">
-         <div class="alert alert-primary d-flex align-items-center" role="alert" style="margin-bottom: 0; padding-bottom: 0rem;">
-          <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-           <ol class="breadcrumb" id="folderne">
-            <li class="breadcrumb-item"><a href="/">Home</a></li>
-           </ol>
-          </nav>
-         </div>
-         <div id="list" class="list-group text-break">
+        <div class="col-md-12" style="margin-bottom: 1rem;">
+            <div style="padding:0px;background:#BE1E2D;border-radius:0.25rem;width:100%;overflow:hidden;">
+                <iframe src="https://widget.trakteer.id/running-text-default.html?rt_count=10&amp;rt_speed=normal&amp;rt_theme=default&amp;rt_2_clr1=rgba%28190%2C+30%2C+45%2C+1%29&amp;rt_2_clr2=rgba%28255%2C+255%2C+255%2C+1%29&amp;rt_2_clr3=rgba%28255%2C+200%2C+73%2C+1%29&amp;rt_septype=image&amp;rt_messages=Donasi+via+%26nbsp%3B%3Ca+href%3D%27https%3A%2F%2Ftrakteer.id%2Fjovanzers%2Ftip%27+style%3D%27color%3A%23FFC849%3B+text-decoration%3A+none%3B%27+target%3D%27_blank%27%3ETrakteer%3C%2Fa%3E+%2F+%26nbsp%3B%3Ca+href%3D%27https%3A%2F%2Fsaweria.co%2Fjovanzers%27+style%3D%27color%3A%23FFC849%3B+text-decoration%3A+none%3B%27+target%3D%27_blank%27%3ESaweria%3C%2Fa%3E&amp;rt_txtshadow=true&amp;creator_name=jovanzers&amp;page_url=trakteer.id/jovanzers&amp;mod=3&amp;key=trstream-0Cd1Li6Gi6gLtK6GT84w&amp;hash=q07y4nqv7kp4wkxv" height="40px" width="100%" style="border:none;"></iframe>
+            </div>
+        </div>
+        <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
+          <ol class="breadcrumb" id="folderne">
+            <li class="breadcrumb-item"><a href="/">❤️&nbsp; Roots of Everythings</a></li>
+          </ol>
+        </nav>
+          <div id="list" class="list-group text-break">
 
-         </div>
-         <div class="${uiConfig.file_count_alert_class} text-center" role="alert" id="count">Total <span id="n_drives" class="number text-center"></span> drives</div>
+          </div>
+          <div class="card mt-3">
+            <div class="card-footer text-center rounded-2" id="count">Total <span id="n_drives" class="number text-center"></span> drives</div>
+          </div>
       </div>
      </div>
      <div class="modal fade" id="SearchModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="SearchModelLabel" aria-hidden="true">
@@ -345,14 +438,14 @@ const homepage = `<!DOCTYPE html>
      </div> ${uiConfig.credit ? '<p>Redesigned with <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart-fill" fill="red" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" /> </svg> by <a href="https://www.npmjs.com/package/@googledrive/index" target="_blank">TheFirstSpeedster</a>, based on Open Source Softwares.</p>' : ''} </div> </footer>
     </div>
    </body>
-  <script src="${uiConfig.jsdelivr_cdn_src}@${uiConfig.version}/assets/homepage.min.js"></script>
+  <script src="${uiConfig.jsdelivr_cdn_src}@${uiConfig.version}/assets/homepage.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
 </html>`
 
 const login_html = `<html>
    <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>Sign in - ${authConfig.siteName}</title>
+    <title>Sign in - ${uiConfig.siteName}</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="robots" content="noindex, nofollow">
     <meta name="googlebot" content="noindex, nofollow">
@@ -449,7 +542,7 @@ const login_html = `<html>
 const signup_html = `<html>
    <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>Sign UP - ${authConfig.siteName}</title>
+    <title>Sign UP - ${uiConfig.siteName}</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="robots" content="noindex, nofollow">
     <meta name="googlebot" content="noindex, nofollow">
@@ -512,7 +605,7 @@ const signup_html = `<html>
           <div class="container">
            <div class="row">
             <div class="col-lg-10 col-xl-7 mx-auto">
-               <h3 class="logo text-center mb-3">${authConfig.siteName}</h3>
+               <h3 class="logo text-center mb-3">${uiConfig.siteName}</h3>
                <div id="error-message" class="alert alert-danger"></div>
                <form onsubmit="return false;" method="post">
                 <p id="error" style="color:red;"></p>
@@ -818,7 +911,21 @@ async function handleRequest(request, event) {
     return fetch("https://arc.io/arc-sw.js")
   }
   if (path == '/app.js') {
-    const js = await fetch('https://gitlab.com/GoogleDriveIndex/Google-Drive-Index/-/raw/dev/src/app.js', {
+    const js = await fetch('https://gitlab.com/jovanzers/Google-Drive-Index/-/raw/dev/src/app.js', {
+      method: 'GET',
+    })
+    const data = await js.text()
+    return new Response(data, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/javascript; charset=utf-8',
+        'Access-Control-Allow-Origin': '*', // Required for CORS support to work
+        'Access-Control-Allow-Credentials': true, // Required for cookies, authorization headers with HTTPS
+      }
+    });
+  }
+  if (path == '/assets/homepage.js') {
+    const js = await fetch('https://gitlab.com/jovanzers/Google-Drive-Index/-/raw/dev/assets/homepage.js', {
       method: 'GET',
     })
     const data = await js.text()
@@ -1381,6 +1488,7 @@ async function handleRequest(request, event) {
           if (file.mimeType != 'application/vnd.google-apps.folder') {
             file.link = await generateLink(file.id, user_ip);
           }
+          file.fid = file.id;
           file.driveId = await encryptString(file.driveId);
           file.id = await encryptString(file.id);
         }
@@ -1610,8 +1718,8 @@ async function apiRequest(request, gd, user_ip) {
 
       return {
         ...fileWithoutId,
-        id: encryptedId,
-        driveId: encryptedDriveId,
+        id: id,
+        driveId: driveId,
         mimeType: mimeType,
         link: link,
       };
@@ -1692,6 +1800,7 @@ async function handleSearch(request, gd, user_ip = '') {
     const link = await generateLink(id, user_ip);
     return {
       ...fileWithoutId,
+      fid: id,
       id: encryptedId,
       driveId: encryptedDriveId,
       link: link,
@@ -1812,7 +1921,7 @@ class googleDrive {
       'supportsAllDrives': true
     };
     params.q = `'${parent}' in parents and name = '${name}' and trashed = false and mimeType != 'application/vnd.google-apps.shortcut'`;
-    params.fields = "files(id, name, mimeType, size ,createdTime, modifiedTime, iconLink, thumbnailLink, driveId, fileExtension, md5Checksum)";
+    params.fields = "files(id, name, mimeType, size, createdTime, modifiedTime, iconLink, thumbnailLink, driveId, fileExtension, md5Checksum)";
     url += '?' + enQuery(params);
     let requestOption = await this.requestOptions();
     let response;
