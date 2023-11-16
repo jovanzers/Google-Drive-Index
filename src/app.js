@@ -1203,8 +1203,8 @@ async function fallback(id, type) {
 			.then(function(obj) {
 				console.log(obj);
 				var mimeType = obj.mimeType;
-				var fileExtension = obj.fileExtension
-				var md5Checksum = obj.md5Checksum
+				var fileExtension = obj.fileExtension.toLowerCase();
+				var md5Checksum = obj.md5Checksum;
 				const code = ["php", "css", "go", "java", "js", "json", "txt", "sh", "md", "html", "xml", "py", "rb", "c", "cpp", "h", "hpp"];
 				const video = ["mp4", "webm", "avi", "mpg", "mpeg", "mkv", "rm", "rmvb", "mov", "wmv", "asf", "ts", "flv", "3gp", "m4v"];
 				const audio = ["mp3", "flac", "wav", "ogg", "m4a", "aac", "wma", "alac"];
@@ -1224,7 +1224,7 @@ async function fallback(id, type) {
 						file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum, file_id, cookie_folder_id);
 					} else if (mimeType.includes("audio") || audio.includes(fileExtension)) {
 						file_audio(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id);
-					} else if (mimeType.includes("image") || image.includes(fileExtension)) {
+					} else if (mimeType.includes("image") && fileExtension !== "iso" || image.includes(fileExtension)) {
 						file_image(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id);
 					} else if (mimeType.includes("pdf") || pdf.includes(fileExtension)) {
 						file_pdf(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id);
@@ -1281,8 +1281,8 @@ async function file(path) {
 		.then(function(obj) {
 			console.log(obj);
 			var mimeType = obj.mimeType;
-			var fileExtension = obj.fileExtension
-			var md5Checksum = obj.md5Checksum
+			var fileExtension = obj.fileExtension.toLowerCase();
+			var md5Checksum = obj.md5Checksum;
 			const code = ["php", "css", "go", "java", "js", "json", "txt", "sh", "md", "html", "xml", "py", "rb", "c", "cpp", "h", "hpp"];
 			const video = ["mp4", "webm", "avi", "mpg", "mpeg", "mkv", "rm", "rmvb", "mov", "wmv", "asf", "ts", "flv", "3gp", "m4v"];
 			const audio = ["mp3", "flac", "wav", "ogg", "m4a", "aac", "wma", "alac"];
@@ -1302,7 +1302,7 @@ async function file(path) {
 					file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum, file_id, cookie_folder_id);
 				} else if (mimeType.includes("audio") || audio.includes(fileExtension)) {
 					file_audio(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id);
-				} else if (mimeType.includes("image") || image.includes(fileExtension)) {
+				} else if (mimeType.includes("image") && fileExtension !== "iso" || image.includes(fileExtension)) {
 					file_image(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id);
 				} else if (mimeType.includes("pdf") || pdf.includes(fileExtension)) {
 					file_pdf(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id);
