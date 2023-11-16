@@ -610,7 +610,7 @@ function append_files_to_fallback_list(path, files) {
 		for (i in files) {
 			var item = files[i];
 			var p = "/fallback?id=" + item.id
-			item['modifiedTime'] = utc2delhi(item['modifiedTime']);
+			item['modifiedTime'] = utc2jakarta(item['modifiedTime']);
 			// replace / with %2F
 			if (item['mimeType'] == 'application/vnd.google-apps.folder') {
 				html += `<div class="list-group-item list-group-item-action d-flex justify-content-start align-items-center flex-sm-nowrap flex-wrap justify-content-sm-between">`;
@@ -756,7 +756,7 @@ function append_files_to_list(path, files) {
 		var item = files[i];
 		var ep = encodeURIComponent(item.name).replace(/\//g, '%2F') + '/';
 		var p = path + ep.replace(new RegExp('#', 'g'), '%23').replace(new RegExp('\\?', 'g'), '%3F');
-		item['modifiedTime'] = utc2delhi(item['modifiedTime']);
+		item['modifiedTime'] = utc2jakarta(item['modifiedTime']);
 		// replace / with %2F
 		if (item['mimeType'] == 'application/vnd.google-apps.folder') {
 			html += `<div class="list-group-item list-group-item-action d-flex justify-content-start align-items-center flex-sm-nowrap flex-wrap justify-content-sm-between">`;
@@ -1054,7 +1054,7 @@ function append_search_result_to_list(files) {
 				item['size'] = "";
 			}
 
-			item['modifiedTime'] = utc2delhi(item['modifiedTime']);
+			item['modifiedTime'] = utc2jakarta(item['modifiedTime']);
 			if (item['mimeType'] == 'application/vnd.google-apps.folder') {
 				html += `<div class="list-group-item list-group-item-action d-flex justify-content-start align-items-center flex-sm-nowrap flex-wrap justify-content-sm-between">`;
 				html += `<a href="#" class="countitems list-group-item-action d-flex align-items-start align-items-md-center" style="color: ${UI.folder_text_color};" onclick="onSearchResultItemClick('${item['id']}', false)" data-bs-toggle="modal" data-bs-target="#SearchModel"><span style="margin-right: 0.5rem;">${folder_icon}</span>${item.name}</a> ${UI.display_time ? `<span class="badge bg-info my-1 me-2" style="margin-left: 2rem;"> ` + item['modifiedTime'] + ` </span>` : ``}
@@ -1915,18 +1915,19 @@ function file_image(name, encoded_name, size, url, mimeType, md5Checksum, file_i
 }
 
 // Time conversion
-function utc2delhi(utc_datetime) {
-	// Convert UTC datetime to local Delhi time
+function utc2jakarta(utc_datetime) {
+	// Convert UTC datetime to local Jakarta time
 	var utcDate = new Date(utc_datetime);
-	var delhiDate = new Date(utcDate.getTime() + 5.5 * 60 * 60 * 1000);
+	var jakartaOptions = { timeZone: 'Asia/Jakarta' };
+	var jakartaDate = new Date(utcDate.toLocaleString('en-US', jakartaOptions));
 
-	// Format the Delhi date and time
-	var year = delhiDate.getFullYear();
-	var month = ('0' + (delhiDate.getMonth() + 1)).slice(-2);
-	var date = ('0' + delhiDate.getDate()).slice(-2);
-	var hour = ('0' + delhiDate.getHours()).slice(-2);
-	var minute = ('0' + delhiDate.getMinutes()).slice(-2);
-	var second = ('0' + delhiDate.getSeconds()).slice(-2);
+	// Format the Jakarta date and time
+	var year = jakartaDate.getFullYear();
+	var month = ('0' + (jakartaDate.getMonth() + 1)).slice(-2);
+	var date = ('0' + jakartaDate.getDate()).slice(-2);
+	var hour = ('0' + jakartaDate.getHours()).slice(-2);
+	var minute = ('0' + jakartaDate.getMinutes()).slice(-2);
+	var second = ('0' + jakartaDate.getSeconds()).slice(-2);
 
 	return `${date}-${month}-${year} ${hour}:${minute}:${second}`;
 }
