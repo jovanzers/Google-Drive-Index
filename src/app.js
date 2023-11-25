@@ -110,7 +110,7 @@ function init() {
     </div>
   </div>
 </div>
-<div class="col-md-12" style="margin-top: 60px">
+<button id="back-to-top" class="btn btn-secondary btn-lg back-to-top shadow border border-light" style="--bs-border-opacity: .4;" role="button"><i class="fas fa-chevron-up m-0"></i></button>
 <footer class="footer text-center mt-auto container ${UI.footer_style_class}" style="${UI.fixed_footer ?'position: fixed;': ''} ${UI.hide_footer ? ' display:none;': ' display:block;'}">
     <div class="container" style="padding-top: 15px;">
       <div class="row">
@@ -126,6 +126,24 @@ function init() {
           <a href="#"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2F` + window.location.host + `&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false"/></a>
         </p>
       </div>
+	  <script>
+		let btt = document.getElementById("back-to-top");
+		window.onscroll = function () {
+			scrollFunction();
+		};
+		function scrollFunction() {
+			if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+				btt.style.display = "block";
+			} else {
+				btt.style.display = "none";
+			}
+		}
+		btt.addEventListener("click", backToTop);
+		function backToTop() {
+			document.body.scrollTop = 0;
+			document.documentElement.scrollTop = 0;
+		}
+	  </script>
       </div>
 	</div>
 </footer>`;
