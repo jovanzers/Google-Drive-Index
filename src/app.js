@@ -1324,7 +1324,6 @@ async function fallback(id, type) {
 				const code = ["php", "css", "go", "java", "js", "json", "txt", "sh", "md", "html", "xml", "py", "rb", "c", "cpp", "h", "hpp"];
 				const video = ["mp4", "webm", "avi", "mpg", "mpeg", "mkv", "rm", "rmvb", "mov", "wmv", "asf", "ts", "flv", "3gp", "m4v"];
 				const audio = ["mp3", "flac", "wav", "ogg", "m4a", "aac", "wma", "alac"];
-				const image = ["bmp", "jpg", "jpeg", "png", "gif", "svg", "tiff", "ico"];
 				if (mimeType === "application/vnd.google-apps.folder") {
 					window.location.href = window.location.pathname + "/";
 				} else if (fileExtension) {
@@ -1340,8 +1339,6 @@ async function fallback(id, type) {
 						file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum, modifiedTime, file_id, cookie_folder_id);
 					} else if (mimeType.includes("audio") || audio.includes(fileExtension)) {
 						file_audio(name, encoded_name, size, url, mimeType, md5Checksum, modifiedTime, file_id, cookie_folder_id);
-					} else if (mimeType.includes("image") && fileExtension !== "iso" || image.includes(fileExtension)) {
-						file_image(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id);
 					} else if (code.includes(fileExtension)) {
 						file_code(name, encoded_name, size, bytes, poster, url, mimeType, md5Checksum, modifiedTime, file_id, cookie_folder_id);
 					} else {
@@ -1398,7 +1395,6 @@ async function file(path) {
 			const code = ["php", "css", "go", "java", "js", "json", "txt", "sh", "md", "html", "xml", "py", "rb", "c", "cpp", "h", "hpp"];
 			const video = ["mp4", "webm", "avi", "mpg", "mpeg", "mkv", "rm", "rmvb", "mov", "wmv", "asf", "ts", "flv", "3gp", "m4v"];
 			const audio = ["mp3", "flac", "wav", "ogg", "m4a", "aac", "wma", "alac"];
-			const image = ["bmp", "jpg", "jpeg", "png", "gif", "svg", "tiff", "ico"];
 			if (mimeType === "application/vnd.google-apps.folder") {
 				window.location.href = window.location.pathname + "/";
 			} else if (fileExtension) {
@@ -1414,8 +1410,6 @@ async function file(path) {
 					file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum, modifiedTime, file_id, cookie_folder_id);
 				} else if (mimeType.includes("audio") || audio.includes(fileExtension)) {
 					file_audio(name, encoded_name, size, url, mimeType, md5Checksum, modifiedTime, file_id, cookie_folder_id);
-				} else if (mimeType.includes("image") && fileExtension !== "iso" || image.includes(fileExtension)) {
-					file_image(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id);
 				} else if (code.includes(fileExtension)) {
 					file_code(name, encoded_name, size, bytes, poster, url, mimeType, md5Checksum, modifiedTime, file_id, cookie_folder_id);
 				} else {
@@ -1994,77 +1988,6 @@ function file_audio(name, encoded_name, size, url, mimeType, md5Checksum, modifi
 	document.head.appendChild(videoJsStylesheet);
 }
 
-
-
-
-// image display
-function file_image(name, encoded_name, size, url, mimeType, md5Checksum, file_id, cookie_folder_id) {
-	// Split the file path into parts
-	var path = window.location.pathname;
-	var pathParts = path.split('/');
-	const copyFileBox = UI.allow_file_copy ? generateCopyFileBox(file_id, cookie_folder_id) : '';
-	// Generate the navigation based on path parts
-	var navigation = '';
-	var new_path = '';
-	for (var i = 0; i < pathParts.length; i++) {
-		var part = pathParts[i];
-		if (i == pathParts.length - 1) {
-			new_path += part + '?a=view'
-		} else {
-			new_path += part + '/'
-		}
-		if (part.length > 15) {
-			part = decodeURIComponent(part);
-			part = part.substring(0, 10) + '...';
-		}
-		if (part == '') {
-			part = 'Roots'
-		}
-		navigation += '<a href="' + new_path + '" class="breadcrumb-item">' + part + '</a>';
-	}
-
-	// Add the container and card elements // wait until image is loaded and then hide spinner
-	var content = `
-    <div class="container">
-	`+trakteerWidget+`
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          ${navigation}
-        </ol>
-      </nav>
-      <div class="card">
-        <div class="card-body text-center">
-          <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>MD5: <code>${md5Checksum}</code><br>${mimeType}<br>${size}</div>
-          <img src="${url}" id="load_image" width="100%">
-        </div>
-        <div class="card-body">
-          <div class="input-group mb-4">
-			<span class="input-group-text" id="">Full URL</span>
-            <input type="text" class="form-control" id="dlurl" value="${url}" readonly>
-			` + copyButton + `
-          </div>
-          <div class="card-text text-center">
-		  <p class="mb-2">Download via</p>
-		  <div class="btn-group text-center">
-			  ${UI.display_drive_link ? `<a class="btn btn-secondary d-flex align-items-center" href="https://sharer.winten.my.id/f/${file_id}" id="file_drive_link" target="_blank">`+gdrive_icon+` Google Drive</a>` : ``}
-              <a href="${url}" type="button" class="btn btn-success"><i class="fas fa-bolt"></i>&nbsp; Index</a>
-              <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="sr-only"></span>
-              </button>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM (Free)</a>
-                <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.adm.lite/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM (Lite)</a>
-                <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM+ (Plus)</a>
-              </div>
-            </div>
-            `+ copyFileBox +`
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
-	$('#content').html(content);
-}
 
 // Time conversion
 function utc2jakarta(utc_datetime) {
