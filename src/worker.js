@@ -355,7 +355,6 @@ function html(current_drive_order = 0, model = {}) {
     }
   </style>
   <script src="${app_js_file}"></script>
-  <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.12.313/build/pdf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked@5.1.1/lib/marked.umd.min.js"></script>
   <script async src="https://arc.io/widget.min.js#${uiConfig.arc_code}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
