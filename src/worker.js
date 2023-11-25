@@ -154,6 +154,67 @@ function html(current_drive_order = 0, model = {}) {
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
   <style>
+    body.modal-open {
+      padding-right: 0px !important;
+    }
+    .bg-zers {
+        position: relative;
+    }
+    .bg-zers::before {
+        content: '';
+        position: fixed;
+        width: 100%;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        background-image: url('https://sharer.winten.my.id/static/img/pattern-32-inv.svg'),
+            linear-gradient(#61045F, transparent),
+            linear-gradient(to top left, lime, transparent),
+            linear-gradient(to top right, blue, transparent);
+        background-size: contain;
+        background-position: left;
+        background-repeat: repeat-x;
+        background-blend-mode: darken;
+        will-change: transform;
+    }
+    .back-to-top {
+      background: rgba(0,0,0,.4);
+      position: fixed;
+      bottom: 85px;
+      right: -5px;
+      display: none;
+      z-index: 2;
+    }
+    .breadcrumb {
+      margin-bottom: 0;
+      background: transparent;
+      overflow: auto;
+      white-space: nowrap;
+      display: block;
+    }
+    .breadcrumb .breadcrumb-item {
+      display: inline;
+    }
+    .breadcrumb-item+.breadcrumb-item::before {
+      float: none;
+    }
+    .card {
+        background: rgba(0, 0, 0, 0.65);
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    }
+    .list-group-item, .list-group-item.disabled, .list-group-item:disabled {
+        background: transparent;
+    }
+    .list-group-item-action:focus, .list-group-item-action:hover {
+        background-color: rgb(216 216 216 / 20%);
+    }
+    .card-header, .card-footer {
+        background-color: rgba(0, 0, 0, 0.40);
+        border-color: rgba(140, 130, 115, 0.13);
+    }
+    .modal-header, .modal-footer, .list-group-item, .input-group-text {
+        border-color: rgba(140, 130, 115, 0.13);
+    }
     .navbar {
       border-radius: 0 0 .5rem .5rem;
       border: 1px solid rgba(140, 130, 115, 0.13);
@@ -161,7 +222,7 @@ function html(current_drive_order = 0, model = {}) {
       border-top: none;
       background: rgba(24, 26, 27, 0.5);
     }
-    nav::before {
+    .navbar::before {
       content: '';
       position: absolute;
       width: 100%;
@@ -173,55 +234,121 @@ function html(current_drive_order = 0, model = {}) {
       z-index: -1;
       border-radius: 0 0 .5rem .5rem;
     }
+    .alert, .card, .dropdown-menu, .modal-content {
+        border-radius: .5rem;
+        border-color: rgba(140, 130, 115, 0.13);
+    }
     .dropdown-item:focus, .dropdown-item:hover {
       background-color: #007053;
     }
-    .dropdown-menu {
-      background: rgba(24, 26, 27, 0.6);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-    }
     .donate {
       position: relative;
-    }
-    .donate:last-child:not(:first-child) .qrcode {
-      right: -.75rem;
+      width: fit-content;
+      margin: auto;
     }
     .donate .qrcode {
-      display: none;
-      position: absolute;
-      z-index: 99;
-      bottom: 2.5em;
-      line-height: 0;
-      overflow: hidden;
-      border-radius: 4px;
-      box-shadow: 0 4px 10px rgba(0,0,0,.1), 0 0 1px rgba(0,0,0,.2);
-      overflow: hidden;
-      width: max-content;
-      left: -215px;
+        display: none;
+        position: absolute;
+        z-index: 99;
+        bottom: 2.8em;
+        overflow: hidden;
+        border-radius: .5rem;
+        width: max-content;
+        left: 50%;
+        transform: translateX(-50%);
     }
     .donate:hover .qrcode {
-      display: block;
+        display: block
     }
-    .form-control, .form-select, .form-control:disabled, .form-control:read-only {
+    .dropdown-menu, .qrcode {
+        box-shadow: 0px 16px 48px 0px rgba(0,0,0,0.5)
+    }
+    .fa, .fab, .fas, .fa-regular, .fa-solid {
+        margin-right: 0.5rem;
+    }
+    .form-control, .form-select, .form-control:disabled, .form-control:read-only, .form-control:focus {
       color: rgb(189, 183, 175);
-      background-color: rgb(24, 26, 27);
-      border-color: rgb(129, 120, 106);
+      background: transparent; 
+      border-color: rgba(140, 130, 115, 0.13);
+      box-shadow: none;
     }
-    .form-control:focus {
-      color: rgb(189, 183, 175);
-      background-color: rgb(24, 26, 27);
-      border-color: rgb(49, 81, 113);
+    footer {
+        border-radius: .5rem .5rem 0 0;
+        border: 1px solid rgba(140, 130, 115, 0.13);
+        box-shadow: 0 -16px 48px 0 rgba(0, 0, 0, 0.5)
     }
-    .input-group-text {
-      border-color: rgb(129, 120, 106);
+    footer, .dropdown-menu, .modal-content, .qrcode {
+        background: rgba(24, 26, 27, 0.2);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
     }
-    .list-group-item-action:focus {
-      background-color: unset;
+    .hover-overlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0);
+      opacity: 0;
+     }
+    .hover-overlay:hover {
+      opacity: .9;
     }
-    @media (min-width: 768px) {
-      .kiri { text-align: left; }
-      .kanan { text-align: right; }
+    .overlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0);
+      opacity: .9;
+    }
+    table {
+        word-break: break-word;
+    }
+    .table {
+        --bs-table-bg: unset;
+    }
+    .table th {
+        min-width: 8rem;
+    }
+    .table td, .table th {
+        border-color: rgba(140, 130, 115, 0.13);
+    }
+    tr:first-child th, tr:first-child td {
+        border-top: none;
+        padding-top: 0;
+    }
+    .video-js, .vjs-tech, div.vjs-poster > picture > img {
+      border-radius: 0.375rem;
+      height: 100%!important;
+    }
+    .video-js .vjs-control-bar {
+      border-bottom-left-radius: 0.375rem;
+      border-bottom-right-radius: 0.375rem;
+    }
+    .vjs-poster img {
+      -o-object-fit: cover!important;
+      object-fit: cover!important;
+    }
+    @media (max-width: 540px) {
+        .btn-block {
+            width: 100%;
+        }
+        .table th {
+            min-width: auto;
+            width: 30px !important;
+        }
+        .tth {
+            display: none;
+        }
+    }
+    @media (max-width: 768px) {
+        .table th {
+            width: 8rem;
+        }
+        .table td, .table th {
+            padding: .75rem 0;
+        }
+        td {
+            max-width: 200px;
+        }
     }
     a {
       text-decoration: none!important;
@@ -231,8 +358,9 @@ function html(current_drive_order = 0, model = {}) {
   <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.12.313/build/pdf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked@5.1.1/lib/marked.umd.min.js"></script>
   <script async src="https://arc.io/widget.min.js#${uiConfig.arc_code}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100 bg-zers">
 </body>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
   </html>`;
@@ -254,6 +382,67 @@ const homepage = `<!DOCTYPE html>
     <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/${uiConfig.theme}/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <style>
+      body.modal-open {
+        padding-right: 0px !important;
+      }
+      .bg-zers {
+          position: relative;
+      }
+      .bg-zers::before {
+          content: '';
+          position: fixed;
+          width: 100%;
+          height: 100vh;
+          top: 0;
+          left: 0;
+          background-image: url('https://sharer.winten.my.id/static/img/pattern-32-inv.svg'),
+              linear-gradient(#61045F, transparent),
+              linear-gradient(to top left, lime, transparent),
+              linear-gradient(to top right, blue, transparent);
+          background-size: contain;
+          background-position: left;
+          background-repeat: repeat-x;
+          background-blend-mode: darken;
+          will-change: transform;
+      }
+      .back-to-top {
+        background: rgba(0,0,0,.4);
+        position: fixed;
+        bottom: 85px;
+        right: -5px;
+        display: none;
+        z-index: 2;
+      }
+      .breadcrumb {
+        margin-bottom: 0;
+        background: transparent;
+        overflow: auto;
+        white-space: nowrap;
+        display: block;
+      }
+      .breadcrumb .breadcrumb-item {
+        display: inline;
+      }
+      .breadcrumb-item+.breadcrumb-item::before {
+        float: none;
+      }
+      .card {
+          background: rgba(0, 0, 0, 0.65);
+          box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+      }
+      .list-group-item, .list-group-item.disabled, .list-group-item:disabled {
+          background: transparent;
+      }
+      .list-group-item-action:focus, .list-group-item-action:hover {
+          background-color: rgb(216 216 216 / 20%);
+      }
+      .card-header, .card-footer {
+          background-color: rgba(0, 0, 0, 0.40);
+          border-color: rgba(140, 130, 115, 0.13);
+      }
+      .modal-header, .modal-footer, .list-group-item, .input-group-text {
+          border-color: rgba(140, 130, 115, 0.13);
+      }
       .navbar {
         border-radius: 0 0 .5rem .5rem;
         border: 1px solid rgba(140, 130, 115, 0.13);
@@ -261,7 +450,7 @@ const homepage = `<!DOCTYPE html>
         border-top: none;
         background: rgba(24, 26, 27, 0.5);
       }
-      nav::before {
+      .navbar::before {
         content: '';
         position: absolute;
         width: 100%;
@@ -273,85 +462,155 @@ const homepage = `<!DOCTYPE html>
         z-index: -1;
         border-radius: 0 0 .5rem .5rem;
       }
+      .alert, .card, .dropdown-menu, .modal-content {
+          border-radius: .5rem;
+          border-color: rgba(140, 130, 115, 0.13);
+      }
       .dropdown-item:focus, .dropdown-item:hover {
         background-color: #007053;
       }
-      .dropdown-menu {
-        background: rgba(24, 26, 27, 0.6);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-      }
       .donate {
         position: relative;
-      }
-      .donate:last-child:not(:first-child) .qrcode {
-        right: -.75rem;
+        width: fit-content;
+        margin: auto;
       }
       .donate .qrcode {
-        display: none;
-        position: absolute;
-        z-index: 99;
-        bottom: 2.5em;
-        line-height: 0;
-        overflow: hidden;
-        border-radius: 4px;
-        box-shadow: 0 4px 10px rgba(0,0,0,.1), 0 0 1px rgba(0,0,0,.2);
-        overflow: hidden;
-        width: max-content;
-        left: -215px;
+          display: none;
+          position: absolute;
+          z-index: 99;
+          bottom: 2.8em;
+          overflow: hidden;
+          border-radius: .5rem;
+          width: max-content;
+          left: 50%;
+          transform: translateX(-50%);
       }
       .donate:hover .qrcode {
-        display: block;
+          display: block
       }
-      .form-control, .form-select, .form-control:disabled, .form-control:read-only {
+      .dropdown-menu, .qrcode {
+          box-shadow: 0px 16px 48px 0px rgba(0,0,0,0.5)
+      }
+      .fa, .fab, .fas, .fa-regular, .fa-solid {
+          margin-right: 0.5rem;
+      }
+      .form-control, .form-select, .form-control:disabled, .form-control:read-only, .form-control:focus {
         color: rgb(189, 183, 175);
-        background-color: rgb(24, 26, 27);
-        border-color: rgb(129, 120, 106);
+        background: transparent; 
+        border-color: rgba(140, 130, 115, 0.13);
+        box-shadow: none;
       }
-      .form-control:focus {
-        color: rgb(189, 183, 175);
-        background-color: rgb(24, 26, 27);
-        border-color: rgb(49, 81, 113);
+      footer {
+          border-radius: .5rem .5rem 0 0;
+          border: 1px solid rgba(140, 130, 115, 0.13);
+          box-shadow: 0 -16px 48px 0 rgba(0, 0, 0, 0.5)
       }
-      .input-group-text {
-        border-color: rgb(129, 120, 106);
+      footer, .dropdown-menu, .modal-content, .qrcode {
+          background: rgba(24, 26, 27, 0.2);
+          backdrop-filter: blur(5px);
+          -webkit-backdrop-filter: blur(5px);
       }
-      @media (min-width: 768px) {
-        .kiri { text-align: left; }
-        .kanan { text-align: right; }
+      .hover-overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0);
+        opacity: 0;
+       }
+      .hover-overlay:hover {
+        opacity: .9;
+      }
+      .overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0);
+        opacity: .9;
+      }
+      table {
+          word-break: break-word;
+      }
+      .table {
+          --bs-table-bg: unset;
+      }
+      .table th {
+          min-width: 8rem;
+      }
+      .table td, .table th {
+          border-color: rgba(140, 130, 115, 0.13);
+      }
+      tr:first-child th, tr:first-child td {
+          border-top: none;
+          padding-top: 0;
+      }
+      .video-js, .vjs-tech, div.vjs-poster > picture > img {
+        border-radius: 0.375rem;
+        height: 100%!important;
+      }
+      .video-js .vjs-control-bar {
+        border-bottom-left-radius: 0.375rem;
+        border-bottom-right-radius: 0.375rem;
+      }
+      .vjs-poster img {
+        -o-object-fit: cover!important;
+        object-fit: cover!important;
+      }
+      @media (max-width: 540px) {
+          .btn-block {
+              width: 100%;
+          }
+          .table th {
+              min-width: auto;
+              width: 30px !important;
+          }
+          .tth {
+              display: none;
+          }
+      }
+      @media (max-width: 768px) {
+          .table th {
+              width: 8rem;
+          }
+          .table td, .table th {
+              padding: .75rem 0;
+          }
+          td {
+              max-width: 200px;
+          }
       }
       a {
         text-decoration: none!important;
       }
     </style>
     <script async src="https://arc.io/widget.min.js#${uiConfig.arc_code}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
    </head>
-   <body>
+   <body class="d-flex flex-column min-vh-100 bg-zers">
     <header>
      <div id="nav">
       <nav class="navbar navbar-expand-lg${uiConfig.fixed_header ?' fixed-top': ''} ${uiConfig.header_style_class} container">
          <div class="container-fluid mx-2">
-         <a class="navbar-brand" href="/">${uiConfig.logo_image ? '<img border="0" style="margin-top: -5px;" alt="'+uiConfig.company_name+'" src="'+uiConfig.logo_link_name+'" height="'+uiConfig.height+'" width="'+uiConfig.logo_width+'"> &nbsp; '+uiConfig.siteName+' &nbsp;' : uiConfig.logo_link_name} <span class="badge rounded-pill bg-success">BETA</span></a>
+         <a class="navbar-brand d-flex align-items-center gap-2" href="/">${uiConfig.logo_image ? '<img border="0" alt="'+uiConfig.company_name+'" src="'+uiConfig.logo_link_name+'" height="'+uiConfig.height+'" width="'+uiConfig.logo_width+'">'+uiConfig.siteName : uiConfig.logo_link_name}</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link" href="/"><i class="fas fa-home"></i>&nbsp; ${uiConfig.nav_link_1}</a>
+              <a class="nav-link" href="/"><i class="fas fa-home fa-fw"></i>${uiConfig.nav_link_1}</a>
             </li>
             <li class="nav-item dropdown">
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown"><a class="dropdown-item" href="/">&gt; ${uiConfig.nav_link_1}</a></div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="${uiConfig.contact_link}" target="_blank"><i class='fab fa-telegram'></i>&nbsp; ${uiConfig.nav_link_4}</a>
+                <a class="nav-link" href="${uiConfig.contact_link}" target="_blank"><i class="fas fa-paper-plane fa-fw"></i>${uiConfig.nav_link_4}</a>
             </li>
-            ${uiConfig.show_logout_button ?'<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>': ''}
+            ${uiConfig.show_logout_button ?'<li class="nav-item"><a class="nav-link" href="/logout"><i class="fa-solid fa-arrow-right-from-bracket fa-fw"></i>Logout</a></li>': ''}
            </ul>
            <form class="d-flex" method="get" action="/0:search">
             <div class="input-group">
-              <input class="form-control" name="q" type="search" placeholder="Search" aria-label="Search" value="" required="" aria-describedby="button-addon2">
-              <button class="btn ${uiConfig.search_button_class}" onclick="if($('#search_bar_form>input').val()) $('#search_bar_form').submit();" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
+              <input class="form-control" name="q" type="search" placeholder="Search" aria-label="Search" value="" required="" aria-describedby="button-addon2" style="border-right:0;">
+              <button class="btn ${uiConfig.search_button_class}" onclick="if($('#search_bar_form>input').val()) $('#search_bar_form').submit();" type="submit" id="button-addon2" style="border-color: rgba(140, 130, 115, 0.13); border-left:0;"><i class="fas fa-search" style="margin: 0"></i></button>
             </div>
            </form>
           </div>
@@ -359,84 +618,100 @@ const homepage = `<!DOCTYPE html>
       </nav>
      </div>
     </header>
-    <div>
-     <div id="content" style="padding-top: ${uiConfig.header_padding}px;">
-      <div class="container">
-        <div class="col-md-12" style="margin-bottom: 1rem;">
-            <div style="padding:0px;background:#BE1E2D;border-radius:0.25rem;width:100%;overflow:hidden;">
-                <iframe src="https://widget.trakteer.id/running-text-default.html?rt_count=10&amp;rt_speed=normal&amp;rt_theme=default&amp;rt_2_clr1=rgba%28190%2C+30%2C+45%2C+1%29&amp;rt_2_clr2=rgba%28255%2C+255%2C+255%2C+1%29&amp;rt_2_clr3=rgba%28255%2C+200%2C+73%2C+1%29&amp;rt_septype=image&amp;rt_messages=Donasi+via+%26nbsp%3B%3Ca+href%3D%27https%3A%2F%2Ftrakteer.id%2Fjovanzers%2Ftip%27+style%3D%27color%3A%23FFC849%3B+text-decoration%3A+none%3B%27+target%3D%27_blank%27%3ETrakteer%3C%2Fa%3E+%2F+%26nbsp%3B%3Ca+href%3D%27https%3A%2F%2Fsaweria.co%2Fjovanzers%27+style%3D%27color%3A%23FFC849%3B+text-decoration%3A+none%3B%27+target%3D%27_blank%27%3ESaweria%3C%2Fa%3E&amp;rt_txtshadow=true&amp;creator_name=jovanzers&amp;page_url=trakteer.id/jovanzers&amp;mod=3&amp;key=trstream-0Cd1Li6Gi6gLtK6GT84w&amp;hash=q07y4nqv7kp4wkxv" height="40px" width="100%" style="border:none;"></iframe>
-            </div>
+    <div class="container" style="margin-top: ${uiConfig.header_padding}px; margin-bottom: 60px;">
+      <div class="row align-items-start g-3">
+        <div class="col-md-12">
+          <div class="card" style="padding: 0 0 0.3rem 0;border-radius:.5rem;width:100%;overflow:hidden;">
+            <iframe src="https://stream.trakteer.id/running-text-default.html?rt_font=Lato&amp;rt_count=6&amp;rt_speed=normal&amp;rt_theme=default&amp;rt_1_clr1=rgba%280%2C+0%2C+0%2C+0%29&amp;rt_2_clr1=rgba%28190%2C+30%2C+45%2C+1%29&amp;rt_2_clr2=rgba%28255%2C+255%2C+255%2C+1%29&amp;rt_2_clr3=rgba%28255%2C+200%2C+73%2C+1%29&amp;rt_septype=image&amp;rt_messages=Donasi+via+%26nbsp%3B%3Ca+href%3D%27https%3A%2F%2Ftrakteer.id%2Fjovanzers%2Ftip%27+style%3D%27color%3A%23FFC849%3B+text-decoration%3A+none%3B%27+target%3D%27_blank%27%3ETrakteer%3C%2Fa%3E+%2F+%26nbsp%3B%3Ca+href%3D%27https%3A%2F%2Fsaweria.co%2Fjovanzers%27+style%3D%27color%3A%23FFC849%3B+text-decoration%3A+none%3B%27+target%3D%27_blank%27%3ESaweria%3C%2Fa%3E&amp;rt_txtshadow=false&amp;creator_name=jovanzers&amp;page_url=trakteer.id/jovanzers&amp;mod=3&amp;key=trstream-0Cd1Li6Gi6gLtK6GT84w&amp;hash=q07y4nqv7kp4wkxv" height="40px" width="100%" style="border:none; color-scheme: light;"></iframe>
+          </div>
         </div>
-        <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
-          <ol class="breadcrumb" id="folderne">
-            <li class="breadcrumb-item"><a href="/">❤️&nbsp; Roots of Everythings</a></li>
-          </ol>
-        </nav>
-          <div id="list" class="list-group text-break">
+        <div class="col-md-12">
+          <div id="content">
+            <div id="list" class="list-group text-break">
 
+            </div>
           </div>
-          <div class="card mt-3">
-            <div class="card-footer text-center rounded-2" id="count">Total <span id="n_drives" class="number text-center"></span> drives</div>
-          </div>
-      </div>
-     </div>
-     <div class="modal fade" id="SearchModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="SearchModelLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-         <div class="modal-content">
-          <div class="modal-header">
-           <h5 class="modal-title" id="SearchModelLabel"></h5>
-           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-           <span aria-hidden="true"></span>
-           </button>
-          </div>
-          <div class="modal-body" id="modal-body-space">
-          </div>
-          <div class="modal-footer" id="modal-body-space-buttons">
-          </div>
-         </div>
-      </div>
-     </div>
-     <div class="col-md-12" style="margin-top: 60px">
-      <div class="text-center">
-        <p class="">Donate a coffee ☕️</p>
-        <a class="btn donate btn-info" href="https://t.me/WinTenDev" title="Telegram">
-          <span class="icon is-small"><i class="fab fa-telegram"></i> </span><span>Telegram</span>
-        </a>
-        <a class="btn donate" href="https://trakteer.id/jovanzers/tip" title="Click me!" style="background: #BE1E2D;" target="_blank">
-          <span class="icon is-small"><i class="fab fa-paypal"></i> </span><span>Trakteer</span>
-          <div class="qrcode">
-            <img alt="Love" src="https://i.postimg.cc/Yq0mZMKg/love.jpg">
-            <span style="position:absolute;top:30px;left:0;right:0;color:#000">Thank you very much ❤</span>
-          </div>
-        </a>
-        <a class="btn donate" href="https://saweria.co/jovanzers" title="Click me!" style="background: #f5a623FF;" target="_blank">
-          <span class="icon is-small"><i class="fab fa-paypal"></i> </span><span>Saweria</span>
-          <div class="qrcode">
-            <img alt="Love" src="https://i.postimg.cc/Yq0mZMKg/love.jpg">
-            <span style="position:absolute;top:30px;left:0;right:0;color:#000">Thank you very much ❤</span>
-          </div>
-        </a>
-            <p style="padding-top: 20px">
-                <a href="https://akannikah.id" target="_blank" title="Akannikah.id">
-                    <img class="image" alt="Akannikah.id" style="margin: auto;width: 200px;" src="https://akannikah.id/wp-content/uploads/2019/08/Akannikah-logo.png">
-                </a>
-            </p>
-            <p>
-              <a href="#"><img id="hits" src=""/></a>
-            </p>
-            <script>document.getElementById("hits").src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2F" + window.location.host + "&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false";</script>
         </div>
-     </div>
-     <br>
-     <footer class="footer mt-auto py-3 text-muted text-center ${uiConfig.footer_style_class}" style="${uiConfig.fixed_footer ?'position: fixed; ': ''}left: 0; bottom: 0; width: 100%; color: white; z-index: 9999;${uiConfig.hide_footer ? ' display:none;': ' display:block;'}"> <div class="container" style="width: auto; padding: 0 10px;"> <div class="row">
-     <div class="col-md-6">
-       <p class="kiri">© ${uiConfig.copyright_year} <a href="${uiConfig.company_link}" target="_blank">${uiConfig.company_name}</a> ∙ <a href="${uiConfig.contact_link}" target="_blank" title="Please allow us up to 48 hours to process DMCA requests.">DMCA</a></p>
-     </div>
-     <div class="col-md-6">
-       <p class="kanan"><a href="#">🔼 Back to top</a></p>
-     </div>
-     </div> ${uiConfig.credit ? '<p>Redesigned with <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart-fill" fill="red" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" /> </svg> by <a href="https://www.npmjs.com/package/@googledrive/index" target="_blank">TheFirstSpeedster</a>, based on Open Source Softwares.</p>' : ''} </div> </footer>
+      </div>
+      <div class="row g-3 mt-0">
+        <div class="col-lg-6 col-md-12">
+          <div class="card text-white mb-3 h-100">
+            <div class="card-header">
+              <i class="fa-solid fa-mug-hot fa-fw"></i>Donate a coffee
+            </div>
+            <div class="card-body d-flex align-items-center justify-content-center">
+              <div class="donate btn-group">
+                <a class="btn" href="https://trakteer.id/jovanzers/tip" title="Click me!" style="background: #BE1E2D;" target="_blank">
+                  <i class="fab fa-paypal"></i>Trakteer </a>
+                <a class="btn" href="https://paypal.me/jovanzers" title="Click me!" style="background-color: #0079C1;" target="_blank">
+                  <i class="fab fa-paypal"></i>PayPal </a>
+                <div class="qrcode card" style="padding: 1rem 1rem 0 1rem;">
+                  <div style="padding-bottom: 1rem;">Thank you very much ❤</div>
+                  <img alt="Love" src="https://sharer.winten.my.id/static/img/love.png">
+                </div>
+                <a class="btn" href="https://saweria.co/jovanzers" title="Click me!" style="background: #f5a623FF;" target="_blank">
+                  <i class="fab fa-paypal"></i>Saweria </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="card text-white mb-3 h-100">
+            <div class="card-header">
+              <i class="fa-regular fa-snowflake fa-fw"></i>Sponsors
+            </div>
+            <div class="card-body d-flex flex-wrap gap-2 justify-content-evenly align-items-center">
+              <a href="https://akannikah.id" target="_blank" title="Akannikah.id">
+                <img class="image" alt="Akannikah.id" src="https://sharer.winten.my.id/static/img/Akannikah.id.png">
+              </a>
+              <a href="https://sips.my.id" target="_blank" title="SIPS">
+                <img class="image" alt="SIPS" src="https://sharer.winten.my.id/static/img/SIPS.png">
+              </a>
+              <a href="https://eksan127.github.io/paperplane" target="_blank" title="Paper Plane">
+                <img class="image" alt="Paper Plane" style="width: 32px;" src="https://sharer.winten.my.id/static/img/PaperPlane.png">
+              </a>
+              <a href="https://azhe.my.id" target="_blank" title="azhe403">azhe403</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+      <div class="modal fade" id="SearchModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="SearchModelLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="SearchModelLabel"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true"></span>
+            </button>
+            </div>
+            <div class="modal-body" id="modal-body-space">
+            </div>
+            <div class="modal-footer justify-content-center" id="modal-body-space-buttons">
+            </div>
+          </div>
+        </div>
+      </div>
+     </div>
+     <footer class="footer text-center mt-auto container ${uiConfig.footer_style_class}" style="${uiConfig.fixed_footer ?'position: fixed;': ''} ${uiConfig.hide_footer ? ' display:none;': ' display:block;'}">
+      <div class="container" style="padding-top: 15px;">
+      <div class="row">
+      <div class="col-lg-4 col-md-12 text-lg-start">
+      © <script type="text/javascript">document.write(new Date().getFullYear())</script> <a href="${uiConfig.company_link}" target="_blank">${uiConfig.company_name}</a> with ❤️
+      ${uiConfig.credit ? '<p>Redesigned with <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart-fill" fill="red" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" /> </svg> by <a href="https://www.npmjs.com/package/@googledrive/index" target="_blank">TheFirstSpeedster</a>, based on Open Source Softwares.</p>' : ''}
+      </div>
+      <div class="col-lg-4 col-md-12">
+      <a href="${uiConfig.contact_link}" title="Please allow us up to 48 hours to process DMCA requests.">DMCA</a> ∙ <a href="${uiConfig.contact_link}">Contact</a>
+      </div>
+      <div class="col-lg-4 col-md-12 text-lg-end">
+        <p>
+          <a href="#"><img id="hits" src=""/></a>
+        </p>
+        <script>document.getElementById("hits").src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2F" + window.location.host + "&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false";</script>
+      </div>
+      </div>
+      </div>
+      </footer>
    </body>
   <script src="${uiConfig.jsdelivr_cdn_src}@${uiConfig.version}/assets/homepage.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
@@ -760,7 +1035,7 @@ const SearchFunction = {
 };
 
 const DriveFixedTerms = new(class {
-  default_file_fields = 'parents,id,name,mimeType,modifiedTime,createdTime,fileExtension,size,md5Checksum';
+  default_file_fields = 'parents,id,name,mimeType,modifiedTime,createdTime,fileExtension,thumbnailLink,size,md5Checksum';
   gd_root_type = {
     user_drive: 0,
     share_drive: 1
@@ -1483,7 +1758,10 @@ async function handleRequest(request, event) {
       if (type && type == 'folder') {
         const page_token = formdata.page_token || null;
         const page_index = formdata.page_index || 0;
+        const folder = await gd.findItemById(id);
         const details = await gd._list_gdrive_files(id, page_token, page_index);
+        details.fid = id;
+        details.name = folder.name;
         for (const file of details.data.files) {
           if (file.mimeType != 'application/vnd.google-apps.folder') {
             file.link = await generateLink(file.id, user_ip);
@@ -1497,6 +1775,7 @@ async function handleRequest(request, event) {
       }
       const details = await gd.findItemById(id)
       details.link = await generateLink(details.id, user_ip);
+      details.fid = id;
       details.id = formdata.id;
       details.parents[0] = null;
       return new Response(JSON.stringify(details), {});
@@ -1685,7 +1964,7 @@ async function apiRequest(request, gd, user_ip) {
 
   if (path.slice(-1) == '/') {
     let requestData = await request.json();
-    let list_result = await gd.request_list_of_files(
+    let [list_result, fid] = await gd.request_list_of_files(
       path,
       requestData.page_token || null,
       Number(requestData.page_index) || 0
@@ -1718,6 +1997,7 @@ async function apiRequest(request, gd, user_ip) {
 
       return {
         ...fileWithoutId,
+        fid: fid,
         id: id,
         driveId: driveId,
         mimeType: mimeType,
@@ -1968,7 +2248,7 @@ class googleDrive {
       };
     }
 
-    return result
+    return [result, id]
   }
 
   // listing files usign google drive api
