@@ -687,8 +687,8 @@ function append_files_to_fallback_list(path, files) {
 				${UI.display_drive_link ? `<a class="d-flex align-items-center" href="https://sharer.winten.my.id/f/${item['fid']}" target="_blank" title="via Google Drive">${gdrive_icon}</a>` : ``}
 				${UI.display_download ? `<a class="d-flex align-items-center" href="${p}" title="via Index"><i class="far fa-folder-open fa-lg"></i></a>` : ``}</div>`;
 			} else {
-				var totalsize = totalsize + Number(item.size);
-				item['size'] = formatFileSize(item['size']);
+				var totalsize = totalsize + Number(item.size || 0);
+				item['size'] = formatFileSize(item['size']) || '—';
 				var is_file = true
 				var epn = item.name;
 				var link = UI.second_domain_for_dl ? UI.downloaddomain + item.link : window.location.origin + item.link;
@@ -833,8 +833,8 @@ function append_files_to_list(path, files) {
 			${UI.display_drive_link ? `<a class="d-flex align-items-center" href="https://sharer.winten.my.id/f/${item['id']}" target="_blank" title="via Google Drive">${gdrive_icon}</a>` : ``}
 			${UI.display_download ? `<a class="d-flex align-items-center" href="${p}" title="via Index"><i class="far fa-folder-open fa-lg"></i></a>` : ``}</div>`;
 		} else {
-			var totalsize = totalsize + Number(item.size);
-			item['size'] = formatFileSize(item['size']);
+			var totalsize = totalsize + Number(item.size || 0);
+			item['size'] = formatFileSize(item['size']) || '—';
 			var is_file = true
 			var epn = item.name;
 			var link = UI.second_domain_for_dl ? UI.downloaddomain + item.link : window.location.origin + item.link;
@@ -854,7 +854,6 @@ function append_files_to_list(path, files) {
 				});
 			}
 			var ext = item.fileExtension
-      console.log(ext)
 			//if ("|html|php|css|go|java|js|json|txt|sh|md|mp4|webm|avi|bmp|jpg|jpeg|png|gif|m4a|mp3|flac|wav|ogg|mpg|mpeg|mkv|rm|rmvb|mov|wmv|asf|ts|flv|pdf|".indexOf(`|${ext}|`) >= 0) {
 			//targetFiles.push(filepath);
 			pn += "?a=view";
@@ -1124,8 +1123,9 @@ function append_search_result_to_list(files) {
 				${UI.display_download ? `<a class="d-flex align-items-center" href="#" title="via Index" onclick="onSearchResultItemClick('${item['id']}', false, ${JSON.stringify(item).replace(/"/g, "&quot;")})" data-bs-toggle="modal" data-bs-target="#SearchModel"><i class="far fa-folder-open fa-lg"></i></a>` : ``}</div>`;
 			} else {
 				var is_file = true;
-				var totalsize = totalsize + Number(item.size);
-				item['size'] = formatFileSize(item['size']);
+				var totalsize = totalsize + Number(item.size || 0);
+				item['size'] = formatFileSize(item['size']) || '—';
+				item['md5Checksum'] = item['md5Checksum'] || '—';
 				var ext = item.fileExtension
 				var link = UI.second_domain_for_dl ? UI.downloaddomain + item.link : window.location.origin + item.link;
 				html += `<div class="list-group-item list-group-item-action d-flex justify-content-start align-items-center flex-md-nowrap flex-wrap justify-content-md-between column-gap-2" gd-type="$item['mimeType']}">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}<a href="#" onclick="onSearchResultItemClick('${item['id']}', true, ${JSON.stringify(item).replace(/"/g, "&quot;")})" data-bs-toggle="modal" data-bs-target="#SearchModel" class="countitems size_items w-100 d-flex align-items-start align-items-xl-center gap-2" style="text-decoration: none; color: ${UI.css_a_tag_color};"><span>`
@@ -1317,10 +1317,9 @@ async function fallback(id, type) {
 			.then(function(obj) {
 				console.log(obj);
 				title(obj.name);
-				var mimeType = obj.mimeType;
-				var fileExtension = obj.fileExtension.toLowerCase();
-				var md5Checksum = obj.md5Checksum;
-				var modifiedTime = utc2jakarta(obj.modifiedTime);
+				const mimeType = obj.mimeType;
+				const fileExtension = obj.fileExtension ? obj.fileExtension.toLowerCase() : 'GoogleApps';
+				const modifiedTime = utc2jakarta(obj.modifiedTime);
 				const code = ["php", "css", "go", "java", "js", "json", "txt", "sh", "md", "html", "xml", "py", "rb", "c", "cpp", "h", "hpp"];
 				const video = ["mp4", "webm", "avi", "mpg", "mpeg", "mkv", "rm", "rmvb", "mov", "wmv", "asf", "ts", "flv", "3gp", "m4v"];
 				const audio = ["mp3", "flac", "wav", "ogg", "m4a", "aac", "wma", "alac"];
@@ -1328,9 +1327,10 @@ async function fallback(id, type) {
 					window.location.href = window.location.pathname + "/";
 				} else if (fileExtension) {
 					const name = obj.name;
-					const bytes = obj.size;
+					const bytes = obj.size || 0;
+					const md5Checksum = obj.md5Checksum || '—';
+					const size = formatFileSize(obj.size) || '—';
 					const encoded_name = encodeURIComponent(name);
-					const size = formatFileSize(obj.size);
 					const url = UI.second_domain_for_dl ? UI.downloaddomain + obj.link : window.location.origin + obj.link;
 					const file_id = obj.fid;
 					var poster = obj.thumbnailLink ? obj.thumbnailLink.replace("s220", "s0") : null;
@@ -1388,10 +1388,9 @@ async function file(path) {
 		})
 		.then(function(obj) {
 			console.log(obj);
-			var mimeType = obj.mimeType;
-			var fileExtension = obj.fileExtension.toLowerCase();
-			var md5Checksum = obj.md5Checksum;
-			var modifiedTime = utc2jakarta(obj.modifiedTime);
+			const mimeType = obj.mimeType;
+			const modifiedTime = utc2jakarta(obj.modifiedTime);
+			const fileExtension = obj.fileExtension ? obj.fileExtension.toLowerCase() : 'GoogleApps';
 			const code = ["php", "css", "go", "java", "js", "json", "txt", "sh", "md", "html", "xml", "py", "rb", "c", "cpp", "h", "hpp"];
 			const video = ["mp4", "webm", "avi", "mpg", "mpeg", "mkv", "rm", "rmvb", "mov", "wmv", "asf", "ts", "flv", "3gp", "m4v"];
 			const audio = ["mp3", "flac", "wav", "ogg", "m4a", "aac", "wma", "alac"];
@@ -1399,9 +1398,10 @@ async function file(path) {
 				window.location.href = window.location.pathname + "/";
 			} else if (fileExtension) {
 				const name = obj.name;
-				const bytes = obj.size;
+				const bytes = obj.size || 0;
+				const md5Checksum = obj.md5Checksum || '—';
+				const size = formatFileSize(obj.size) || '—';
 				const encoded_name = encodeURIComponent(name);
-				const size = formatFileSize(obj.size);
 				const url = UI.second_domain_for_dl ? UI.downloaddomain + obj.link : window.location.origin + obj.link;
 				const file_id = obj.id;
 				var poster = obj.thumbnailLink ? obj.thumbnailLink.replace("s220", "s0") : null;
@@ -1463,7 +1463,7 @@ function file_others(name, encoded_name, size, poster, url, mimeType, md5Checksu
 			<i class="fas fa-file-alt fa-fw"></i>File Information
 		</div>
 		<div class="card-body row g-3">
-			<div class="col-lg-4 col-md-12">${poster ? `
+			<div class="col-lg-4 col-md-12">${poster && !mimeType.startsWith('application/vnd.google-apps') ? `
 				<div id="preview" class="h-100 border border-dark rounded d-flex justify-content-center align-items-center position-relative" style="--bs-border-opacity: .5; min-height: 200px;">
 					<div id="preview_spinner" class="spinner-border m-5" role="status"><span class="sr-only"></span></div>
 					<div id="overlay" class="overlay border border-dark rounded d-flex justify-content-center align-items-center flex-column gap-3 pt-4 pb-4" style="--bs-border-opacity: .5; opacity: 0;">
@@ -1513,7 +1513,7 @@ function file_others(name, encoded_name, size, poster, url, mimeType, md5Checksu
 								<i class="fa-solid fa-file-circle-check fa-fw"></i>
 								<span class="tth">Checksum</span>
 							</th>
-							<td>MD5: <code>${md5Checksum ? md5Checksum : '-'}</code>
+							<td>MD5: <code>${md5Checksum}</code>
 							</td>
 						</tr>
 					</tbody>
@@ -1547,7 +1547,7 @@ function file_others(name, encoded_name, size, poster, url, mimeType, md5Checksu
 	var btn = `<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>`;
 	$('#modal-body-space').html(preview);
 	$('#modal-body-space-buttons').html(btn);
-	if (poster) {
+	if (poster && !mimeType.startsWith('application/vnd.google-apps')) {
 		// Create a new image element
 		var img = new Image();
 		// Set up event handlers for image load and error
