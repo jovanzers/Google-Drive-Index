@@ -729,6 +729,8 @@ function append_files_to_fallback_list(path, files) {
 					html += markdown_icon
 				} else if ("|pdf|".indexOf(`|${ext}|`) >= 0) {
 					html += pdf_icon
+				} else if (item.mimeType.startsWith('application/vnd.google-apps.')) {
+					html += `<img src="${item.iconLink}" class="d-flex" style="width: 1.24rem; margin-left: 0.12rem; margin-right: 0.12rem;">`
 				} else {
 					html += file_icon
 				}
@@ -875,7 +877,9 @@ function append_files_to_list(path, files) {
         html += markdown_icon
       } else if ("|pdf|".indexOf(`|${ext}|`) >= 0) {
         html += pdf_icon
-      } else {
+      } else if (item.mimeType.startsWith('application/vnd.google-apps.')) {
+		html += `<img src="${item.iconLink}" class="d-flex" style="width: 1.24rem; margin-left: 0.12rem; margin-right: 0.12rem;">`
+	  } else {
         html += file_icon
       }
 
@@ -1144,6 +1148,8 @@ function append_search_result_to_list(files) {
 					html += markdown_icon
 				} else if ("|pdf|".indexOf(`|${ext}|`) >= 0) {
 					html += pdf_icon
+				} else if (item.mimeType.startsWith('application/vnd.google-apps.')) {
+					html += `<img src="${item.iconLink}" class="d-flex" style="width: 1.24rem; margin-left: 0.12rem; margin-right: 0.12rem;">`
 				} else {
 					html += file_icon
 				}
