@@ -1975,7 +1975,7 @@ function file_audio(name, encoded_name, size, url, mimeType, md5Checksum, modifi
 
 	// Load Video.js and initialize the player
 	var videoJsScript = document.createElement('script');
-	videoJsScript.src = 'https://vjs.zencdn.net/' + UI.videojs_version + '/video.min.js';
+	videoJsScript.src = 'https://vjs.zencdn.net/' + player_config.videojs_version + '/video.min.js';
 	videoJsScript.onload = function() {
 		// Video.js is loaded, initialize the player
 		const player = videojs('aplayer');
@@ -1983,7 +1983,7 @@ function file_audio(name, encoded_name, size, url, mimeType, md5Checksum, modifi
 	document.head.appendChild(videoJsScript);
 
 	var videoJsStylesheet = document.createElement('link');
-	videoJsStylesheet.href = 'https://vjs.zencdn.net/' + UI.videojs_version + '/video-js.css';
+	videoJsStylesheet.href = 'https://vjs.zencdn.net/' + player_config.videojs_version + '/video-js.css';
 	videoJsStylesheet.rel = 'stylesheet';
 	document.head.appendChild(videoJsStylesheet);
 }
