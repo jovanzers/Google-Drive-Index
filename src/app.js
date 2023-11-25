@@ -1130,7 +1130,7 @@ function append_search_result_to_list(files) {
 				var totalsize = totalsize + Number(item.size || 0);
 				item['size'] = formatFileSize(item['size']) || '—';
 				item['md5Checksum'] = item['md5Checksum'] || '—';
-				var ext = item.fileExtension
+				var ext = item.fileExtension;
 				var link = UI.second_domain_for_dl ? UI.downloaddomain + item.link : window.location.origin + item.link;
 				html += `<div class="list-group-item list-group-item-action d-flex justify-content-start align-items-center flex-md-nowrap flex-wrap justify-content-md-between column-gap-2" gd-type="$item['mimeType']}">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}<a href="#" onclick="onSearchResultItemClick('${item['id']}', true, ${JSON.stringify(item).replace(/"/g, "&quot;")})" data-bs-toggle="modal" data-bs-target="#SearchModel" class="countitems size_items w-100 d-flex align-items-start align-items-xl-center gap-2" style="text-decoration: none; color: ${UI.css_a_tag_color};"><span>`
 

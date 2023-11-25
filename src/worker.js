@@ -2369,7 +2369,7 @@ class googleDrive {
       params.pageToken = page_token;
     }
     params.q = `trashed = false AND mimeType != 'application/vnd.google-apps.shortcut' and mimeType != 'application/vnd.google-apps.form' and mimeType != 'application/vnd.google-apps.site' AND name !='.password' AND (${name_search_str})`;
-    params.fields = "nextPageToken, files(id, driveId, name, mimeType, size, modifiedTime, md5Checksum, iconLink)";
+    params.fields = "nextPageToken, files(id, driveId, name, mimeType, size, modifiedTime, md5Checksum, iconLink, fileExtension)";
     params.pageSize = this.authConfig.search_result_list_page_size;
     params.orderBy = 'folder, name, modifiedTime desc';
 
