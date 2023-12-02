@@ -679,11 +679,11 @@ function append_files_to_fallback_list(path, files) {
 		for (i in files) {
 			var item = files[i];
 			var p = "/fallback?id=" + item.id
-			item['modifiedTime'] = utc2jakarta(item['modifiedTime']);
+			item['createdTime'] = utc2jakarta(item['createdTime']);
 			// replace / with %2F
 			if (item['mimeType'] == 'application/vnd.google-apps.folder') {
 				html += `<div class="list-group-item list-group-item-action d-flex justify-content-start align-items-center flex-sm-nowrap flex-wrap justify-content-sm-between column-gap-2">`;
-				html += `<a href="${p}" style="color: ${UI.folder_text_color};" class="countitems w-100 d-flex align-items-start align-items-xl-center gap-2"><span>${folder_icon}</span>${item.name}</a> ${UI.display_time ? `<span class="badge bg-info my-1" style="margin-left: 2rem;"> ` + item['modifiedTime'] + ` </span>` : ``}
+				html += `<a href="${p}" style="color: ${UI.folder_text_color};" class="countitems w-100 d-flex align-items-start align-items-xl-center gap-2"><span>${folder_icon}</span>${item.name}</a> ${UI.display_time ? `<span class="badge bg-info my-1" style="margin-left: 2rem;"> ` + item['createdTime'] + ` </span>` : ``}
 				${UI.display_drive_link ? `<a class="d-flex align-items-center" href="https://sharer.winten.my.id/f/${item['fid']}" target="_blank" title="via Google Drive">${gdrive_icon}</a>` : ``}
 				${UI.display_download ? `<a class="d-flex align-items-center" href="${p}" title="via Index"><i class="far fa-folder-open fa-lg"></i></a>` : ``}</div>`;
 			} else {
@@ -735,7 +735,7 @@ function append_files_to_fallback_list(path, files) {
 					html += file_icon
 				}
 
-				html += `</span>${item.name}</a>${UI.display_size ? `<span class="badge bg-primary my-1" style="margin-left: 2rem;"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info"> ` + item['modifiedTime'] + ` </span>` : ``}
+				html += `</span>${item.name}</a>${UI.display_size ? `<span class="badge bg-primary my-1" style="margin-left: 2rem;"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info"> ` + item['createdTime'] + ` </span>` : ``}
 				${UI.display_drive_link ? `<a class="d-flex align-items-center" href="https://sharer.winten.my.id/f/${item['fid']}" target="_blank" title="via Google Drive">${gdrive_icon}</a>` : ``}
 				${UI.display_download ? `<a class="d-flex align-items-center" href="${link}" title="via Index"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="20" fill="currentColor" viewBox="0 0 16 16"> <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path></svg></a>` : ``}</div>`;
 			}
@@ -827,11 +827,11 @@ function append_files_to_list(path, files) {
 		var item = files[i];
 		var ep = encodeURIComponent(item.name).replace(/\//g, '%2F') + '/';
 		var p = path + ep.replace(new RegExp('#', 'g'), '%23').replace(new RegExp('\\?', 'g'), '%3F');
-		item['modifiedTime'] = utc2jakarta(item['modifiedTime']);
+		item['createdTime'] = utc2jakarta(item['createdTime']);
 		// replace / with %2F
 		if (item['mimeType'] == 'application/vnd.google-apps.folder') {
 			html += `<div class="list-group-item list-group-item-action d-flex justify-content-start align-items-center flex-sm-nowrap flex-wrap justify-content-sm-between column-gap-2">`;
-			html += `<a href="${p}" style="color: ${UI.folder_text_color};" class="countitems w-100 d-flex align-items-start align-items-xl-center gap-2"><span>${folder_icon}</span>${item.name}</a> ${UI.display_time ? `<span class="badge bg-info my-1" style="margin-left: 2rem;"> ` + item['modifiedTime'] + ` </span>` : ``}
+			html += `<a href="${p}" style="color: ${UI.folder_text_color};" class="countitems w-100 d-flex align-items-start align-items-xl-center gap-2"><span>${folder_icon}</span>${item.name}</a> ${UI.display_time ? `<span class="badge bg-info my-1" style="margin-left: 2rem;"> ` + item['createdTime'] + ` </span>` : ``}
 			${UI.display_drive_link ? `<a class="d-flex align-items-center" href="https://sharer.winten.my.id/f/${item['id']}" target="_blank" title="via Google Drive">${gdrive_icon}</a>` : ``}
 			${UI.display_download ? `<a class="d-flex align-items-center" href="${p}" title="via Index"><i class="far fa-folder-open fa-lg"></i></a>` : ``}</div>`;
 		} else {
@@ -883,7 +883,7 @@ function append_files_to_list(path, files) {
         html += file_icon
       }
 
-			html += `</span>${item.name}</a>${UI.display_size ? `<span class="badge bg-primary my-1" style="margin-left: 2rem;"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info"> ` + item['modifiedTime'] + ` </span>` : ``}
+			html += `</span>${item.name}</a>${UI.display_size ? `<span class="badge bg-primary my-1" style="margin-left: 2rem;"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info"> ` + item['createdTime'] + ` </span>` : ``}
 			${UI.display_drive_link ? `<a class="d-flex align-items-center" href="https://sharer.winten.my.id/f/${item['id']}" target="_blank" title="via Google Drive">${gdrive_icon}</a>` : ``}
 			${UI.display_download ? `<a class="d-flex align-items-center" href="${link}" title="via Index"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="20" fill="currentColor" viewBox="0 0 16 16"> <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path></svg></a>` : ``}</div>`;
 		}
@@ -1119,10 +1119,10 @@ function append_search_result_to_list(files) {
 			if (item['size'] == undefined) {
 				item['size'] = "";
 			}
-			item['modifiedTime'] = utc2jakarta(item['modifiedTime']);
+			item['createdTime'] = utc2jakarta(item['createdTime']);
 			if (item['mimeType'] == 'application/vnd.google-apps.folder') {
 				html += `<div class="list-group-item list-group-item-action d-flex justify-content-start align-items-center flex-sm-nowrap flex-wrap justify-content-sm-between column-gap-2">`;
-				html += `<a href="#" class="countitems w-100 d-flex align-items-start align-items-xl-center gap-2" style="color: ${UI.folder_text_color};" onclick="onSearchResultItemClick('${item['id']}', false, ${JSON.stringify(item).replace(/"/g, "&quot;")})" data-bs-toggle="modal" data-bs-target="#SearchModel"><span>${folder_icon}</span>${item.name}</a> ${UI.display_time ? `<span class="badge bg-info my-1" style="margin-left: 2rem;"> ` + item['modifiedTime'] + ` </span>` : ``}
+				html += `<a href="#" class="countitems w-100 d-flex align-items-start align-items-xl-center gap-2" style="color: ${UI.folder_text_color};" onclick="onSearchResultItemClick('${item['id']}', false, ${JSON.stringify(item).replace(/"/g, "&quot;")})" data-bs-toggle="modal" data-bs-target="#SearchModel"><span>${folder_icon}</span>${item.name}</a> ${UI.display_time ? `<span class="badge bg-info my-1" style="margin-left: 2rem;"> ` + item['createdTime'] + ` </span>` : ``}
 				${UI.display_drive_link ? `<a class="d-flex align-items-center" href="https://sharer.winten.my.id/f/${item['fid']}" target="_blank" title="via Google Drive">${gdrive_icon}</a>` : ``}
 				${UI.display_download ? `<a class="d-flex align-items-center" href="#" title="via Index" onclick="onSearchResultItemClick('${item['id']}', false, ${JSON.stringify(item).replace(/"/g, "&quot;")})" data-bs-toggle="modal" data-bs-target="#SearchModel"><i class="far fa-folder-open fa-lg"></i></a>` : ``}</div>`;
 			} else {
@@ -1154,7 +1154,7 @@ function append_search_result_to_list(files) {
 					html += file_icon
 				}
 
-				html += `</span>${item.name}</a>${UI.display_size ? `<span class="badge bg-primary my-1" style="margin-left: 2rem;"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info"> ` + item['modifiedTime'] + ` </span>` : ``}
+				html += `</span>${item.name}</a>${UI.display_size ? `<span class="badge bg-primary my-1" style="margin-left: 2rem;"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info"> ` + item['createdTime'] + ` </span>` : ``}
 				${UI.display_drive_link ? `<a class="d-flex align-items-center" href="https://sharer.winten.my.id/f/${item['fid']}" target="_blank" title="via Google Drive">${gdrive_icon}</a>` : ``}
 				${UI.display_download ? `<a class="d-flex align-items-center" href="${link}" title="via Index"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path> <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path></svg></a>` : ``}</div>`;
 
@@ -1222,7 +1222,7 @@ function onSearchResultItemClick(file_id, can_preview, file) {
 					<i class="fa-regular fa-clock fa-fw"></i>
 					<span class="tth">Datetime</span>
 				</th>
-				<td>${file['modifiedTime']}</td>
+				<td>${file['createdTime']}</td>
 			</tr>
 			<tr>
 				<th>
@@ -1289,7 +1289,7 @@ function onSearchResultItemClick(file_id, can_preview, file) {
 }
 
 function get_file(path, file, callback) {
-	var key = "file_path_" + path + file['modifiedTime'];
+	var key = "file_path_" + path + file['createdTime'];
 	var data = localStorage.getItem(key);
 	if (data != undefined) {
 		return callback(data);
@@ -1325,7 +1325,7 @@ async function fallback(id, type) {
 				title(obj.name);
 				const mimeType = obj.mimeType;
 				const fileExtension = obj.fileExtension ? obj.fileExtension.toLowerCase() : 'GoogleApps';
-				const modifiedTime = utc2jakarta(obj.modifiedTime);
+				const createdTime = utc2jakarta(obj.createdTime);
 				const code = ["php", "css", "go", "java", "js", "json", "txt", "sh", "md", "html", "xml", "py", "rb", "c", "cpp", "h", "hpp"];
 				const video = ["mp4", "webm", "avi", "mpg", "mpeg", "mkv", "rm", "rmvb", "mov", "wmv", "asf", "ts", "flv", "3gp", "m4v"];
 				const audio = ["mp3", "flac", "wav", "ogg", "m4a", "aac", "wma", "alac"];
@@ -1342,13 +1342,13 @@ async function fallback(id, type) {
 					var poster = obj.thumbnailLink ? obj.thumbnailLink.replace("s220", "s0") : null;
 					if (mimeType.includes("video") || video.includes(fileExtension)) {
 						var poster = obj.thumbnailLink ? poster : UI.poster;
-						file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum, modifiedTime, file_id, cookie_folder_id);
+						file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum, createdTime, file_id, cookie_folder_id);
 					} else if (mimeType.includes("audio") || audio.includes(fileExtension)) {
-						file_audio(name, encoded_name, size, url, mimeType, md5Checksum, modifiedTime, file_id, cookie_folder_id);
+						file_audio(name, encoded_name, size, url, mimeType, md5Checksum, createdTime, file_id, cookie_folder_id);
 					} else if (code.includes(fileExtension)) {
-						file_code(name, encoded_name, size, bytes, poster, url, mimeType, md5Checksum, modifiedTime, file_id, cookie_folder_id);
+						file_code(name, encoded_name, size, bytes, poster, url, mimeType, md5Checksum, createdTime, file_id, cookie_folder_id);
 					} else {
-						file_others(name, encoded_name, size, poster, url, mimeType, md5Checksum, modifiedTime, file_id, cookie_folder_id);
+						file_others(name, encoded_name, size, poster, url, mimeType, md5Checksum, createdTime, file_id, cookie_folder_id);
 					}
 				}
 			})
@@ -1395,7 +1395,7 @@ async function file(path) {
 		.then(function(obj) {
 			console.log(obj);
 			const mimeType = obj.mimeType;
-			const modifiedTime = utc2jakarta(obj.modifiedTime);
+			const createdTime = utc2jakarta(obj.createdTime);
 			const fileExtension = obj.fileExtension ? obj.fileExtension.toLowerCase() : 'GoogleApps';
 			const code = ["php", "css", "go", "java", "js", "json", "txt", "sh", "md", "html", "xml", "py", "rb", "c", "cpp", "h", "hpp"];
 			const video = ["mp4", "webm", "avi", "mpg", "mpeg", "mkv", "rm", "rmvb", "mov", "wmv", "asf", "ts", "flv", "3gp", "m4v"];
@@ -1413,13 +1413,13 @@ async function file(path) {
 				var poster = obj.thumbnailLink ? obj.thumbnailLink.replace("s220", "s0") : null;
 				if (mimeType.includes("video") || video.includes(fileExtension)) {
 					var poster = obj.thumbnailLink ? poster : UI.poster;
-					file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum, modifiedTime, file_id, cookie_folder_id);
+					file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum, createdTime, file_id, cookie_folder_id);
 				} else if (mimeType.includes("audio") || audio.includes(fileExtension)) {
-					file_audio(name, encoded_name, size, url, mimeType, md5Checksum, modifiedTime, file_id, cookie_folder_id);
+					file_audio(name, encoded_name, size, url, mimeType, md5Checksum, createdTime, file_id, cookie_folder_id);
 				} else if (code.includes(fileExtension)) {
-					file_code(name, encoded_name, size, bytes, poster, url, mimeType, md5Checksum, modifiedTime, file_id, cookie_folder_id);
+					file_code(name, encoded_name, size, bytes, poster, url, mimeType, md5Checksum, createdTime, file_id, cookie_folder_id);
 				} else {
-					file_others(name, encoded_name, size, poster, url, mimeType, md5Checksum, modifiedTime, file_id, cookie_folder_id);
+					file_others(name, encoded_name, size, poster, url, mimeType, md5Checksum, createdTime, file_id, cookie_folder_id);
 				}
 			}
 		})
@@ -1459,7 +1459,7 @@ function generateCopyFileBox(file_id, cookie_folder_id) {
 }
 
 // Document display |zip|.exe/others direct downloads
-function file_others(name, encoded_name, size, poster, url, mimeType, md5Checksum, modifiedTime, file_id, cookie_folder_id) {
+function file_others(name, encoded_name, size, poster, url, mimeType, md5Checksum, createdTime, file_id, cookie_folder_id) {
 	const copyFileBox = UI.allow_file_copy ? generateCopyFileBox(file_id, cookie_folder_id) : '';
 
 	// Add the container and card elements // wait until image is loaded and then hide spinner
@@ -1498,7 +1498,7 @@ function file_others(name, encoded_name, size, poster, url, mimeType, md5Checksu
 								<i class="fa-regular fa-clock fa-fw"></i>
 								<span class="tth">Datetime</span>
 							</th>
-							<td>${modifiedTime}</td>
+							<td>${createdTime}</td>
 						</tr>
 						<tr>
 							<th>
@@ -1573,7 +1573,7 @@ function file_others(name, encoded_name, size, poster, url, mimeType, md5Checksu
 	}
 }
 
-function file_code(name, encoded_name, size, bytes, poster, url, mimeType, md5Checksum, modifiedTime, file_id, cookie_folder_id) {
+function file_code(name, encoded_name, size, bytes, poster, url, mimeType, md5Checksum, createdTime, file_id, cookie_folder_id) {
 	const copyFileBox = UI.allow_file_copy ? generateCopyFileBox(file_id, cookie_folder_id) : '';
 	// Add the container and card elements
 	var content = `
@@ -1610,7 +1610,7 @@ function file_code(name, encoded_name, size, bytes, poster, url, mimeType, md5Ch
 								<i class="fa-regular fa-clock fa-fw"></i>
 								<span class="tth">Datetime</span>
 							</th>
-							<td>${modifiedTime}</td>
+							<td>${createdTime}</td>
 						</tr>
 						<tr>
 							<th>
@@ -1706,7 +1706,7 @@ function file_code(name, encoded_name, size, bytes, poster, url, mimeType, md5Ch
 
 
 // Document display video |mp4|webm|avi|
-function file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum, modifiedTime, file_id, cookie_folder_id) {
+function file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum, createdTime, file_id, cookie_folder_id) {
 	var url_base64 = btoa(url);
 	const copyFileBox = UI.allow_file_copy ? generateCopyFileBox(file_id, cookie_folder_id) : '';
 	let player
@@ -1763,7 +1763,7 @@ function file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum
 								<i class="fa-regular fa-clock fa-fw"></i>
 								<span class="tth">Datetime</span>
 							</th>
-							<td>${modifiedTime}</td>
+							<td>${createdTime}</td>
 						</tr>
 						<tr>
 							<th>
@@ -1880,7 +1880,7 @@ function file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum
 
 
 // File display Audio |mp3|flac|m4a|wav|ogg|
-function file_audio(name, encoded_name, size, url, mimeType, md5Checksum, modifiedTime, file_id, cookie_folder_id) {
+function file_audio(name, encoded_name, size, url, mimeType, md5Checksum, createdTime, file_id, cookie_folder_id) {
 	var url_base64 = btoa(url);
 	const copyFileBox = UI.allow_file_copy ? generateCopyFileBox(file_id, cookie_folder_id) : '';
 
@@ -1917,7 +1917,7 @@ function file_audio(name, encoded_name, size, url, mimeType, md5Checksum, modifi
 								<i class="fa-regular fa-clock fa-fw"></i>
 								<span class="tth">Datetime</span>
 							</th>
-							<td>${modifiedTime}</td>
+							<td>${createdTime}</td>
 						</tr>
 						<tr>
 							<th>

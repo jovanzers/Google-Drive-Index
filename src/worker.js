@@ -92,7 +92,7 @@ const uiConfig = {
   "company_link": "https://telegram.dog/Telegram", // link of copyright name
   "credit": true, // Set this to true to give us credit
   "display_size": true, // Set this to false to hide display file size
-  "display_time": false, // Set this to false to hide display modified time for folder and files
+  "display_time": false, // Set this to false to hide display created time for folder and files
   "display_download": true, // Set this to false to hide download icon for folder and files on main index
   "display_drive_link": true, // This will add a Link Button to Google Drive of that particular file.
   "disable_player": false, // Set this to true to hide audio and video players
@@ -1053,7 +1053,7 @@ const SearchFunction = {
 };
 
 const DriveFixedTerms = new(class {
-  default_file_fields = 'parents,id,name,mimeType,modifiedTime,createdTime,fileExtension,thumbnailLink,size,md5Checksum';
+  default_file_fields = 'parents,id,name,mimeType,createdTime,fileExtension,thumbnailLink,size,md5Checksum';
   gd_root_type = {
     user_drive: 0,
     share_drive: 1
@@ -2219,7 +2219,7 @@ class googleDrive {
       'supportsAllDrives': true
     };
     params.q = `'${parent}' in parents and name = '${name}' and trashed = false and mimeType != 'application/vnd.google-apps.shortcut'`;
-    params.fields = "files(id, name, mimeType, size, createdTime, modifiedTime, iconLink, thumbnailLink, driveId, fileExtension, md5Checksum)";
+    params.fields = "files(id, name, mimeType, size, createdTime, iconLink, thumbnailLink, driveId, fileExtension, md5Checksum)";
     url += '?' + enQuery(params);
     let requestOption = await this.requestOptions();
     let response;
@@ -2281,8 +2281,8 @@ class googleDrive {
       'supportsAllDrives': true
     };
     params.q = `'${parent}' in parents and trashed = false AND name !='.password' and mimeType != 'application/vnd.google-apps.shortcut' and mimeType != 'application/vnd.google-apps.form' and mimeType != 'application/vnd.google-apps.site'`;
-    params.orderBy = 'folder, name, modifiedTime desc';
-    params.fields = "nextPageToken, files(id, name, mimeType, size, modifiedTime, driveId, kind, fileExtension, md5Checksum, iconLink)";
+    params.orderBy = 'folder, name, createdTime desc';
+    params.fields = "nextPageToken, files(id, name, mimeType, size, createdTime, driveId, kind, fileExtension, md5Checksum, iconLink)";
     params.pageSize = this.authConfig.files_list_page_size;
 
     if (page_token) {
@@ -2369,9 +2369,9 @@ class googleDrive {
       params.pageToken = page_token;
     }
     params.q = `trashed = false AND mimeType != 'application/vnd.google-apps.shortcut' and mimeType != 'application/vnd.google-apps.form' and mimeType != 'application/vnd.google-apps.site' AND name !='.password' AND (${name_search_str})`;
-    params.fields = "nextPageToken, files(id, driveId, name, mimeType, size, modifiedTime, md5Checksum, iconLink, fileExtension)";
+    params.fields = "nextPageToken, files(id, driveId, name, mimeType, size, createdTime, md5Checksum, iconLink, fileExtension)";
     params.pageSize = this.authConfig.search_result_list_page_size;
-    params.orderBy = 'folder, name, modifiedTime desc';
+    params.orderBy = 'folder, name, createdTime desc';
 
     let url = 'https://www.googleapis.com/drive/v3/files';
     url += '?' + enQuery(params);
