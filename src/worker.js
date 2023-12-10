@@ -2621,7 +2621,19 @@ async function download(id, range = '', inline) {
       },
     })
   }
+  let filename = file.name;
   let url = `https://www.googleapis.com/drive/v3/files/${id}?alt=media`;
+  const isGoogleDocument = file.mimeType.startsWith('application/vnd.google-apps.');
+  if (isGoogleDocument) {
+    // Handle other Google Document types
+    url = `https://www.googleapis.com/drive/v3/files/${id}/export?mimeType=application%2Fpdf`;
+    filename = `${file.name}.pdf`;
+    if (file.mimeType === 'application/vnd.google-apps.script') {
+      // Handle Google Apps Script
+      url = `https://www.googleapis.com/drive/v3/files/${id}/export?mimeType=application%2Fvnd.google-apps.script%2Bjson`;
+      filename = `${file.name}.json`;
+    }
+  }
   const requestOption = await drive.requestOptions();
   requestOption.headers['Range'] = range;
   if (!file.name) {
@@ -2647,7 +2659,7 @@ async function download(id, range = '', inline) {
     const {
       headers
     } = res = new Response(res.body, res)
-    headers.set("Content-Disposition", `attachment; filename="${file.name}"`);
+    headers.set("Content-Disposition", `attachment; filename="${filename}"`);
     headers.set("Content-Length", file.size);
     authConfig.enable_cors_file_down && headers.append('Access-Control-Allow-Origin', '*');
     inline === true && headers.set('Content-Disposition', 'inline');
