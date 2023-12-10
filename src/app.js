@@ -492,7 +492,9 @@ function list(path, id = '', fallback = false) {
 		</div>
 		<div id="list" class="list-group list-group-flush text-break">
 		</div>
-		<div class="card-footer text-center text-muted" id="count"><span class="number"></span> | <span class="totalsize"></span></div>
+		<div class="card-footer text-muted d-flex align-items-center gap-2" id="count">
+			<span class="number badge text-bg-dark">0 item</span><span class="totalsize badge text-bg-dark"></span>
+		</div>
 	</div>
   <div id="readme_md" style="display:none; padding: 20px 20px;"></div>
 </div>`;
@@ -973,7 +975,7 @@ function render_search_result_list() {
 		<div class="card-header"><i class="fas fa-search fa-fw"></i> Search results for <code>${model.q}</code></div>
 		<div id="list" class="list-group list-group-flush text-break">
 		</div>
-		<div class="card-footer text-center text-muted" id="count"><span class="number"></span> | <span class="totalsize"></span></div>
+		<div class="card-footer text-muted d-flex align-items-center gap-2" id="count"><span class="number badge text-bg-dark">0 item</span><span class="totalsize badge text-bg-dark"></span></div>
 	</div>
 	<div id="readme_md" style="display:none; padding: 20px 20px;"></div>`;
 	$('#content').html(content);

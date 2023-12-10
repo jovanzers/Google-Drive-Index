@@ -13,5 +13,5 @@ html += `<a href="/`+i+`:/" style="color: ${UI.folder_text_color};" class="list-
 	<path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"></path>
 	<path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"></path></svg></span>`+window.drive_names[i]+`</a>`;
 }
-html += `</div><div class="card-footer text-center text-muted" id="count">Total ${len} drives</div></div>`;
+html += `</div><div class="card-footer text-muted d-flex align-items-center gap-2"><span class="badge text-bg-dark">${len} drives</span></div></div>`;
 $('#list').html(html);
