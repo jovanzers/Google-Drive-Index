@@ -257,9 +257,9 @@ function title(path) {
 	// $('title').html(document.siteName + ' - ' + path);
 	var model = window.MODEL;
 	if (model.is_search_page)
-		$('title').html(`${drive_name} - Search results for ${model.q} `);
+		$('title').html(`Search: ${model.q} - ${UI.siteName}`);
 	else
-		$('title').html(`${drive_name} - ${path}`);
+		$('title').html(`${drive_name}: ${path} - ${UI.siteName}`);
 }
 
 // Render the navigation bar
