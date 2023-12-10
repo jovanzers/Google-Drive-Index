@@ -791,18 +791,18 @@ function append_files_to_fallback_list(path, files) {
 			total_items = $list.find('.countitems').length;
 			total_files = $list.find('.size_items').length;
 			if (total_items == 0) {
-				$('#count').removeClass('d-none').find('.number').text("Empty Folder");
+				$('#count').removeClass('d-none').find('.number').text("0 item");
 			} else if (total_items == 1) {
 				$('#count').removeClass('d-none').find('.number').text(total_items + " item");
 			} else {
 				$('#count').removeClass('d-none').find('.number').text(total_items + " items");
 			}
 			if (total_files == 0) {
-				$('#count').removeClass('d-none').find('.totalsize').text("Zero Files");
+				$('#count').removeClass('d-none').find('.totalsize').text("0 file");
 			} else if (total_files == 1) {
-				$('#count').removeClass('d-none').find('.totalsize').text(total_files + " File with Size " + total_size);
+				$('#count').removeClass('d-none').find('.totalsize').text(total_files + " file, total: " + total_size);
 			} else {
-				$('#count').removeClass('d-none').find('.totalsize').text(total_files + " Files with Size " + total_size);
+				$('#count').removeClass('d-none').find('.totalsize').text(total_files + " files, total: " + total_size);
 			}
 		}
 	} catch (e) {
@@ -939,18 +939,18 @@ function append_files_to_list(path, files) {
 		total_items = $list.find('.countitems').length;
 		total_files = $list.find('.size_items').length;
 		if (total_items == 0) {
-			$('#count').removeClass('d-none').find('.number').text("Empty Folder");
+			$('#count').removeClass('d-none').find('.number').text("0 item");
 		} else if (total_items == 1) {
 			$('#count').removeClass('d-none').find('.number').text(total_items + " item");
 		} else {
 			$('#count').removeClass('d-none').find('.number').text(total_items + " items");
 		}
 		if (total_files == 0) {
-			$('#count').removeClass('d-none').find('.totalsize').text("Zero Files");
+			$('#count').removeClass('d-none').find('.totalsize').text("0 file");
 		} else if (total_files == 1) {
-			$('#count').removeClass('d-none').find('.totalsize').text(total_files + " File with Size " + total_size);
+			$('#count').removeClass('d-none').find('.totalsize').text(total_files + " file, total: " + total_size);
 		} else {
-			$('#count').removeClass('d-none').find('.totalsize').text(total_files + " Files with Size " + total_size);
+			$('#count').removeClass('d-none').find('.totalsize').text(total_files + " files, total: " + total_size);
 		}
 	}
 }
@@ -1173,18 +1173,18 @@ function append_search_result_to_list(files) {
 			total_items = $list.find('.countitems').length;
 			total_files = $list.find('.size_items').length;
 			if (total_items == 0) {
-				$('#count').removeClass('d-none').find('.number').text("No Results");
+				$('#count').removeClass('d-none').find('.number').text("0 item");
 			} else if (total_items == 1) {
 				$('#count').removeClass('d-none').find('.number').text(total_items + " item");
 			} else {
 				$('#count').removeClass('d-none').find('.number').text(total_items + " items");
 			}
 			if (total_files == 0) {
-				$('#count').removeClass('d-none').find('.totalsize').text("Found Nothing");
+				$('#count').removeClass('d-none').find('.totalsize').text("0 file");
 			} else if (total_files == 1) {
-				$('#count').removeClass('d-none').find('.totalsize').text(total_files + " File with Size " + total_size);
+				$('#count').removeClass('d-none').find('.totalsize').text(total_files + " file, total: " + total_size);
 			} else {
-				$('#count').removeClass('d-none').find('.totalsize').text(total_files + " Files with Size " + total_size);
+				$('#count').removeClass('d-none').find('.totalsize').text(total_files + " files, total: " + total_size);
 			}
 		}
 	} catch (e) {
