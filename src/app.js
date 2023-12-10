@@ -2012,7 +2012,7 @@ function utc2jakarta(utc_datetime) {
 	var minute = ('0' + jakartaDate.getMinutes()).slice(-2);
 	var second = ('0' + jakartaDate.getSeconds()).slice(-2);
 
-	return `${date}-${month}-${year} ${hour}:${minute}:${second}`;
+	return `${date}-${month}-${year} ${hour}:${minute}`;
 }
 
 
