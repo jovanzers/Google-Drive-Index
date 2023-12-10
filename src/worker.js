@@ -1982,7 +1982,7 @@ async function apiRequest(request, gd, user_ip) {
 
   if (path.slice(-1) == '/') {
     let requestData = await request.json();
-    let [list_result, fid] = await gd.request_list_of_files(
+    let list_result = await gd.request_list_of_files(
       path,
       requestData.page_token || null,
       Number(requestData.page_index) || 0
@@ -2015,9 +2015,9 @@ async function apiRequest(request, gd, user_ip) {
 
       return {
         ...fileWithoutId,
-        fid: fid,
-        id: id,
-        driveId: driveId,
+        fid: id,
+        id: encryptedId,
+        driveId: encryptedDriveId,
         mimeType: mimeType,
         link: link,
       };
@@ -2256,6 +2256,7 @@ class googleDrive {
     let id = await this.findPathId(path);
     let result = await this._list_gdrive_files(id, page_token, page_index);
     let data = result.data;
+    result.fid = id;
     if (result.nextPageToken && data.files) {
       if (!Array.isArray(this.path_children_cache[path])) {
         this.path_children_cache[path] = []
@@ -2266,7 +2267,7 @@ class googleDrive {
       };
     }
 
-    return [result, id]
+    return result
   }
 
   // listing files usign google drive api
