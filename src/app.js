@@ -80,10 +80,10 @@ function init() {
             	</div>
             	<div class="card-body d-flex flex-wrap gap-2 justify-content-evenly align-items-center">
 					<a href="https://akannikah.id" target="_blank" title="Akannikah.id">
-						<img class="image" alt="Akannikah.id" src="https://sharer.winten.my.id/static/img/Akannikah.id.png">
+						<img class="image" alt="Akannikah.id" style="height: 32px;" src="https://sharer.winten.my.id/static/img/Akannikah.id.png">
 					</a>
-					<a href="https://sips.my.id" target="_blank" title="SIPS">
-						<img class="image" alt="SIPS" src="https://sharer.winten.my.id/static/img/SIPS.png">
+					<a href="https://merakit.co.id" target="_blank" title="Merakit Indonesia">
+						<img class="image" alt="Merakit Indonesia" src="https://sharer.winten.my.id/static/img/merakit.co.id.png">
 					</a>
 					<a href="https://eksan127.github.io/paperplane" target="_blank" title="Paper Plane">
 						<img class="image" alt="Paper Plane" style="width: 32px;" src="https://sharer.winten.my.id/static/img/PaperPlane.png">
