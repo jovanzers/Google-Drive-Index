@@ -1847,7 +1847,7 @@ async function handleRequest(request, event) {
     let range = request.headers.get('Range');
     const inline = 'true' === url.searchParams.get('inline');
     if (gd.root.protect_file_link && enable_login) return login();
-    return download(file.id, range, inline);
+    return download(file?.id, range, inline);
 
   }
 
@@ -2464,7 +2464,11 @@ class googleDrive {
     let url = `https://www.googleapis.com/drive/v3/files/${id}?fields=${DriveFixedTerms.default_file_fields}${is_user_drive ? '' : '&supportsAllDrives=true'}`;
     let requestOption = await this.requestOptions();
     let res = await fetch(url, requestOption);
-    return await res.json()
+    if (res.ok) {
+      return await res.json()
+    } else {
+      return res;
+    }
   }
 
   async findPathId(path) {
@@ -2607,10 +2611,19 @@ class googleDrive {
 // end of class googleDrive
 const drive = new googleDrive(authConfig, 0);
 async function download(id, range = '', inline) {
+  let file = await drive.findItemById(id);
+  const second_domain_for_dl = `${uiConfig.second_domain_for_dl}`
+  if (file.status == 404 || second_domain_for_dl == 'true') {
+    const res = await fetch(`${uiConfig.jsdelivr_cdn_src}@${uiConfig.version}/assets/disable_download.html`);
+    return new Response(await res.text(), {
+      headers: {
+        "content-type": "text/html;charset=UTF-8",
+      },
+    })
+  }
   let url = `https://www.googleapis.com/drive/v3/files/${id}?alt=media`;
   const requestOption = await drive.requestOptions();
   requestOption.headers['Range'] = range;
-  let file = await drive.findItemById(id);
   if (!file.name) {
     return new Response(`{"error":"Unable to Find this File, Try Again."}`, {
       status: 500,
@@ -2630,15 +2643,7 @@ async function download(id, range = '', inline) {
     sleep(800 * (i + 1));
     console.log(res);
   }
-  const second_domain_for_dl = `${uiConfig.second_domain_for_dl}`
-  if (second_domain_for_dl == 'true') {
-    const res = await fetch(`${uiConfig.jsdelivr_cdn_src}@${uiConfig.version}/assets/disable_download.html`);
-    return new Response(await res.text(), {
-      headers: {
-        "content-type": "text/html;charset=UTF-8",
-      },
-    })
-  } else if (res.ok) {
+  if (res.ok) {
     const {
       headers
     } = res = new Response(res.body, res)
@@ -2647,13 +2652,6 @@ async function download(id, range = '', inline) {
     authConfig.enable_cors_file_down && headers.append('Access-Control-Allow-Origin', '*');
     inline === true && headers.set('Content-Disposition', 'inline');
     return res;
-  } else if (res.status == 404) {
-    return new Response(not_found, {
-      status: 404,
-      headers: {
-        "content-type": "text/html;charset=UTF-8",
-      },
-    })
   } else if (res.status == 403) {
     const details = await res.text()
     return new Response(details, {
