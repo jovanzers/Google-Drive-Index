@@ -1359,7 +1359,7 @@ async function fallback(id, type) {
             <p>The requested URL was not found on this server. That’s all we know.</p>
             <div class="card-text text-center">
               <div class="btn-group text-center">
-                <a href="/" type="button" class="btn btn-primary">Homepage</a>
+                <a href="/" type="button" class="btn btn-success">Homepage</a>
               </div>
             </div><br>
           </div>`;
@@ -1430,7 +1430,7 @@ async function file(path) {
             <p>The requested URL was not found on this server. That’s all we know.</p>
             <div class="card-text text-center">
               <div class="btn-group text-center">
-                <a href="/" type="button" class="btn btn-primary">Homepage</a>
+                <a href="/" type="button" class="btn btn-success">Homepage</a>
               </div>
             </div><br>
           </div>`;
