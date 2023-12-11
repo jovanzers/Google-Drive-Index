@@ -1364,17 +1364,16 @@ async function fallback(id, type) {
 			})
 			.catch(function(error) {
 				var content = `
-		  <div class="card text-center">
-            <div class="card-body text-center">
-              <div class="${UI.file_view_alert_class}" id="file_details" role="alert"><b>404.</b> That’s an error. ` + error + `</div>
-            </div>
-            <p>The requested URL was not found on this server. That’s all we know.</p>
-            <div class="card-text text-center">
-              <div class="btn-group text-center">
-                <a href="/" type="button" class="btn btn-success">Homepage</a>
-              </div>
-            </div><br>
-          </div>`;
+				<div class="card">
+					<div class="card-header ${UI.file_view_alert_class}">
+						<i class="fas fa-file-alt fa-fw"></i>File Information
+					</div>
+					<div class="card-body text-center">
+						<div class="${UI.file_view_alert_class}" id="file_details" role="alert"><b>404.</b> That’s an error. ` + error + `</div>
+						<p>The requested URL was not found on this server. That’s all we know.</p>
+						<a href="/" type="button" class="btn btn-success"><i class="fas fa-home fa-fw"></i>Home</a>
+					</div>
+				</div>`;
 				$("#content").html(content);
 			});
 	} else { // is a folder id
@@ -1435,17 +1434,16 @@ async function file(path) {
 		})
 		.catch(function(error) {
 			var content = `
-		  <div class="card text-center">
-            <div class="card-body text-center">
-              <div class="${UI.file_view_alert_class}" id="file_details" role="alert"><b>404.</b> That’s an error. ` + error + `</div>
-            </div>
-            <p>The requested URL was not found on this server. That’s all we know.</p>
-            <div class="card-text text-center">
-              <div class="btn-group text-center">
-                <a href="/" type="button" class="btn btn-success">Homepage</a>
-              </div>
-            </div><br>
-          </div>`;
+			<div class="card">
+				<div class="card-header ${UI.file_view_alert_class}">
+					<i class="fas fa-file-alt fa-fw"></i>File Information
+				</div>
+				<div class="card-body text-center">
+					<div class="${UI.file_view_alert_class}" id="file_details" role="alert"><b>404.</b> That’s an error. ` + error + `</div>
+					<p>The requested URL was not found on this server. That’s all we know.</p>
+					<a href="/" type="button" class="btn btn-success"><i class="fas fa-home fa-fw"></i>Home</a>
+				</div>
+			</div>`;
 			$("#content").html(content);
 		});
 }
