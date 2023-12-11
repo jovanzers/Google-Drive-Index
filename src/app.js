@@ -678,6 +678,12 @@ function append_files_to_fallback_list(path, files) {
 		let targetFiles = [];
 		var totalsize = 0;
 		var is_file = false
+		if (files.length == 0) {
+			html = `<div class="card-body"><div class="d-flex justify-content-center align-items-center flex-column gap-3 pt-4 pb-4">
+						<span><i class="fa-solid fa-heart-crack fa-2xl me-0"></i></span>
+						<span>This folder is empty</span>
+					</div></div>`;
+		}
 		for (i in files) {
 			var item = files[i];
 			var p = "/fallback?id=" + item.id
@@ -824,6 +830,12 @@ function append_files_to_list(path, files) {
 	let targetFiles = [];
 	var totalsize = 0;
 	var is_file = false
+	if (files.length == 0) {
+		html = `<div class="card-body"><div class="d-flex justify-content-center align-items-center flex-column gap-3 pt-4 pb-4">
+					<span><i class="fa-solid fa-heart-crack fa-2xl me-0"></i></span>
+					<span>This folder is empty</span>
+				</div></div>`;
+	}
 	for (i in files) {
 		var item = files[i];
 		var ep = encodeURIComponent(item.name).replace(/\//g, '%2F') + '/';
