@@ -863,25 +863,25 @@ function append_files_to_list(path, files) {
 			//}
 			html += `<div class="list-group-item list-group-item-action d-flex align-items-center flex-md-nowrap flex-wrap justify-sm-content-between column-gap-2">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}<a class="countitems size_items w-100 d-flex align-items-start align-items-xl-center gap-2" style="text-decoration: none; color: ${UI.css_a_tag_color};" href="${pn}"><span>`
 
-      if ("|mp4|webm|avi|mpg|mpeg|mkv|rm|rmvb|mov|wmv|asf|ts|flv|".indexOf(`|${ext}|`) >= 0) {
-        html += video_icon
-      } else if ("|html|php|css|go|java|js|json|txt|sh|".indexOf(`|${ext}|`) >= 0) {
-        html += code_icon
-      } else if ("|zip|rar|tar|.7z|.gz|".indexOf(`|${ext}|`) >= 0) {
-        html += zip_icon
-      } else if ("|bmp|jpg|jpeg|png|gif|".indexOf(`|${ext}|`) >= 0) {
-        html += image_icon
-      } else if ("|m4a|mp3|flac|wav|ogg|".indexOf(`|${ext}|`) >= 0) {
-        html += audio_icon
-      } else if ("|md|".indexOf(`|${ext}|`) >= 0) {
-        html += markdown_icon
-      } else if ("|pdf|".indexOf(`|${ext}|`) >= 0) {
-        html += pdf_icon
-      } else if (item.mimeType.startsWith('application/vnd.google-apps.')) {
-		html += `<img src="${item.iconLink}" class="d-flex" style="width: 1.24rem; margin-left: 0.12rem; margin-right: 0.12rem;">`
-	  } else {
-        html += file_icon
-      }
+			if ("|mp4|webm|avi|mpg|mpeg|mkv|rm|rmvb|mov|wmv|asf|ts|flv|".indexOf(`|${ext}|`) >= 0) {
+				html += video_icon
+			} else if ("|html|php|css|go|java|js|json|txt|sh|".indexOf(`|${ext}|`) >= 0) {
+				html += code_icon
+			} else if ("|zip|rar|tar|.7z|.gz|".indexOf(`|${ext}|`) >= 0) {
+				html += zip_icon
+			} else if ("|bmp|jpg|jpeg|png|gif|".indexOf(`|${ext}|`) >= 0) {
+				html += image_icon
+			} else if ("|m4a|mp3|flac|wav|ogg|".indexOf(`|${ext}|`) >= 0) {
+				html += audio_icon
+			} else if ("|md|".indexOf(`|${ext}|`) >= 0) {
+				html += markdown_icon
+			} else if ("|pdf|".indexOf(`|${ext}|`) >= 0) {
+				html += pdf_icon
+			} else if (item.mimeType.startsWith('application/vnd.google-apps.')) {
+				html += `<img src="${item.iconLink}" class="d-flex" style="width: 1.24rem; margin-left: 0.12rem; margin-right: 0.12rem;">`
+			} else {
+				html += file_icon
+			}
 
 			html += `</span>${item.name}</a>${UI.display_time ? `<span class="badge bg-info" style="margin-left: 2rem;">` + item['createdTime'] + `</span>` : ``}${UI.display_size ? `<span class="badge bg-primary my-1 ${item['size'] == '—' ? 'text-center' : 'text-end'}" style="min-width: 85px;">` + item['size'] + `</span>` : ``}<span class="d-flex gap-2">
 			${UI.display_drive_link ? `<a class="d-flex align-items-center" href="https://sharer.winten.my.id/f/${item['fid']}" target="_blank" title="via Google Drive">${gdrive_icon}</a>` : ``}
