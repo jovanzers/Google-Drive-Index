@@ -2047,6 +2047,7 @@ async function apiRequest(request, gd, user_ip) {
     const link = await generateLink(id, user_ip);
     const encryptedFile = {
       ...fileWithoutId,
+      fid: id,
       id: encryptedId,
       driveId: encryptedDriveId,
       link: link,

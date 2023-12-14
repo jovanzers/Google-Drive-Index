@@ -1418,7 +1418,7 @@ async function file(path) {
 				const size = formatFileSize(obj.size) || '—';
 				const encoded_name = encodeURIComponent(name);
 				const url = UI.second_domain_for_dl ? UI.downloaddomain + obj.link : window.location.origin + obj.link;
-				const file_id = obj.id;
+				const file_id = obj.fid;
 				var poster = obj.thumbnailLink ? obj.thumbnailLink.replace("s220", "s0") : null;
 				if (mimeType.includes("video") || video.includes(fileExtension)) {
 					var poster = obj.thumbnailLink ? poster : UI.poster;
