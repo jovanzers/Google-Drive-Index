@@ -85,8 +85,8 @@ function init() {
 					<a href="https://merakit.co.id" target="_blank" title="Merakit Indonesia">
 						<img class="image" alt="Merakit Indonesia" src="https://sharer.winten.my.id/static/img/merakit.co.id.png">
 					</a>
-					<a href="https://eksan127.github.io/paperplane" target="_blank" title="Paper Plane">
-						<img class="image" alt="Paper Plane" style="width: 32px;" src="https://sharer.winten.my.id/static/img/PaperPlane.png">
+					<a href="https://eksan127.blogspot.com" target="_blank" title="Eksan127">
+						<img class="image" alt="Eksan127" src="https://sharer.winten.my.id/static/img/eksan127.png">
 					</a>
 					<a href="https://azhe.my.id" target="_blank" title="azhe403">azhe403</a>
             	</div>
