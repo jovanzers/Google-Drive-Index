@@ -2153,7 +2153,11 @@ async function findId2Path(gd, url) {
 		}
 	} catch (error) {
 		const encrypted_id = await encryptString(url.searchParams.get('id'), encrypt_iv)
-		return Response.redirect("https://" + url.hostname + "/fallback?id=" + encrypted_id || '', 302);
+    if (url.searchParams.get('view') && url.searchParams.get('view') == 'true') {
+      return Response.redirect("https://" + url.hostname + "/fallback?id=" + encrypted_id + "&a=view" || '', 302);
+    } else {
+      return Response.redirect("https://" + url.hostname + "/fallback?id=" + encrypted_id || '', 302);
+    }
 	}
 }
 
