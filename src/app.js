@@ -2,162 +2,40 @@
 // v2.3.5
 // Initialize the page
 function init() {
-	document.siteName = $('title').html();
-	var html = `<header>
-   <div id="nav">
-   </div>
-</header>
-<div class="loading" id="spinner" style="display:none;">Loading&#8230;</div>
-<div class="container" style="margin-top: ${UI.header_padding}px; margin-bottom: 60px;">
-	<div class="row align-items-start g-3">
-		`+trakteerWidget;
-		if (!window.location.href.toLowerCase().includes(':search?q=') && window.location.pathname.toLowerCase() !== '/fallback') {
-			html += `
-		<div class="col-md-12">
-			<div class="card">
-				<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
-					<ol class="breadcrumb" id="folderne">
-						<li class="breadcrumb-item"><a href="/">❤️ Roots</a></li>`;
-							var navfulllink = window.location.pathname;
-							var navarray = navfulllink.trim('/').split('/');
-							var currentPath = '/';
-
-							if (navarray.length > 0) {
-								for (var i in navarray) {
-									var pathPart = navarray[i];
-									var decodedPathPart = decodeURIComponent(pathPart).replace(/\//g, '%2F');
-									var trimmedPathPart = decodedPathPart.replace(/\?.+/g, "$'");
-									var displayedPathPart = trimmedPathPart.length > 50 ? trimmedPathPart.slice(0, 50) + '...' : trimmedPathPart.slice(0, 50);
-									currentPath += pathPart + '/';
-									
-									if (parseInt(i) === navarray.length - 1) {
-										if (window.location.href.toLowerCase().includes('a=view')) {
-											break;
-										}
-										html += `<li class="breadcrumb-item active" aria-current="page">${displayedPathPart}</li>`;
-									} else {
-										html += `<li class="breadcrumb-item"><a href="${currentPath}">${displayedPathPart}</a></li>`;
-									}
-
-									if (displayedPathPart === '') {
-										break;
-									}
-								}
-							}
-							html += `</ol>
-				</nav>
-			</div>
-		</div>`;
-		}
-	html += `<div id="content" style="${UI.fixed_footer ?' padding-bottom: clamp(170px, 100%, 300px);': ''}"></div>
-	</div>
-	<div class="row g-3 mt-0">
-        <div class="col-lg-6 col-md-12">
-          	<div class="card text-white mb-3 h-100">
-				<div class="card-header">
-					<i class="fa-solid fa-mug-hot fa-fw"></i>Donate a coffee
-				</div>
-            	<div class="card-body d-flex align-items-center justify-content-center">
-					<div class="donate btn-group">
-						<a class="btn" href="https://trakteer.id/jovanzers/tip" title="Click me!" style="background: #BE1E2D;" target="_blank">
-						<i class="fab fa-paypal"></i>Trakteer </a>
-						<a class="btn" href="https://paypal.me/jovanzers" title="Click me!" style="background-color: #0079C1;" target="_blank">
-						<i class="fab fa-paypal"></i>PayPal </a>
-						<div class="qrcode card" style="padding: 1rem 1rem 0 1rem;">
-							<div style="padding-bottom: 1rem;">Thank you very much ❤</div>
-							<img alt="Love" src="https://sharer.winten.my.id/static/img/love.png">
-						</div>
-						<a class="btn" href="https://saweria.co/jovanzers" title="Click me!" style="background: #f5a623FF;" target="_blank">
-						<i class="fab fa-paypal"></i>Saweria </a>
-					</div>
-            	</div>
-        	</div>
+    document.siteName = $('title').html();
+    var html = `
+    <header>
+        <div id="nav"></div>
+    </header>
+    <div class="loading" id="spinner" style="display:none;">Loading&#8230;</div>
+    <div>
+        <div id="content" style="padding-top: ${UI.header_padding}px;${UI.fixed_footer ? ' padding-bottom: clamp(170px, 100%, 300px);' : ''}">
         </div>
-        <div class="col-lg-6 col-md-12">
-          	<div class="card text-white mb-3 h-100">
-            	<div class="card-header">
-              		<i class="fa-regular fa-snowflake fa-fw"></i>Sponsors
-            	</div>
-            	<div class="card-body d-flex flex-wrap gap-2 justify-content-evenly align-items-center">
-					<a href="https://akannikah.id" target="_blank" title="Akannikah.id">
-						<img class="image" alt="Akannikah.id" style="height: 32px;" src="https://sharer.winten.my.id/static/img/Akannikah.id.png">
-					</a>
-					<a href="https://merakit.co.id" target="_blank" title="Merakit Indonesia">
-						<img class="image" alt="Merakit Indonesia" src="https://sharer.winten.my.id/static/img/merakit.co.id.png">
-					</a>
-					<a href="https://eksan127.github.io/paperplane" target="_blank" title="Paper Plane">
-						<img class="image" alt="Paper Plane" style="width: 32px;" src="https://sharer.winten.my.id/static/img/PaperPlane.png">
-					</a>
-					<a href="https://azhe.my.id" target="_blank" title="azhe403">azhe403</a>
-            	</div>
-          	</div>
+        <div class="modal fade" id="SearchModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="SearchModelLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="SearchModelLabel"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="modal-body-space"></div>
+                    <div class="modal-footer" id="modal-body-space-buttons"></div>
+                </div>
+            </div>
         </div>
-    </div>	
-</div>
-<div class="modal fade" id="SearchModel" data-bs-keyboard="true" tabindex="-1" aria-labelledby="SearchModelLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="SearchModelLabel"></h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true"></span>
-        </button>
-      </div>
-      <div class="modal-body" id="modal-body-space">
-      </div>
-      <div class="modal-footer justify-content-center" id="modal-body-space-buttons">
-      </div>
-    </div>
-  </div>
-</div>
-<button id="back-to-top" class="btn btn-secondary btn-lg back-to-top shadow border border-light" style="--bs-border-opacity: .4;" role="button"><i class="fas fa-chevron-up m-0"></i></button>
-<footer class="footer text-center mt-auto container ${UI.footer_style_class}" style="${UI.fixed_footer ?'position: fixed;': ''} ${UI.hide_footer ? ' display:none;': ' display:block;'}">
-    <div class="container" style="padding-top: 15px;">
-      <div class="row">
-      <div class="col-lg-4 col-md-12 text-lg-start">
-      © ${new Date().getFullYear()} <a href="${UI.company_link}" target="_blank">${UI.company_name}</a> with ❤️
-      ${UI.credit ? '<p>Redesigned with <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart-fill" fill="red" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" /> </svg> by <a href="https://www.npmjs.com/package/@googledrive/index" target="_blank">TheFirstSpeedster</a>, based on Open Source Softwares.</p>' : ''}
-      </div>
-      <div class="col-lg-4 col-md-12">
-      <a href="${UI.contact_link}" title="Please allow us up to 48 hours to process DMCA requests.">DMCA</a> ∙ <a href="${UI.contact_link}">Contact</a>
-      </div>
-      <div class="col-lg-4 col-md-12 text-lg-end">
-        <p>
-          <a href="#"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2F` + window.location.host + `&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false"/></a>
-        </p>
-      </div>
-	  <script>
-		let btt = document.getElementById("back-to-top");
-		window.onscroll = function () {
-			scrollFunction();
-		};
-		function scrollFunction() {
-			if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-				btt.style.display = "block";
-			} else {
-				btt.style.display = "none";
-			}
-		}
-		btt.addEventListener("click", backToTop);
-		function backToTop() {
-			document.body.scrollTop = 0;
-			document.documentElement.scrollTop = 0;
-		}
-	  </script>
-      </div>
-	</div>
-</footer>`;
-	$('body').html(html);
+        <br>
+        <footer class="footer mt-auto py-3 text-muted ${UI.footer_style_class}" style="${UI.fixed_footer ? 'position: fixed; ' : ''}left: 0; bottom: 0; width: 100%; color: white; z-index: 9999;${UI.hide_footer ? ' display:none;' : ' display:block;'}">
+            <div class="container" style="width: auto; padding: 0 20px;">
+                ${UI.credit ? '<p style="padding-left: 20px; padding-right: 20px;">Uploaded from original Sigma books channel by Sayyed <a href="https://t.me/Deleech" target="_blank">"De area"</a>, Enjoy.</p>' : ''}
+                <p style="padding-left: 20px; padding-right: 20px;">© ${UI.copyright_year} - <a href="https://t.me/SiGMABooks" target="_blank">Sigma books</a>, All Rights Reserved.</p>
+            </div>
+        </footer>
+    `;
+    $('body').html(html);
 }
 
-const gdrive_icon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 87.3 78" style="width: 1.3em;">
-<path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"></path>
-<path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0 -1.2 4.5h27.5z" fill="#00ac47"></path>
-<path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z" fill="#ea4335"></path>
-<path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"></path>
-<path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"></path>
-<path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"></path>
-</svg>`
 
 const folder_icon = `<svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet"><g clip-path="url(#__lottie_element_11)"><g transform="matrix(1,0,0,1,0,0)" opacity="1" style="display: block;"><g opacity="1" transform="matrix(1,0,0,1,24,24)"><path fill="rgb(255,159,0)" fill-opacity="1" d=" M16,-12 C16,-12 -2,-12 -2,-12 C-2,-12 -6,-16 -6,-16 C-6,-16 -16,-16 -16,-16 C-18.200000762939453,-16 -20,-14.199999809265137 -20,-12 C-20,-12 -20,12 -20,12 C-20,14.208999633789062 -18.208999633789062,16 -16,16 C-16,16 13.682000160217285,16 13.682000160217285,16 C13.682000160217285,16 20,5 20,5 C20,5 20,-8 20,-8 C20,-10.199999809265137 18.200000762939453,-12 16,-12z"></path></g></g><g transform="matrix(1,0,0,1,0,0)" opacity="1" style="display: block;"><g opacity="1" transform="matrix(1,0,0,1,24,26)"><path fill="rgb(255,201,40)" fill-opacity="1" d=" M16,-14 C16,-14 -16,-14 -16,-14 C-18.200000762939453,-14 -20,-12.199999809265137 -20,-10 C-20,-10 -20,10 -20,10 C-20,12.199999809265137 -18.200000762939453,14 -16,14 C-16,14 16,14 16,14 C18.200000762939453,14 20,12.199999809265137 20,10 C20,10 20,-10 20,-10 C20,-12.199999809265137 18.200000762939453,-14 16,-14z"></path></g></g></g></svg>`
 const video_icon = `<svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet"><g clip-path="url(#__lottie_element_11)"><g transform="matrix(1,0,0,1,24,24)" opacity="1" style="display: block;"><g opacity="1" transform="matrix(1,0,0,1,0,0)"><path fill="rgb(63,81,181)" fill-opacity="1" d=" M16,17 C16,17 -16,17 -16,17 C-18.200000762939453,17 -20,15.199999809265137 -20,13 C-20,13 -20,-9 -20,-9 C-20,-9 20,-9 20,-9 C20,-9 20,13 20,13 C20,15.199999809265137 18.200000762939453,17 16,17z"></path></g><g opacity="1" transform="matrix(1,0,0,1,0,0)"><g opacity="1" transform="matrix(1,0,0,1,0,0)"><path fill="rgb(159,168,218)" fill-opacity="1" d=" M16,-9 C16,-9 12,-3 12,-3 C12,-3 16,-3 16,-3 C16,-3 20,-9 20,-9 C20,-9 16,-9 16,-9z"></path></g><g opacity="1" transform="matrix(1,0,0,1,0,0)"><path fill="rgb(159,168,218)" fill-opacity="1" d=" M8,-9 C8,-9 4,-3 4,-3 C4,-3 8,-3 8,-3 C8,-3 12,-9 12,-9 C12,-9 8,-9 8,-9z"></path></g><g opacity="1" transform="matrix(1,0,0,1,0,0)"><path fill="rgb(159,168,218)" fill-opacity="1" d=" M0,-9 C0,-9 -4,-3 -4,-3 C-4,-3 0,-3 0,-3 C0,-3 4,-9 4,-9 C4,-9 0,-9 0,-9z"></path></g><g opacity="1" transform="matrix(1,0,0,1,0,0)"><path fill="rgb(159,168,218)" fill-opacity="1" d=" M-8,-9 C-8,-9 -12,-3 -12,-3 C-12,-3 -8,-3 -8,-3 C-8,-3 -4,-9 -4,-9 C-4,-9 -8,-9 -8,-9z"></path></g><g opacity="1" transform="matrix(1,0,0,1,0,0)"><path fill="rgb(159,168,218)" fill-opacity="1" d=" M-16,-9 C-16,-9 -20,-3 -20,-3 C-20,-3 -16,-3 -16,-3 C-16,-3 -12,-9 -12,-9 C-12,-9 -16,-9 -16,-9z"></path></g></g></g><g transform="matrix(1,0,0,1,24,24)" opacity="1" style="display: block;"><g opacity="1" transform="matrix(1,0,0,1,0,0)"><path fill="rgb(63,81,181)" fill-opacity="1" d=" M19.399999618530273,-15.699999809265137 C19.399999618530273,-15.699999809265137 -20,-9 -20,-9 C-20,-9 -20.299999237060547,-11 -20.299999237060547,-11 C-20.700000762939453,-13.199999809265137 -19.200000762939453,-15.199999809265137 -17,-15.600000381469727 C-17,-15.600000381469727 14.600000381469727,-20.899999618530273 14.600000381469727,-20.899999618530273 C16.799999237060547,-21.299999237060547 18.799999237060547,-19.799999237060547 19.200000762939453,-17.600000381469727 C19.200000762939453,-17.600000381469727 19.399999618530273,-15.699999809265137 19.399999618530273,-15.699999809265137z"></path></g><g opacity="1" transform="matrix(1,0,0,1,0,0)"><path fill="rgb(159,168,218)" fill-opacity="1" d=" M-5.199999809265137,-17.600000381469727 C-5.199999809265137,-17.600000381469727 -0.30000001192092896,-12.300000190734863 -0.30000001192092896,-12.300000190734863 C-0.30000001192092896,-12.300000190734863 3.700000047683716,-13 3.700000047683716,-13 C3.700000047683716,-13 -1.2999999523162842,-18.299999237060547 -1.2999999523162842,-18.299999237060547 C-1.2999999523162842,-18.299999237060547 -5.199999809265137,-17.600000381469727 -5.199999809265137,-17.600000381469727z"></path></g><g opacity="1" transform="matrix(1,0,0,1,0,0)"><path fill="rgb(159,168,218)" fill-opacity="1" d=" M-13.100000381469727,-16.299999237060547 C-13.100000381469727,-16.299999237060547 -8.199999809265137,-11 -8.199999809265137,-11 C-8.199999809265137,-11 -4.199999809265137,-11.699999809265137 -4.199999809265137,-11.699999809265137 C-4.199999809265137,-11.699999809265137 -9.199999809265137,-16.899999618530273 -9.199999809265137,-16.899999618530273 C-9.199999809265137,-16.899999618530273 -13.100000381469727,-16.299999237060547 -13.100000381469727,-16.299999237060547z"></path></g><g opacity="1" transform="matrix(1,0,0,1,0,0)"><path fill="rgb(159,168,218)" fill-opacity="1" d=" M2.700000047683716,-18.899999618530273 C2.700000047683716,-18.899999618530273 7.599999904632568,-13.699999809265137 7.599999904632568,-13.699999809265137 C7.599999904632568,-13.699999809265137 11.5,-14.300000190734863 11.5,-14.300000190734863 C11.5,-14.300000190734863 6.599999904632568,-19.600000381469727 6.599999904632568,-19.600000381469727 C6.599999904632568,-19.600000381469727 2.700000047683716,-18.899999618530273 2.700000047683716,-18.899999618530273z"></path></g><g opacity="1" transform="matrix(1,0,0,1,0,0)"><path fill="rgb(159,168,218)" fill-opacity="1" d=" M10.5,-20.200000762939453 C10.5,-20.200000762939453 15.5,-15 15.5,-15 C15.5,-15 19.399999618530273,-15.699999809265137 19.399999618530273,-15.699999809265137 C19.399999618530273,-15.699999809265137 14.5,-20.899999618530273 14.5,-20.899999618530273 C14.5,-20.899999618530273 10.5,-20.200000762939453 10.5,-20.200000762939453z"></path></g><g opacity="1" transform="matrix(1,0,0,1,0,0)"><path fill="rgb(159,168,218)" fill-opacity="1" d=" M-16.5,-14 C-17.327999114990234,-14 -18,-13.32800006866455 -18,-12.5 C-18,-11.67199993133545 -17.327999114990234,-11 -16.5,-11 C-15.67199993133545,-11 -15,-11.67199993133545 -15,-12.5 C-15,-13.32800006866455 -15.67199993133545,-14 -16.5,-14z"></path></g></g></g></svg>`
@@ -250,16 +128,16 @@ function render(path) {
 
 // Render title
 function title(path) {
-	path = decodeURIComponent(path);
+	path = decodeURI(path);
 	var cur = window.current_drive_order || 0;
 	var drive_name = window.drive_names[cur];
 	path = path.replace(`/${cur}:`, '');
 	// $('title').html(document.siteName + ' - ' + path);
 	var model = window.MODEL;
 	if (model.is_search_page)
-		$('title').html(`Search: ${model.q} - ${UI.siteName}`);
+		$('title').html(`${drive_name} - Search results for ${model.q} `);
 	else
-		$('title').html(`${drive_name}: ${path} - ${UI.siteName}`);
+		$('title').html(`${drive_name} - ${path}`);
 }
 
 // Render the navigation bar
@@ -267,40 +145,38 @@ function nav(path) {
 	var model = window.MODEL;
 	var html = "";
 	var cur = window.current_drive_order || 0;
-	html += `<nav class="navbar navbar-expand-lg${UI.fixed_header ?' fixed-top': ''} ${UI.header_style_class} container">
-    <div class="container-fluid mx-2">
-  <a class="navbar-brand d-flex align-items-center gap-2" href="/">${UI.logo_image ? '<img border="0" alt="'+UI.company_name+'" src="'+UI.logo_link_name+'" height="'+UI.logo_height+'" width="'+UI.logo_width+'">'+UI.siteName : UI.logo_link_name}</a>
+	html += `<nav class="navbar navbar-expand-lg${UI.fixed_header ?' fixed-top': ''} ${UI.header_style_class}">
+    <div class="container-fluid">
+  <a class="navbar-brand" href="/">${UI.logo_image ? '<img border="0" alt="'+UI.company_name+'" src="'+UI.logo_link_name+'" height="'+UI.logo_height+'" width="'+UI.logo_width+'">' : UI.logo_link_name}</a>
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       <li class="nav-item">
-        <a class="nav-link" href="/${cur}:/"><i class="fas fa-home fa-fw"></i>${UI.nav_link_1}</a>
+        <a class="nav-link" href="/${cur}:/">${UI.nav_link_1}</a>
       </li>`;
 	var names = window.drive_names;
 	var drive_name = window.drive_names[cur];
 
 	// Dropdown to select different drive roots.
-	html += `<li class="nav-item dropdown"><a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">`+gdrive_icon+` ${drive_name}</a><div class="dropdown-menu" aria-labelledby="navbarDropdown">`;
+	html += `<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${drive_name}</a><div class="dropdown-menu" aria-labelledby="navbarDropdown">`;
 	names.forEach((name, idx) => {
-		html += `<a class="dropdown-item d-flex align-items-center gap-2"  href="/${idx}:/">`+gdrive_icon+` ${name}</a>`;
+		html += `<a class="dropdown-item"  href="/${idx}:/">${name}</a>`;
 	});
 	html += `</div></li>`;
 
 
 	html += `<li class="nav-item">
-    <a class="nav-link" href="${UI.contact_link}" target="_blank"><i class="fas fa-paper-plane fa-fw"></i>${UI.nav_link_4}</a>
-  </li>${UI.show_logout_button ?'<li class="nav-item"><a class="nav-link" href="/logout"><i class="fa-solid fa-arrow-right-from-bracket fa-fw"></i>Logout</a></li>': ''}`;
+    <a class="nav-link" href="${UI.contact_link}" target="_blank">${UI.nav_link_4}</a>
+  </li>${UI.show_logout_button ?'<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>': ''}`;
 
 	var search_text = model.is_search_page ? (model.q || '') : '';
 	var search_bar = `
 </ul>
 <form class="d-flex" method="get" action="/${cur}:search">
-<div class="input-group">
-	<input class="form-control" name="q" type="search" placeholder="Search" aria-label="Search" value="${search_text}" style="border-right:0;" required>
-	<button class="btn ${UI.search_button_class}" onclick="if($('#search_bar_form>input').val()) $('#search_bar_form').submit();" type="submit" style="border-color: rgba(140, 130, 115, 0.13); border-left:0;"><i class="fas fa-search" style="margin: 0"></i></button>
-</div>
+<input class="form-control me-2" name="q" type="search" placeholder="Search" aria-label="Search" value="${search_text}" required>
+<button class="btn ${UI.search_button_class}" onclick="if($('#search_bar_form>input').val()) $('#search_bar_form').submit();" type="submit">Search</button>
 </form>
 </div>
 </div>
@@ -355,21 +231,6 @@ function requestListPath(path, params, resultCallback, authErrorCallback, retrie
 				body: JSON.stringify(requestData)
 			})
 			.then(function(response) {
-				if (response.status === 500) {
-					document.getElementById('list').innerHTML = `<div class="text-center">
-					<div class="card-body text-center">
-					  <div class="${UI.file_view_alert_class}" id="file_details" role="alert"><b>500.</b> That’s an error.</div>
-					</div>
-					<p>The requested URL was not found on this server. That’s all we know.</p>
-					<div class="card-text text-center">
-					  <div class="btn-group text-center">
-						<a href="/" type="button" class="btn btn-success">Homepage</a>
-					  </div>
-					</div><br>
-				  </div>`;
-					$('#update').hide();
-					return 500
-				}
 				if (!response.ok) {
 					throw new Error('Request failed');
 				}
@@ -465,15 +326,7 @@ function requestSearch(params, resultCallback, retries = 3) {
 // Render file list
 function list(path, id = '', fallback = false) {
 	console.log(id);
-	var cur = window.current_drive_order || 0;
-	var drive_name = window.drive_names[cur];
-	var folder_name = !fallback ? decodeURIComponent(path.split('/').filter(Boolean).pop()) : 'Files';
-	var folder_ico = folder_icon;
-	if (folder_name === cur + ':') {
-		folder_ico = gdrive_icon;
-		folder_name = drive_name;
-	}
-	var containerContent = `
+	var containerContent = `<div class="container">${UI.fixed_header ?'<br>': ''}
     <div id="update"></div>
     <div id="head_md" style="display:none; padding: 20px 20px;"></div>
     <div class="container" id="select_items" style="padding: 0px 50px 10px; display:none;">
@@ -485,17 +338,38 @@ function list(path, id = '', fallback = false) {
         <button id="handle-multiple-items-copy" style="padding: 5px 10px; font-size: 12px;" class="btn btn-success">Copy</button>
       </div>
     </div>
-	<div class="card">
-		<div class="card-header d-flex align-items-center gap-2">
-			<span>${folder_ico}</span><span class="w-100 text-truncate" id="dirname">${folder_name}</span>
-			${folder_name !== drive_name ? '<a class="d-flex align-items-center d-none" href="#" id="sharer" target="_blank" title="via Google Drive">' + gdrive_icon + '</a>' : ``}
-		</div>
-		<div id="list" class="list-group list-group-flush text-break">
-		</div>
-		<div class="card-footer text-muted d-flex align-items-center gap-2" id="count">
-			<span class="number badge text-bg-dark">0 item</span><span class="totalsize badge text-bg-dark"></span>
-		</div>
-	</div>
+    <div class="${UI.path_nav_alert_class} d-flex align-items-center" role="alert" style="margin-bottom: 0; padding-bottom: 0rem;">
+      <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb" id="folderne">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>`;
+
+	var navfulllink = window.location.pathname;
+	var navarray = navfulllink.trim('/').split('/');
+	var currentPath = '/';
+
+	if (navarray.length > 1) {
+		for (var i in navarray) {
+			var pathPart = navarray[i];
+			var decodedPathPart = decodeURIComponent(pathPart).replace(/\//g, '%2F');
+			var trimmedPathPart = decodedPathPart.replace(/\?.+/g, "$'");
+
+			var displayedPathPart = trimmedPathPart.length > 15 ? trimmedPathPart.slice(0, 5) + '...' : trimmedPathPart.slice(0, 15);
+
+			currentPath += pathPart + '/';
+
+			if (displayedPathPart === '') {
+				break;
+			}
+
+			containerContent += `<li class="breadcrumb-item"><a href="${currentPath}">${displayedPathPart}</a></li>`;
+		}
+	}
+
+	containerContent += `</ol>
+    </nav>
+  </div>
+  <div id="list" class="list-group text-break"></div>
+  <div class="${UI.file_count_alert_class} text-center d-none" role="alert" id="count"><span class="number text-center"></span> | <span class="totalsize text-center"></span></div>
   <div id="readme_md" style="display:none; padding: 20px 20px;"></div>
 </div>`;
 
@@ -509,12 +383,6 @@ function list(path, id = '', fallback = false) {
 
 	function handleSuccessResult(res, path, prevReqParams) {
 		console.log(res, path, prevReqParams);
-		if (fallback) {
-			title(res['name']);
-			$('#dirname').html(res['name']);
-		}
-		$('#sharer').attr('href', 'https://sharer.winten.my.id/f/' + res['fid']);
-		$('#sharer').removeClass('d-none');
 		$('#list')
 			.data('nextPageToken', res['nextPageToken'])
 			.data('curPageIndex', res['curPageIndex']);
@@ -681,15 +549,13 @@ function append_files_to_fallback_list(path, files) {
 		for (i in files) {
 			var item = files[i];
 			var p = "/fallback?id=" + item.id
-			item['createdTime'] = utc2jakarta(item['createdTime']);
+			item['modifiedTime'] = utc2delhi(item['modifiedTime']);
 			// replace / with %2F
 			if (item['mimeType'] == 'application/vnd.google-apps.folder') {
-				html += `<div class="list-group-item list-group-item-action d-flex align-items-center flex-md-nowrap flex-wrap justify-sm-content-between column-gap-2"><a href="${p}" style="color: ${UI.folder_text_color};" class="countitems w-100 d-flex align-items-start align-items-xl-center gap-2"><span>${folder_icon}</span>${item.name}</a>${UI.display_time ? `<span class="badge bg-info" style="margin-left: 2rem;">` + item['createdTime'] + `</span>` : ``}${UI.display_size ? `<span class="badge bg-primary my-1 text-center" style="min-width: 85px;">—</span>` : ``}<span class="d-flex gap-2">
-				${UI.display_drive_link ? `<a class="d-flex align-items-center" href="https://sharer.winten.my.id/f/${item['fid']}" target="_blank" title="via Google Drive">${gdrive_icon}</a>` : ``}
-				${UI.display_download ? `<a class="d-flex align-items-center" href="${p}" title="via Index"><i class="far fa-folder-open fa-lg"></i></a>` : ``}</span></div>`;
+				html += `<a href="${p}" style="color: ${UI.folder_text_color};" class="countitems list-group-item list-group-item-action"> ${folder_icon} ${item.name} ${UI.display_time ? `<span class="badge bg-info float-end"> ` + item['modifiedTime'] + ` </span>` : ``}</a>`;
 			} else {
-				var totalsize = totalsize + Number(item.size || 0);
-				item['size'] = formatFileSize(item['size']) || '—';
+				var totalsize = totalsize + Number(item.size);
+				item['size'] = formatFileSize(item['size']);
 				var is_file = true
 				var epn = item.name;
 				var link = UI.second_domain_for_dl ? UI.downloaddomain + item.link : window.location.origin + item.link;
@@ -714,7 +580,7 @@ function append_files_to_fallback_list(path, files) {
 				pn += "?a=view";
 				c += " view";
 				//}
-				html += `<div class="list-group-item list-group-item-action d-flex align-items-center flex-md-nowrap flex-wrap justify-sm-content-between column-gap-2">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}<a class="countitems size_items w-100 d-flex align-items-start align-items-xl-center gap-2" style="text-decoration: none; color: ${UI.css_a_tag_color};" href="${p}&a=view"><span>`
+				html += `<div class="list-group-item list-group-item-action">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}`
 
 				if ("|mp4|webm|avi|mpg|mpeg|mkv|rm|rmvb|mov|wmv|asf|ts|flv|".indexOf(`|${ext}|`) >= 0) {
 					html += video_icon
@@ -730,15 +596,11 @@ function append_files_to_fallback_list(path, files) {
 					html += markdown_icon
 				} else if ("|pdf|".indexOf(`|${ext}|`) >= 0) {
 					html += pdf_icon
-				} else if (item.mimeType.startsWith('application/vnd.google-apps.')) {
-					html += `<img src="${item.iconLink}" class="d-flex" style="width: 1.24rem; margin-left: 0.12rem; margin-right: 0.12rem;">`
 				} else {
 					html += file_icon
 				}
 
-				html += `</span>${item.name}</a>${UI.display_time ? `<span class="badge bg-info" style="margin-left: 2rem;">` + item['createdTime'] + `</span>` : ``}${UI.display_size ? `<span class="badge bg-primary my-1 ${item['size'] == '—' ? 'text-center' : 'text-end'}" style="min-width: 85px;">` + item['size'] + `</span>` : ``}<span class="d-flex gap-2">
-				${UI.display_drive_link ? `<a class="d-flex align-items-center" href="https://sharer.winten.my.id/f/${item['fid']}" target="_blank" title="via Google Drive">${gdrive_icon}</a>` : ``}
-				${UI.display_download ? `<a class="d-flex align-items-center" href="${link}" title="via Index"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="20" fill="currentColor" viewBox="0 0 16 16"> <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path></svg></a>` : ``}</span></div>`;
+				html += ` <a class="countitems size_items list-group-item-action" style="text-decoration: none; color: ${UI.css_a_tag_color};" href="${p}&a=view">${item.name}</a>${UI.display_download ? `<a href="${link}"><svg class="float-end"width="25px" style="margin-left: 8px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path> <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path> </svg></a>` : ``}${UI.display_size ? `<span class="badge bg-primary float-end"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info float-end"> ` + item['modifiedTime'] + ` </span>` : ``}</div>`;
 			}
 		}
 		if (is_file && UI.allow_selecting_files) {
@@ -790,18 +652,18 @@ function append_files_to_fallback_list(path, files) {
 			total_items = $list.find('.countitems').length;
 			total_files = $list.find('.size_items').length;
 			if (total_items == 0) {
-				$('#count').removeClass('d-none').find('.number').text("0 item");
+				$('#count').removeClass('d-none').find('.number').text("Empty Folder");
 			} else if (total_items == 1) {
 				$('#count').removeClass('d-none').find('.number').text(total_items + " item");
 			} else {
 				$('#count').removeClass('d-none').find('.number').text(total_items + " items");
 			}
 			if (total_files == 0) {
-				$('#count').removeClass('d-none').find('.totalsize').text("0 file");
+				$('#count').removeClass('d-none').find('.totalsize').text("Zero Files");
 			} else if (total_files == 1) {
-				$('#count').removeClass('d-none').find('.totalsize').text(total_files + " file, total: " + total_size);
+				$('#count').removeClass('d-none').find('.totalsize').text(total_files + " File with Size " + total_size);
 			} else {
-				$('#count').removeClass('d-none').find('.totalsize').text(total_files + " files, total: " + total_size);
+				$('#count').removeClass('d-none').find('.totalsize').text(total_files + " Files with Size " + total_size);
 			}
 		}
 	} catch (e) {
@@ -828,15 +690,13 @@ function append_files_to_list(path, files) {
 		var item = files[i];
 		var ep = encodeURIComponent(item.name).replace(/\//g, '%2F') + '/';
 		var p = path + ep.replace(new RegExp('#', 'g'), '%23').replace(new RegExp('\\?', 'g'), '%3F');
-		item['createdTime'] = utc2jakarta(item['createdTime']);
+		item['modifiedTime'] = utc2delhi(item['modifiedTime']);
 		// replace / with %2F
 		if (item['mimeType'] == 'application/vnd.google-apps.folder') {
-			html += `<div class="list-group-item list-group-item-action d-flex align-items-center flex-md-nowrap flex-wrap justify-sm-content-between column-gap-2"><a href="${p}" style="color: ${UI.folder_text_color};" class="countitems w-100 d-flex align-items-start align-items-xl-center gap-2"><span>${folder_icon}</span>${item.name}</a>${UI.display_time ? `<span class="badge bg-info" style="margin-left: 2rem;">` + item['createdTime'] + `</span>` : ``}${UI.display_size ? `<span class="badge bg-primary my-1 text-center" style="min-width: 85px;">—</span>` : ``}<span class="d-flex gap-2">
-			${UI.display_drive_link ? `<a class="d-flex align-items-center" href="https://sharer.winten.my.id/f/${item['fid']}" target="_blank" title="via Google Drive">${gdrive_icon}</a>` : ``}
-			${UI.display_download ? `<a class="d-flex align-items-center" href="${p}" title="via Index"><i class="far fa-folder-open fa-lg"></i></a>` : ``}</span></div>`;
+			html += `<a href="${p}" style="color: ${UI.folder_text_color};" class="countitems list-group-item list-group-item-action"> ${folder_icon} ${item.name} ${UI.display_time ? `<span class="badge bg-info float-end"> ` + item['modifiedTime'] + ` </span>` : ``}</a>`;
 		} else {
-			var totalsize = totalsize + Number(item.size || 0);
-			item['size'] = formatFileSize(item['size']) || '—';
+			var totalsize = totalsize + Number(item.size);
+			item['size'] = formatFileSize(item['size']);
 			var is_file = true
 			var epn = item.name;
 			var link = UI.second_domain_for_dl ? UI.downloaddomain + item.link : window.location.origin + item.link;
@@ -856,12 +716,13 @@ function append_files_to_list(path, files) {
 				});
 			}
 			var ext = item.fileExtension
+      console.log(ext)
 			//if ("|html|php|css|go|java|js|json|txt|sh|md|mp4|webm|avi|bmp|jpg|jpeg|png|gif|m4a|mp3|flac|wav|ogg|mpg|mpeg|mkv|rm|rmvb|mov|wmv|asf|ts|flv|pdf|".indexOf(`|${ext}|`) >= 0) {
 			//targetFiles.push(filepath);
 			pn += "?a=view";
 			c += " view";
 			//}
-			html += `<div class="list-group-item list-group-item-action d-flex align-items-center flex-md-nowrap flex-wrap justify-sm-content-between column-gap-2">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}<a class="countitems size_items w-100 d-flex align-items-start align-items-xl-center gap-2" style="text-decoration: none; color: ${UI.css_a_tag_color};" href="${pn}"><span>`
+			html += `<div class="list-group-item list-group-item-action">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}`
 
       if ("|mp4|webm|avi|mpg|mpeg|mkv|rm|rmvb|mov|wmv|asf|ts|flv|".indexOf(`|${ext}|`) >= 0) {
         html += video_icon
@@ -877,15 +738,11 @@ function append_files_to_list(path, files) {
         html += markdown_icon
       } else if ("|pdf|".indexOf(`|${ext}|`) >= 0) {
         html += pdf_icon
-      } else if (item.mimeType.startsWith('application/vnd.google-apps.')) {
-		html += `<img src="${item.iconLink}" class="d-flex" style="width: 1.24rem; margin-left: 0.12rem; margin-right: 0.12rem;">`
-	  } else {
+      } else {
         html += file_icon
       }
 
-			html += `</span>${item.name}</a>${UI.display_time ? `<span class="badge bg-info" style="margin-left: 2rem;">` + item['createdTime'] + `</span>` : ``}${UI.display_size ? `<span class="badge bg-primary my-1 ${item['size'] == '—' ? 'text-center' : 'text-end'}" style="min-width: 85px;">` + item['size'] + `</span>` : ``}<span class="d-flex gap-2">
-			${UI.display_drive_link ? `<a class="d-flex align-items-center" href="https://sharer.winten.my.id/f/${item['fid']}" target="_blank" title="via Google Drive">${gdrive_icon}</a>` : ``}
-			${UI.display_download ? `<a class="d-flex align-items-center" href="${link}" title="via Index"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="20" fill="currentColor" viewBox="0 0 16 16"> <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path></svg></a>` : ``}</span></div>`;
+			html += ` <a class="countitems size_items list-group-item-action" style="text-decoration: none; color: ${UI.css_a_tag_color};" href="${pn}">${item.name}</a>${UI.display_download ? `<a href="${link}"><svg class="float-end"width="25px" style="margin-left: 8px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path> <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path> </svg></a>` : ``}${UI.display_size ? `<span class="badge bg-primary float-end"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info float-end"> ` + item['modifiedTime'] + ` </span>` : ``}</div>`;
 		}
 	}
 	if (is_file && UI.allow_selecting_files) {
@@ -937,18 +794,18 @@ function append_files_to_list(path, files) {
 		total_items = $list.find('.countitems').length;
 		total_files = $list.find('.size_items').length;
 		if (total_items == 0) {
-			$('#count').removeClass('d-none').find('.number').text("0 item");
+			$('#count').removeClass('d-none').find('.number').text("Empty Folder");
 		} else if (total_items == 1) {
 			$('#count').removeClass('d-none').find('.number').text(total_items + " item");
 		} else {
 			$('#count').removeClass('d-none').find('.number').text(total_items + " items");
 		}
 		if (total_files == 0) {
-			$('#count').removeClass('d-none').find('.totalsize').text("0 file");
+			$('#count').removeClass('d-none').find('.totalsize').text("Zero Files");
 		} else if (total_files == 1) {
-			$('#count').removeClass('d-none').find('.totalsize').text(total_files + " file, total: " + total_size);
+			$('#count').removeClass('d-none').find('.totalsize').text(total_files + " File with Size " + total_size);
 		} else {
-			$('#count').removeClass('d-none').find('.totalsize').text(total_files + " files, total: " + total_size);
+			$('#count').removeClass('d-none').find('.totalsize').text(total_files + " Files with Size " + total_size);
 		}
 	}
 }
@@ -957,25 +814,27 @@ function append_files_to_list(path, files) {
  * Render the search results list. There is a lot of repetitive code, but there are different logics in it.
  */
 function render_search_result_list() {
-	var model = window.MODEL;
 	var content = `
-  	<div id="update"></div>
-	<div class="container" id="select_items" style="padding: 0px 50px 10px; display:none;">
-		<div class="d-flex align-items-center justify-content-between">
-			<div class="form-check mr-3">
-			<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" id="select-all-checkboxes">
-			<label class="form-check-label" for="select-all-checkboxes">Select all</label>
-			</div>
-			<button id="handle-multiple-items-copy" style="padding: 5px 10px; font-size: 12px;" class="btn btn-success">Copy</button>
-		</div>
-	</div>
-	<div class="card">
-		<div class="card-header text-truncate"><i class="fas fa-search fa-fw"></i> Search results for <code>${model.q}</code></div>
-		<div id="list" class="list-group list-group-flush text-break">
-		</div>
-		<div class="card-footer text-muted d-flex align-items-center gap-2" id="count"><span class="number badge text-bg-dark">0 item</span><span class="totalsize badge text-bg-dark"></span></div>
-	</div>
-	<div id="readme_md" style="display:none; padding: 20px 20px;"></div>`;
+  <div class="container"><br>
+  <div id="update"></div>
+  <div class="container" id="select_items" style="padding: 0px 50px 10px; display:none;">
+  <div class="d-flex align-items-center justify-content-between">
+    <div class="form-check mr-3">
+      <input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" id="select-all-checkboxes">
+      <label class="form-check-label" for="select-all-checkboxes">Select all</label>
+    </div>
+    <button id="handle-multiple-items-copy" style="padding: 5px 10px; font-size: 12px;" class="btn btn-success">Copy</button>
+  </div>
+  </div>
+  <div class="card">
+  <div class="${UI.path_nav_alert_class} d-flex align-items-center" role="alert" style="margin-bottom: 0;">Search Results</div>
+  <div id="list" class="list-group text-break">
+  </div>
+  </div>
+  <div class="${UI.file_count_alert_class} text-center d-none" role="alert" id="count"><span class="number text-center"></span> | <span class="totalsize text-center"></span></div>
+  <div id="readme_md" style="display:none; padding: 20px 20px;"></div>
+  </div>
+  `;
 	$('#content').html(content);
 
 	$('#list').html(`<div class="d-flex justify-content-center"><div class="spinner-border ${UI.loading_spinner_class} m-5" role="status" id="spinner"><span class="sr-only"></span></div></div>`);
@@ -1119,19 +978,17 @@ function append_search_result_to_list(files) {
 			if (item['size'] == undefined) {
 				item['size'] = "";
 			}
-			item['createdTime'] = utc2jakarta(item['createdTime']);
+
+			item['modifiedTime'] = utc2delhi(item['modifiedTime']);
 			if (item['mimeType'] == 'application/vnd.google-apps.folder') {
-				html += `<div class="list-group-item list-group-item-action d-flex align-items-center flex-md-nowrap flex-wrap justify-sm-content-between column-gap-2"><a href="#" class="countitems w-100 d-flex align-items-start align-items-xl-center gap-2" style="color: ${UI.folder_text_color};" onclick="onSearchResultItemClick('${item['id']}', false, ${JSON.stringify(item).replace(/"/g, "&quot;")})" data-bs-toggle="modal" data-bs-target="#SearchModel"><span>${folder_icon}</span>${item.name}</a> ${UI.display_time ? `<span class="badge bg-info" style="margin-left: 2rem;">` + item['createdTime'] + `</span>` : ``}${UI.display_size ? `<span class="badge bg-primary my-1 text-center" style="min-width: 85px;">—</span>` : ``}<span class="d-flex gap-2">
-				${UI.display_drive_link ? `<a class="d-flex align-items-center" href="https://sharer.winten.my.id/f/${item['fid']}" target="_blank" title="via Google Drive">${gdrive_icon}</a>` : ``}
-				${UI.display_download ? `<a class="d-flex align-items-center" href="#" title="via Index" onclick="onSearchResultItemClick('${item['id']}', false, ${JSON.stringify(item).replace(/"/g, "&quot;")})" data-bs-toggle="modal" data-bs-target="#SearchModel"><i class="far fa-folder-open fa-lg"></i></a>` : ``}</span></div>`;
+				html += `<a style="color: ${UI.folder_text_color};" onclick="onSearchResultItemClick('${item['id']}', false)" data-bs-toggle="modal" data-bs-target="#SearchModel" class="countitems list-group-item list-group-item-action"> ${folder_icon} ${item.name} ${UI.display_time ? `<span class="badge bg-info float-end"> ` + item['modifiedTime'] + ` </span>` : ``}</a>`;
 			} else {
 				var is_file = true;
-				var totalsize = totalsize + Number(item.size || 0);
-				item['size'] = formatFileSize(item['size']) || '—';
-				item['md5Checksum'] = item['md5Checksum'] || '—';
-				var ext = item.fileExtension;
+				var totalsize = totalsize + Number(item.size);
+				item['size'] = formatFileSize(item['size']);
+				var ext = item.fileExtension
 				var link = UI.second_domain_for_dl ? UI.downloaddomain + item.link : window.location.origin + item.link;
-				html += `<div class="list-group-item list-group-item-action d-flex align-items-center flex-md-nowrap flex-wrap justify-sm-content-between column-gap-2" gd-type="$item['mimeType']}">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}<a href="#" onclick="onSearchResultItemClick('${item['id']}', true, ${JSON.stringify(item).replace(/"/g, "&quot;")})" data-bs-toggle="modal" data-bs-target="#SearchModel" class="countitems size_items w-100 d-flex align-items-start align-items-xl-center gap-2" style="text-decoration: none; color: ${UI.css_a_tag_color};"><span>`
+				html += `<div style="color: ${UI.css_a_tag_color};" gd-type="$item['mimeType']}" class="countitems size_items list-group-item list-group-item-action">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}`
 
 				if ("|mp4|webm|avi|mpg|mpeg|mkv|rm|rmvb|mov|wmv|asf|ts|flv|".indexOf(`|${ext}|`) >= 0) {
 					html += video_icon
@@ -1147,15 +1004,12 @@ function append_search_result_to_list(files) {
 					html += markdown_icon
 				} else if ("|pdf|".indexOf(`|${ext}|`) >= 0) {
 					html += pdf_icon
-				} else if (item.mimeType.startsWith('application/vnd.google-apps.')) {
-					html += `<img src="${item.iconLink}" class="d-flex" style="width: 1.24rem; margin-left: 0.12rem; margin-right: 0.12rem;">`
 				} else {
 					html += file_icon
 				}
 
-				html += `</span>${item.name}</a>${UI.display_time ? `<span class="badge bg-info" style="margin-left: 2rem;">` + item['createdTime'] + `</span>` : ``}${UI.display_size ? `<span class="badge bg-primary my-1 ${item['size'] == '—' ? 'text-center' : 'text-end'}" style="min-width: 85px;">` + item['size'] + `</span>` : ``}<span class="d-flex gap-2">
-				${UI.display_drive_link ? `<a class="d-flex align-items-center" href="https://sharer.winten.my.id/f/${item['fid']}" target="_blank" title="via Google Drive">${gdrive_icon}</a>` : ``}
-				${UI.display_download ? `<a class="d-flex align-items-center" href="${link}" title="via Index"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path> <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path></svg></a>` : ``}</span></div>`;
+				html += ` <span onclick="onSearchResultItemClick('${item['id']}', true)" data-bs-toggle="modal" data-bs-target="#SearchModel">${item.name}</span>${UI.display_download ? `<a href="${link}"><svg class="float-end"width="25px" style="margin-left: 8px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path> <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path> </svg></a>` : ``}<span class="badge float-end csize"> ${UI.display_size ? `<span class="badge bg-primary float-end"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info float-end"> ` + item['modifiedTime'] + ` </span>` : ``}</div>`;
+
 			}
 		}
 		if (is_file && UI.allow_selecting_files) {
@@ -1169,18 +1023,18 @@ function append_search_result_to_list(files) {
 			total_items = $list.find('.countitems').length;
 			total_files = $list.find('.size_items').length;
 			if (total_items == 0) {
-				$('#count').removeClass('d-none').find('.number').text("0 item");
+				$('#count').removeClass('d-none').find('.number').text("No Results");
 			} else if (total_items == 1) {
 				$('#count').removeClass('d-none').find('.number').text(total_items + " item");
 			} else {
 				$('#count').removeClass('d-none').find('.number').text(total_items + " items");
 			}
 			if (total_files == 0) {
-				$('#count').removeClass('d-none').find('.totalsize').text("0 file");
+				$('#count').removeClass('d-none').find('.totalsize').text("Found Nothing");
 			} else if (total_files == 1) {
-				$('#count').removeClass('d-none').find('.totalsize').text(total_files + " file, total: " + total_size);
+				$('#count').removeClass('d-none').find('.totalsize').text(total_files + " File with Size " + total_size);
 			} else {
-				$('#count').removeClass('d-none').find('.totalsize').text(total_files + " files, total: " + total_size);
+				$('#count').removeClass('d-none').find('.totalsize').text(total_files + " Files with Size " + total_size);
 			}
 		}
 	} catch (e) {
@@ -1192,64 +1046,15 @@ function append_search_result_to_list(files) {
  * Search result item click event
  * @param a_ele Clicked element
  */
-function onSearchResultItemClick(file_id, can_preview, file) {
+function onSearchResultItemClick(file_id, can_preview) {
 	var cur = window.current_drive_order;
 	var title = `Loading...`;
 	$('#SearchModelLabel').html(title);
 	var content = `<div class="d-flex justify-content-center"><div class="spinner-border ${UI.loading_spinner_class} m-5" role="status" id="spinner"><span class="sr-only"></span></div>`;
-	var gdrive_btn = `<a class="btn btn-secondary d-flex align-items-center gap-2" href="https://sharer.winten.my.id/f/${file['fid']}" id="file_drive_link" target="_blank">${gdrive_icon}Google Drive</a>`;
-	var close_btn = `<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>`;
 	$('#modal-body-space').html(content);
-	$('#modal-body-space-buttons').html(close_btn);
-	var title = `<i class="fas fa-file-alt fa-fw"></i> File Information`;
 	var p = {
 		id: file_id
 	};
-	content = `
-	<table class="table table-dark mb-0">
-		<tbody>
-			<tr>
-				<th>
-					<i class="fa-regular fa-folder-closed fa-fw"></i>
-					<span class="tth">Name</span>
-				</th>
-				<td>${file['name']}</td>
-			</tr>
-			<tr>
-				<th>
-					<i class="fa-regular fa-clock fa-fw"></i>
-					<span class="tth">Datetime</span>
-				</th>
-				<td>${file['createdTime']}</td>
-			</tr>
-			<tr>
-				<th>
-					<i class="fa-solid fa-tag fa-fw"></i>
-					<span class="tth">Type</span>
-				</th>
-				<td>${file['mimeType']}</td>
-			</tr>`;
-	if (file['mimeType'] !== 'application/vnd.google-apps.folder') {
-		content += `
-			<tr>
-				<th>
-					<i class="fa-solid fa-box-archive fa-fw"></i>
-					<span class="tth">Size</span>
-				</th>
-				<td>${file['size']}</td>
-			</tr>
-			<tr>
-				<th>
-					<i class="fa-solid fa-file-circle-check fa-fw"></i>
-					<span class="tth">Checksum</span>
-				</th>
-				<td>MD5: <code>${file['md5Checksum']}</code>
-				</td>
-			</tr>`;
-	}
-	content += `
-		</tbody>
-	</table>`;
 	// Request a path
 	fetch(`/${cur}:id2path`, {
 			method: 'POST',
@@ -1268,26 +1073,23 @@ function onSearchResultItemClick(file_id, can_preview, file) {
 		.then(function(obj) {
 			var href = `${obj.path}`;
 			var encodedUrl = href.replace(new RegExp('#', 'g'), '%23').replace(new RegExp('\\?', 'g'), '%3F')
+			title = `Result`;
 			$('#SearchModelLabel').html(title);
-			btn = `<div class="btn-group">`+ gdrive_btn +`
-				<a href="${encodedUrl}${can_preview ? '?a=view' : ''}" type="button" class="btn btn-success" target="_blank"><i class="fas fa-bolt fa-fw"></i>Index</a>
-				</div>` + close_btn;
+			content = `<a class="btn btn-info" href="${encodedUrl}${can_preview ? '?a=view' : ''}">Open</a> <a class="btn btn-secondary" href="${encodedUrl}${can_preview ? '?a=view' : ''}" target="_blank">Open in New Tab</a>`;
 			$('#modal-body-space').html(content);
-			$('#modal-body-space-buttons').html(btn);
 		})
 		.catch(function(error) {
 			console.log(error);
+			var link = ""
+			title = `Fallback Method`;
 			$('#SearchModelLabel').html(title);
-			btn = `<div class="btn-group">`+ gdrive_btn +`
-				<a href="/fallback?id=${file_id}&${can_preview ? 'a=view' : ''}" type="button" class="btn btn-success" target="_blank"><i class="fas fa-bolt fa-fw"></i>Index</a>
-				</div>` + close_btn;
+			content = `<a class="btn btn-info" href="/fallback?id=${file_id}&${can_preview ? 'a=view' : ''}">Open</a> <a class="btn btn-secondary" href="/fallback?id=${file_id}&${can_preview ? 'a=view' : ''}" target="_blank">Open in New Tab</a>`;
 			$('#modal-body-space').html(content);
-			$('#modal-body-space-buttons').html(btn);
 		});
 }
 
 function get_file(path, file, callback) {
-	var key = "file_path_" + path + file['createdTime'];
+	var key = "file_path_" + path + file['modifiedTime'];
 	var data = localStorage.getItem(key);
 	if (data != undefined) {
 		return callback(data);
@@ -1320,49 +1122,52 @@ async function fallback(id, type) {
 			})
 			.then(function(obj) {
 				console.log(obj);
-				title(obj.name);
-				const mimeType = obj.mimeType;
-				const fileExtension = obj.fileExtension ? obj.fileExtension.toLowerCase() : 'GoogleApps';
-				const createdTime = utc2jakarta(obj.createdTime);
+				var mimeType = obj.mimeType;
+				var fileExtension = obj.fileExtension
 				const code = ["php", "css", "go", "java", "js", "json", "txt", "sh", "md", "html", "xml", "py", "rb", "c", "cpp", "h", "hpp"];
 				const video = ["mp4", "webm", "avi", "mpg", "mpeg", "mkv", "rm", "rmvb", "mov", "wmv", "asf", "ts", "flv", "3gp", "m4v"];
 				const audio = ["mp3", "flac", "wav", "ogg", "m4a", "aac", "wma", "alac"];
+				const image = ["bmp", "jpg", "jpeg", "png", "gif", "svg", "tiff", "ico"];
+				const pdf = ["pdf"];
 				if (mimeType === "application/vnd.google-apps.folder") {
 					window.location.href = window.location.pathname + "/";
 				} else if (fileExtension) {
 					const name = obj.name;
-					const bytes = obj.size || 0;
-					const md5Checksum = obj.md5Checksum || '—';
-					const size = formatFileSize(obj.size) || '—';
 					const encoded_name = encodeURIComponent(name);
+					const size = formatFileSize(obj.size);
 					const url = UI.second_domain_for_dl ? UI.downloaddomain + obj.link : window.location.origin + obj.link;
-					const file_id = obj.fid;
-					var poster = obj.thumbnailLink ? obj.thumbnailLink.replace("s220", "s0") : null;
+					const file_id = obj.id;
 					if (mimeType.includes("video") || video.includes(fileExtension)) {
-						var poster = obj.thumbnailLink ? poster : UI.poster;
-						file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum, createdTime, file_id, cookie_folder_id);
+						const poster = obj.thumbnailLink ? obj.thumbnailLink.replace("s220", "s0") : UI.poster;
+						file_video(name, encoded_name, size, poster, url, mimeType, file_id, cookie_folder_id);
 					} else if (mimeType.includes("audio") || audio.includes(fileExtension)) {
-						file_audio(name, encoded_name, size, url, mimeType, md5Checksum, createdTime, file_id, cookie_folder_id);
+						file_audio(name, encoded_name, size, url, file_id, cookie_folder_id);
+					} else if (mimeType.includes("image") || image.includes(fileExtension)) {
+						file_image(name, encoded_name, size, url, file_id, cookie_folder_id);
+					} else if (mimeType.includes("pdf") || pdf.includes(fileExtension)) {
+						file_pdf(name, encoded_name, size, url, file_id, cookie_folder_id);
 					} else if (code.includes(fileExtension)) {
-						file_code(name, encoded_name, size, bytes, poster, url, mimeType, md5Checksum, createdTime, file_id, cookie_folder_id);
+						file_code(name, encoded_name, size, url, file_id, cookie_folder_id);
 					} else {
-						file_others(name, encoded_name, size, poster, url, mimeType, md5Checksum, createdTime, file_id, cookie_folder_id);
+						file_others(name, encoded_name, size, url, file_id, cookie_folder_id);
 					}
 				}
 			})
 			.catch(function(error) {
 				var content = `
-		  <div class="card text-center">
+          <div class="container"><br>
+          <div class="card text-center">
             <div class="card-body text-center">
               <div class="${UI.file_view_alert_class}" id="file_details" role="alert"><b>404.</b> That’s an error. ` + error + `</div>
             </div>
             <p>The requested URL was not found on this server. That’s all we know.</p>
             <div class="card-text text-center">
               <div class="btn-group text-center">
-                <a href="/" type="button" class="btn btn-success">Homepage</a>
+                <a href="/" type="button" class="btn btn-primary">Homepage</a>
               </div>
             </div><br>
-          </div>`;
+          </div>
+        </div>`;
 				$("#content").html(content);
 			});
 	} else { // is a folder id
@@ -1392,59 +1197,57 @@ async function file(path) {
 		})
 		.then(function(obj) {
 			console.log(obj);
-			const mimeType = obj.mimeType;
-			const createdTime = utc2jakarta(obj.createdTime);
-			const fileExtension = obj.fileExtension ? obj.fileExtension.toLowerCase() : 'GoogleApps';
+			var mimeType = obj.mimeType;
+			var fileExtension = obj.fileExtension
 			const code = ["php", "css", "go", "java", "js", "json", "txt", "sh", "md", "html", "xml", "py", "rb", "c", "cpp", "h", "hpp"];
 			const video = ["mp4", "webm", "avi", "mpg", "mpeg", "mkv", "rm", "rmvb", "mov", "wmv", "asf", "ts", "flv", "3gp", "m4v"];
 			const audio = ["mp3", "flac", "wav", "ogg", "m4a", "aac", "wma", "alac"];
+			const image = ["bmp", "jpg", "jpeg", "png", "gif", "svg", "tiff", "ico"];
+			const pdf = ["pdf"];
 			if (mimeType === "application/vnd.google-apps.folder") {
 				window.location.href = window.location.pathname + "/";
 			} else if (fileExtension) {
 				const name = obj.name;
-				const bytes = obj.size || 0;
-				const md5Checksum = obj.md5Checksum || '—';
-				const size = formatFileSize(obj.size) || '—';
 				const encoded_name = encodeURIComponent(name);
+				const size = formatFileSize(obj.size);
 				const url = UI.second_domain_for_dl ? UI.downloaddomain + obj.link : window.location.origin + obj.link;
 				const file_id = obj.id;
-				var poster = obj.thumbnailLink ? obj.thumbnailLink.replace("s220", "s0") : null;
 				if (mimeType.includes("video") || video.includes(fileExtension)) {
-					var poster = obj.thumbnailLink ? poster : UI.poster;
-					file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum, createdTime, file_id, cookie_folder_id);
+					const poster = obj.thumbnailLink ? obj.thumbnailLink.replace("s220", "s0") : UI.poster;
+					file_video(name, encoded_name, size, poster, url, mimeType, file_id, cookie_folder_id);
 				} else if (mimeType.includes("audio") || audio.includes(fileExtension)) {
-					file_audio(name, encoded_name, size, url, mimeType, md5Checksum, createdTime, file_id, cookie_folder_id);
+					file_audio(name, encoded_name, size, url, file_id, cookie_folder_id);
+				} else if (mimeType.includes("image") || image.includes(fileExtension)) {
+					file_image(name, encoded_name, size, url, file_id, cookie_folder_id);
+				} else if (mimeType.includes("pdf") || pdf.includes(fileExtension)) {
+					file_pdf(name, encoded_name, size, url, file_id, cookie_folder_id);
 				} else if (code.includes(fileExtension)) {
-					file_code(name, encoded_name, size, bytes, poster, url, mimeType, md5Checksum, createdTime, file_id, cookie_folder_id);
+					file_code(name, encoded_name, size, url, file_id, cookie_folder_id);
 				} else {
-					file_others(name, encoded_name, size, poster, url, mimeType, md5Checksum, createdTime, file_id, cookie_folder_id);
+					file_others(name, encoded_name, size, url, file_id, cookie_folder_id);
 				}
 			}
 		})
 		.catch(function(error) {
 			var content = `
-		  <div class="card text-center">
+          <div class="container"><br>
+          <div class="card text-center">
             <div class="card-body text-center">
               <div class="${UI.file_view_alert_class}" id="file_details" role="alert"><b>404.</b> That’s an error. ` + error + `</div>
             </div>
             <p>The requested URL was not found on this server. That’s all we know.</p>
             <div class="card-text text-center">
               <div class="btn-group text-center">
-                <a href="/" type="button" class="btn btn-success">Homepage</a>
+                <a href="/" type="button" class="btn btn-primary">Homepage</a>
               </div>
             </div><br>
-          </div>`;
+          </div>
+        </div>`;
 			$("#content").html(content);
 		});
 }
 
-const trakteerWidget = `<div class="col-md-12">
-<div class="card" style="padding: 0 0 0.3rem 0;border-radius:.5rem;width:100%;overflow:hidden;">
-  <iframe src="https://stream.trakteer.id/running-text-default.html?rt_font=Lato&amp;rt_count=6&amp;rt_speed=normal&amp;rt_theme=default&amp;rt_1_clr1=rgba%280%2C+0%2C+0%2C+0%29&amp;rt_2_clr1=rgba%28190%2C+30%2C+45%2C+1%29&amp;rt_2_clr2=rgba%28255%2C+255%2C+255%2C+1%29&amp;rt_2_clr3=rgba%28255%2C+200%2C+73%2C+1%29&amp;rt_septype=image&amp;rt_messages=Donasi+via+%26nbsp%3B%3Ca+href%3D%27https%3A%2F%2Ftrakteer.id%2Fjovanzers%2Ftip%27+style%3D%27color%3A%23FFC849%3B+text-decoration%3A+none%3B%27+target%3D%27_blank%27%3ETrakteer%3C%2Fa%3E+%2F+%26nbsp%3B%3Ca+href%3D%27https%3A%2F%2Fsaweria.co%2Fjovanzers%27+style%3D%27color%3A%23FFC849%3B+text-decoration%3A+none%3B%27+target%3D%27_blank%27%3ESaweria%3C%2Fa%3E&amp;rt_txtshadow=false&amp;creator_name=jovanzers&amp;page_url=trakteer.id/jovanzers&amp;mod=3&amp;key=trstream-0Cd1Li6Gi6gLtK6GT84w&amp;hash=q07y4nqv7kp4wkxv" height="40px" width="100%" style="border:none; color-scheme: light;"></iframe>
-</div>
-</div>`;
-
-const copyButton = `<button onclick="copyFunction()" onmouseout="outFunc()" class="btn btn-primary"><span class="tooltiptext" id="myTooltip"><i class="fas fa-copy fa-fw"></i>Copy</span></button>`
+const copyButton = `<button onclick="copyFunction()" onmouseout="outFunc()" class="btn btn-success"> <span class="tooltiptext" id="myTooltip">Copy</span> </button>`
 
 function generateCopyFileBox(file_id, cookie_folder_id) {
 	const copyFileBox = `<div class="row justify-content-center mt-3" id="copyresult">
@@ -1457,256 +1260,186 @@ function generateCopyFileBox(file_id, cookie_folder_id) {
 }
 
 // Document display |zip|.exe/others direct downloads
-function file_others(name, encoded_name, size, poster, url, mimeType, md5Checksum, createdTime, file_id, cookie_folder_id) {
+function file_others(name, encoded_name, size, url, file_id, cookie_folder_id) {
+	// Split the file path into parts
+	var path = window.location.pathname;
+	var pathParts = path.split('/');
 	const copyFileBox = UI.allow_file_copy ? generateCopyFileBox(file_id, cookie_folder_id) : '';
-
-	// Add the container and card elements // wait until image is loaded and then hide spinner
-	var content = `
-	<div class="card">
-		<div class="card-header ${UI.file_view_alert_class}">
-			<i class="fas fa-file-alt fa-fw"></i>File Information
-		</div>
-		<div class="card-body row g-3">
-			<div class="col-lg-4 col-md-12">${poster && !mimeType.startsWith('application/vnd.google-apps') ? `
-				<div id="preview" class="h-100 border border-dark rounded d-flex justify-content-center align-items-center position-relative" style="--bs-border-opacity: .5; min-height: 200px;">
-					<div id="preview_spinner" class="spinner-border m-5" role="status"><span class="sr-only"></span></div>
-					<div id="overlay" class="overlay border border-dark rounded d-flex justify-content-center align-items-center flex-column gap-3 pt-4 pb-4" style="--bs-border-opacity: .5; opacity: 0;">
-						<span><i class="fas fa-search-plus fa-2xl fa-fw"></i></span>
-						<span>Preview</span>
-						<a href="#" class="stretched-link" data-bs-toggle="modal" data-bs-target="#SearchModel" title="Thumbnail of ${name}"></a>
-					</div>
-				</div>` : `
-				<div class="h-100 border border-dark rounded d-flex justify-content-center align-items-center flex-column gap-3 pt-4 pb-4" style="--bs-border-opacity: .5;">
-					<span><i class="fa-solid fa-photo-film fa-2xl fa-fw"></i></span>
-					<span>Thumbnail not available</span>
-				</div>`}
-			</div>
-			<div class="col-lg-8 col-md-12">
-				<table class="table table-dark">
-					<tbody>
-						<tr>
-							<th>
-								<i class="fa-regular fa-folder-closed fa-fw"></i>
-								<span class="tth">Name</span>
-							</th>
-							<td>${name}</td>
-						</tr>
-						<tr>
-							<th>
-								<i class="fa-regular fa-clock fa-fw"></i>
-								<span class="tth">Datetime</span>
-							</th>
-							<td>${createdTime}</td>
-						</tr>
-						<tr>
-							<th>
-								<i class="fa-solid fa-tag fa-fw"></i>
-								<span class="tth">Type</span>
-							</th>
-							<td>${mimeType}</td>
-						</tr>
-						<tr>
-							<th>
-								<i class="fa-solid fa-box-archive fa-fw"></i>
-								<span class="tth">Size</span>
-							</th>
-							<td>${size}</td>
-						</tr>
-						<tr>
-							<th>
-								<i class="fa-solid fa-file-circle-check fa-fw"></i>
-								<span class="tth">Checksum</span>
-							</th>
-							<td>MD5: <code>${md5Checksum}</code>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				<div class="input-group">
-					<span class="input-group-text" id="">Full URL</span>
-					<input type="text" class="form-control" id="dlurl" value="${url}" readonly> ` + copyButton + `
-				</div>
-			</div>
-			<div class="col-md-12">
-				<div class="text-center">
-					<p class="mb-2">Download via</p>
-					<div class="btn-group text-center"> ${UI.display_drive_link ? ` <a class="btn btn-secondary d-flex align-items-center gap-2" href="https://sharer.winten.my.id/f/${file_id}" id="file_drive_link" target="_blank">`+gdrive_icon+`Google Drive</a>` : ``} <a href="${url}" type="button" class="btn btn-success">
-							<i class="fas fa-bolt fa-fw"></i>Index Link</a>
-						<button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<span class="sr-only"></span>
-						</button>
-						<div class="dropdown-menu">
-							<a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM (Free)</a>
-							<a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.adm.lite/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM (Lite)</a>
-							<a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM+ (Plus)</a>
-						</div>
-					</div> `+ copyFileBox +`
-				</div>
-			</div>
-		</div>
-	</div>`;
-	$('#content').html(content);
-	$('#SearchModelLabel').html('<i class="fa-regular fa-eye fa-fw"></i>Preview');
-	var preview = `<img class="w-100 rounded" src="${poster}" alt="Preview of ${name}" title="Preview of ${name}">`;
-	var btn = `<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>`;
-	$('#modal-body-space').html(preview);
-	$('#modal-body-space-buttons').html(btn);
-	if (poster && !mimeType.startsWith('application/vnd.google-apps')) {
-		// Create a new image element
-		var img = new Image();
-		// Set up event handlers for image load and error
-		$(img).on('load', function() {
-			// Image loaded successfully
-			$('#preview_spinner').hide(); // Hide the spinner
-			$('#preview').css({'background': 'url("' + poster + '") 0 0 / 100% 100% no-repeat'});
-			$('#preview').addClass('border-0');
-			$('#overlay').css('opacity', '.9');
-		}).on('error', function() {
-			// Image failed to load
-			$('#preview_spinner').hide(); // Hide the spinner
-			// You might want to handle the error, for example, display a placeholder image or show an error message.
-		});
-		// Set the image source after setting up event handlers
-		img.src = poster;
+	// Generate the navigation based on path parts
+	var navigation = '';
+	var new_path = '';
+	for (var i = 0; i < pathParts.length; i++) {
+		var part = pathParts[i];
+		if (i == pathParts.length - 1) {
+			new_path += part + '?a=view'
+		} else {
+			new_path += part + '/'
+		}
+		if (part.length > 15) {
+			part = decodeURIComponent(part);
+			part = part.substring(0, 10) + '...';
+		}
+		if (part == '') {
+			part = 'Home'
+		}
+		navigation += '<a href="' + new_path + '" class="breadcrumb-item">' + part + '</a>';
 	}
-}
 
-function file_code(name, encoded_name, size, bytes, poster, url, mimeType, md5Checksum, createdTime, file_id, cookie_folder_id) {
-	const copyFileBox = UI.allow_file_copy ? generateCopyFileBox(file_id, cookie_folder_id) : '';
 	// Add the container and card elements
 	var content = `
-	<div class="card">
-		<div class="card-header ${UI.file_view_alert_class}">
-			<i class="fas fa-file-alt fa-fw"></i>File Information
-		</div>
-		<div class="card-body row g-3">
-			<div class="col-lg-4 col-md-12">
-				<div id="preview" class="h-100 border border-dark rounded d-flex justify-content-center align-items-center position-relative" style="--bs-border-opacity: .5;">
-					<div id="code_spinner"></div>
-					<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css">
-					<pre id="pre" class="rounded mb-0" style="height: 251px;"><code id="editor" class="h-100" style="white-space: pre-wrap; word-wrap: break-word;"></code></pre>
-					${bytes >= 1024 * 1024 * 2 && poster ? `
-					<div id="overlay" class="overlay border border-dark rounded d-flex justify-content-center align-items-center flex-column gap-3 pt-4 pb-4" style="--bs-border-opacity: .5; opacity: 0;">
-						<span><i class="fas fa-search-plus fa-2xl fa-fw"></i></span>
-						<span>Preview</span>
-						<a href="#" class="stretched-link" data-bs-toggle="modal" data-bs-target="#SearchModel" title="Thumbnail of ${name}"></a>
-					</div>` : ``}
-				</div>
-			</div>
-			<div class="col-lg-8 col-md-12" id="file-info">
-				<table class="table table-dark">
-					<tbody>
-						<tr>
-							<th>
-								<i class="fa-regular fa-folder-closed fa-fw"></i>
-								<span class="tth">Name</span>
-							</th>
-							<td>${name}</td>
-						</tr>
-						<tr>
-							<th>
-								<i class="fa-regular fa-clock fa-fw"></i>
-								<span class="tth">Datetime</span>
-							</th>
-							<td>${createdTime}</td>
-						</tr>
-						<tr>
-							<th>
-								<i class="fa-solid fa-tag fa-fw"></i>
-								<span class="tth">Type</span>
-							</th>
-							<td>${mimeType}</td>
-						</tr>
-						<tr>
-							<th>
-								<i class="fa-solid fa-box-archive fa-fw"></i>
-								<span class="tth">Size</span>
-							</th>
-							<td>${size}</td>
-						</tr>
-						<tr>
-							<th>
-								<i class="fa-solid fa-file-circle-check fa-fw"></i>
-								<span class="tth">Checksum</span>
-							</th>
-							<td>MD5: <code>${md5Checksum}</code>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				<div class="input-group">
-					<span class="input-group-text" id="">Full URL</span>
-					<input type="text" class="form-control" id="dlurl" value="${url}" readonly> ` + copyButton + `
-				</div>
-			</div>
-			<div class="col-md-12">
-				<div class="text-center">
-					<p class="mb-2">Download via</p>
-					<div class="btn-group text-center"> ${UI.display_drive_link ? ` <a class="btn btn-secondary d-flex align-items-center gap-2" href="https://sharer.winten.my.id/f/${file_id}" id="file_drive_link" target="_blank">`+gdrive_icon+`Google Drive</a>` : ``} <a href="${url}" type="button" class="btn btn-success">
-							<i class="fas fa-bolt fa-fw"></i>Index Link</a>
-						<button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<span class="sr-only"></span>
-						</button>
-						<div class="dropdown-menu">
-							<a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM (Free)</a>
-							<a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.adm.lite/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM (Lite)</a>
-							<a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM+ (Plus)</a>
-						</div>
-					</div> `+ copyFileBox +`
-				</div>
-			</div>
-		</div>
-	</div>`;
+    <div class="container"><br>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          ${navigation}
+        </ol>
+      </nav>
+            <div class="card text-center">
+            <div class="card-body text-center">
+              <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>${size}</div>
+            </div>
+            <div class="card-body">
+            <div class="input-group mb-4">
+              <input type="text" class="form-control" id="dlurl" value="${url}" readonly>
+            </div>
+            <div class="card-text text-center">
+            <div class="btn-group text-center">
+                <a href="${url}" type="button" class="btn btn-primary">Download</a>
+                <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="sr-only"></span>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM (Free)</a>
+                  <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.adm.lite/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM (Lite)</a>
+                  <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM+ (Plus)</a>
+                </div>
+            </div>
+            ` + copyButton + copyFileBox+`
+            </div>
+            <br></div>`;
 	$("#content").html(content);
-	$('#SearchModelLabel').html('<i class="fa-regular fa-eye fa-fw"></i>Preview');
-	var preview = `<img class="w-100 rounded" src="${poster}" alt="Preview of ${name}" title="Preview of ${name}">`;
-	var btn = `<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>`;
-	$('#modal-body-space').html(preview);
-	$('#modal-body-space-buttons').html(btn);
-	var no_thumb = `<div class="d-flex align-items-center flex-column gap-3 pt-4 pb-4" style="--bs-border-opacity: .5;"><span><i class="fa-solid fa-photo-film fa-2xl fa-fw"></i></span><span>Thumbnail not available</span></div>`;
+}
+
+function file_code(name, encoded_name, size, bytes, url, ext, file_id, cookie_folder_id) {
+	var type = {
+		"html": "html",
+		"php": "php",
+		"css": "css",
+		"go": "golang",
+		"java": "java",
+		"js": "javascript",
+		"json": "json",
+		"txt": "Text",
+		"sh": "sh",
+		"md": "Markdown",
+	};
+
+	// Split the file path into parts
+	var path = window.location.pathname;
+	var pathParts = path.split('/');
+	const copyFileBox = UI.allow_file_copy ? generateCopyFileBox(file_id, cookie_folder_id) : '';
+	// Generate the navigation based on path parts
+	var navigation = '';
+	var new_path = '';
+	for (var i = 0; i < pathParts.length; i++) {
+		var part = pathParts[i];
+		if (i == pathParts.length - 1) {
+			new_path += part + '?a=view'
+		} else {
+			new_path += part + '/'
+		}
+		if (part.length > 15) {
+			part = decodeURIComponent(part);
+			part = part.substring(0, 10) + '...';
+		}
+		if (part == '') {
+			part = 'Home'
+		}
+		navigation += '<a href="' + new_path + '" class="breadcrumb-item">' + part + '</a>';
+	}
+
+	// Add the container and card elements
+	var content = `
+    <div class="container"><br>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          ${navigation}
+        </ol>
+      </nav>
+      <div class="card text-center">
+        <div class="card-body text-center">
+          <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>${size}</div>
+        </div>
+        <div id="code_spinner"></div>` +
+		(UI.second_domain_for_dl ? `` : `<pre class="line-numbers language-markup" data-src="plugins/line-numbers/index.html" data-start="-5" style="white-space: pre-wrap; counter-reset: linenumber -6;" data-src-status="loaded" tabindex="0"><code id="editor"></code></pre>`) +
+		`<div class="card-body">
+          <div class="input-group mb-4">
+            <input type="text" class="form-control" id="dlurl" value="${url}" readonly>
+          </div>
+          <div class="card-text text-center">
+            <div class="btn-group text-center">
+              <a href="${url}" type="button" class="btn btn-primary">Download</a>
+              <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only"></span>
+              </button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM (Free)</a>
+                <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.adm.lite/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM (Lite)</a>
+                <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM+ (Plus)</a>
+              </div>
+            </div>
+            ` + copyButton + copyFileBox + `
+          </div>
+          <br>
+        </div>
+      </div>
+    </div>`;
+
+	$('#content').html(content);
 	var spinner = '<div class="d-flex justify-content-center"><div class="spinner-border m-5" role="status"><span class="sr-only"></span></div></div>';
 	$("#code_spinner").html(spinner);
 	if (bytes <= 1024 * 1024 * 2) {
 		$.get(url, function(data) {
 			$('#editor').html($('<div/>').text(data).html());
 			$("#code_spinner").html("");
-			$('#pre').addClass("flex-fill");
-			var height = document.querySelector("#file-info").offsetHeight;
-			$('#pre').css('height', height-2 + 'px');
-			hljs.highlightAll();
+			var code_type = "Text";
+			if (type[ext] != undefined) {
+				code_type = type[ext];
+			}
 		});
 	} else {
-		$('#pre').hide();
-		$('#editor').html(`File size is too large to preview, max. 2 MB`);
-		if (poster) {
-			// Create a new image element
-			var img = new Image();
-			// Set up event handlers for image load and error
-			$(img).on('load', function() {
-				// Image loaded successfully
-				$('#code_spinner').hide(); // Hide the spinner
-				$('#preview').css({'background': 'url("' + poster + '") 0 0 / 100% 100% no-repeat', 'min-height': '200px'});
-				$('#preview').addClass('border-0');
-				$('#overlay').css('opacity', '.9');
-			}).on('error', function() {
-				// Image failed to load
-				$('#code_spinner').hide(); // Hide the spinner
-				// You might want to handle the error, for example, display a placeholder image or show an error message.
-			});
-			// Set the image source after setting up event handlers
-			img.src = poster;
-		} else {
-			$('#code_spinner').html(no_thumb);
-		}
+		$("#code_spinner").html("");
+		$('#editor').html(`<div class="${UI.file_view_alert_class}" id="file_details" role="alert">File size is too large to preview, Max Limit is 2 MB</div>`);
 	}
 }
 
 
 
 // Document display video |mp4|webm|avi|
-function file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum, createdTime, file_id, cookie_folder_id) {
+function file_video(name, encoded_name, size, poster, url, mimeType, file_id, cookie_folder_id) {
 	var url_base64 = btoa(url);
+	// Split the file path into parts
+	var path = window.location.pathname;
+	var pathParts = path.split('/');
 	const copyFileBox = UI.allow_file_copy ? generateCopyFileBox(file_id, cookie_folder_id) : '';
+	// Generate the navigation based on path parts
+	var navigation = '';
+	var new_path = '';
+	for (var i = 0; i < pathParts.length; i++) {
+		var part = pathParts[i];
+		if (i == pathParts.length - 1) {
+			new_path += part + '?a=view'
+		} else {
+			new_path += part + '/'
+		}
+		if (part.length > 15) {
+			part = decodeURIComponent(part);
+			part = part.substring(0, 10) + '...';
+		}
+		if (part == '') {
+			part = 'Home'
+		}
+		navigation += '<a href="' + new_path + '" class="breadcrumb-item">' + part + '</a>';
+	}
 	let player
 	if (!UI.disable_player) {
 		if (player_config.player == "plyr") {
@@ -1717,7 +1450,7 @@ function file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum
 			player_js = 'https://cdn.plyr.io/' + player_config.plyr_io_version + '/plyr.polyfilled.js'
 			player_css = 'https://cdn.plyr.io/' + player_config.plyr_io_version + '/plyr.css'
 		} else if (player_config.player == "videojs") {
-			player = `<video id="vplayer" poster="${poster}" class="video-js vjs-default-skin rounded" controls preload="none" width="100%" height="100%" data-setup='{"fill": true}' style="--plyr-captions-text-color: #ffffff;--plyr-captions-background: #000000; min-height: 200px;">
+			player = `<video id="vplayer" poster="${poster}" muted=true class="video-js vjs-default-skin" controls preload="auto" width="100%" height="100%" data-setup='{"fluid": true}' style="--plyr-captions-text-color: #ffffff;--plyr-captions-background: #000000;">
       <source src="${url}" type="video/mp4" />
       <source src="${url}" type="video/webm" />
       <source src="${url}" type="video/avi" />
@@ -1736,91 +1469,49 @@ function file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum
 	}
 	// Add the container and card elements
 	var content = `
-	<div class="card">
-		<div class="card-header ${UI.file_view_alert_class}">
-			<i class="fas fa-file-alt fa-fw"></i>File Information
-		</div>
-		<div class="card-body row g-3">
-			<div class="col-lg-4 col-md-12">
-				<div class="h-100 border border-dark rounded" style="--bs-border-opacity: .5;">
-					${player}
-				</div>
-			</div>
-			<div class="col-lg-8 col-md-12">
-				<table class="table table-dark">
-					<tbody>
-						<tr>
-							<th>
-								<i class="fa-regular fa-folder-closed fa-fw"></i>
-								<span class="tth">Name</span>
-							</th>
-							<td>${name}</td>
-						</tr>
-						<tr>
-							<th>
-								<i class="fa-regular fa-clock fa-fw"></i>
-								<span class="tth">Datetime</span>
-							</th>
-							<td>${createdTime}</td>
-						</tr>
-						<tr>
-							<th>
-								<i class="fa-solid fa-tag fa-fw"></i>
-								<span class="tth">Type</span>
-							</th>
-							<td>${mimeType}</td>
-						</tr>
-						<tr>
-							<th>
-								<i class="fa-solid fa-box-archive fa-fw"></i>
-								<span class="tth">Size</span>
-							</th>
-							<td>${size}</td>
-						</tr>
-						<tr>
-							<th>
-								<i class="fa-solid fa-file-circle-check fa-fw"></i>
-								<span class="tth">Checksum</span>
-							</th>
-							<td>MD5: <code>${md5Checksum}</code>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				${UI.disable_video_download ? `` : `
-				<div class="input-group">
-					<span class="input-group-text" id="">Full URL</span>
-					<input type="text" class="form-control" id="dlurl" value="${url}" readonly> ` + copyButton + `
-				</div>`}
-			</div>
-			${UI.disable_video_download ? `` : `
-			<div class="col-md-12">
-				<div class="text-center">
-					<p class="mb-2">Download via</p>
-					<div class="btn-group text-center"> ${UI.display_drive_link ? ` <a class="btn btn-secondary d-flex align-items-center gap-2" href="https://sharer.winten.my.id/f/${file_id}" id="file_drive_link" target="_blank">`+gdrive_icon+`Google Drive</a>` : ``} <a href="${url}" type="button" class="btn btn-success">
-							<i class="fas fa-bolt fa-fw"></i>Index Link</a>
-						<button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<span class="sr-only"></span>
-						</button>
-						<div class="dropdown-menu">
-							<a class="dropdown-item" href="iina://weblink?url=${url}">IINA</a>
-							<a class="dropdown-item" href="potplayer://${url}">PotPlayer</a>
-							<a class="dropdown-item" href="vlc://${url}">VLC Mobile</a>
-							<a class="dropdown-item" href="${url}">VLC Desktop</a>
-							<a class="dropdown-item" href="nplayer-${url}">nPlayer</a>
-							<a class="dropdown-item" href="intent://${url}#Intent;type=video/any;package=is.xyz.mpv;scheme=https;end;">mpv-android</a>
-							<a class="dropdown-item" href="mpv://${url_base64}">mpv x64</a>
-							<a class="dropdown-item" href="intent:${url}#Intent;package=com.mxtech.videoplayer.ad;S.title=${encoded_name};end">MX Player (Free)</a>
-							<a class="dropdown-item" href="intent:${url}#Intent;package=com.mxtech.videoplayer.pro;S.title=${encoded_name};end">MX Player (Pro)</a>
-							<a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM (Free)</a>
-							<a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.adm.lite/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM (Lite)</a>
-							<a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM+ (Plus)</a>
-						</div>
-					</div> `+ copyFileBox +`
-				</div>
-			</div>`}
-		</div>
-	</div>`;
+    <div class="container text-center"><br>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          ${navigation}
+        </ol>
+      </nav>
+      <div class="card text-center">
+        <div class="text-center">
+          <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>${size}</div>${player}</div>
+        </br>
+        ${UI.disable_video_download ? `` : `
+          <div class="card-body">
+          <div class="input-group mb-4">
+          <input type="text" class="form-control" id="dlurl" value="${url}" readonly>
+          </div>
+          <div class="btn-group text-center">
+              <a href="${url}" type="button" class="btn btn-primary">Download</a>
+              <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="sr-only"></span>
+              </button>
+              <div class="dropdown-menu">
+              <a class="dropdown-item" href="iina://weblink?url=${url}">IINA</a>
+              <a class="dropdown-item" href="potplayer://${url}">PotPlayer</a>
+              <a class="dropdown-item" href="vlc://${url}">VLC Mobile</a>
+              <a class="dropdown-item" href="${url}">VLC Desktop</a>
+              <a class="dropdown-item" href="nplayer-${url}">nPlayer</a>
+              <a class="dropdown-item" href="intent://${url}#Intent;type=video/any;package=is.xyz.mpv;scheme=https;end;">mpv-android</a>
+              <a class="dropdown-item" href="mpv://${url_base64}">mpv x64</a>
+              <a class="dropdown-item" href="intent:${url}#Intent;package=com.mxtech.videoplayer.ad;S.title=${encoded_name};end">MX Player (Free)</a>
+              <a class="dropdown-item" href="intent:${url}#Intent;package=com.mxtech.videoplayer.pro;S.title=${encoded_name};end">MX Player (Pro)</a>
+              <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM (Free)</a>
+              <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.adm.lite/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM (Lite)</a>
+              <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM+ (Plus)</a>
+              </div>
+          </div>
+          `+copyButton+copyFileBox+`
+          
+          </div>
+          </div>
+          `}
+      </div>
+    </div>
+  `;
 	$("#content").html(content);
 
 	// Load Video.js and initialize the player
@@ -1878,108 +1569,89 @@ function file_video(name, encoded_name, size, poster, url, mimeType, md5Checksum
 
 
 // File display Audio |mp3|flac|m4a|wav|ogg|
-function file_audio(name, encoded_name, size, url, mimeType, md5Checksum, createdTime, file_id, cookie_folder_id) {
+function file_audio(name, encoded_name, size, url, file_id, cookie_folder_id) {
 	var url_base64 = btoa(url);
+	// Split the file path into parts
+	var path = window.location.pathname;
+	var pathParts = path.split('/');
 	const copyFileBox = UI.allow_file_copy ? generateCopyFileBox(file_id, cookie_folder_id) : '';
+	// Generate the navigation based on path parts
+	var navigation = '';
+	var new_path = '';
+	for (var i = 0; i < pathParts.length; i++) {
+		var part = pathParts[i];
+		if (i == pathParts.length - 1) {
+			new_path += part + '?a=view'
+		} else {
+			new_path += part + '/'
+		}
+		if (part.length > 15) {
+			part = decodeURIComponent(part);
+			part = part.substring(0, 10) + '...';
+		}
+		if (part == '') {
+			part = 'Home'
+		}
+		navigation += '<a href="' + new_path + '" class="breadcrumb-item">' + part + '</a>';
+	}
 
 	// Add the container and card elements
-	var player = `<video id="aplayer" poster="${UI.audioposter}" class="video-js vjs-default-skin rounded" controls preload="none" width="100%" height="100%" data-setup='{"fill": true}' style="--plyr-captions-text-color: #ffffff;--plyr-captions-background: #000000; object-fit: cover; min-height: 200px;">
-					<source src="${url}" type="audio/mpeg" />
-					<source src="${url}" type="audio/ogg" />
-					<source src="${url}" type="audio/wav" />
-				</video>`;
-
 	var content = `
-	<div class="card">
-		<div class="card-header ${UI.file_view_alert_class}">
-			<i class="fas fa-file-alt fa-fw"></i>File Information
-		</div>
-		<div class="card-body row g-3">
-			<div class="col-lg-4 col-md-12">
-				<div class="h-100 border border-dark rounded" style="--bs-border-opacity: .5;">
-					${UI.disable_player ? `<img class="object-fit-cover w-100 h-100 img-fluid rounded" src="${UI.audioposter}" alt="Thumbnail of ${name}" title="Thumbnail of ${name}">` : player}
-				</div>
-			</div>
-			<div class="col-lg-8 col-md-12">
-				<table class="table table-dark">
-					<tbody>
-						<tr>
-							<th>
-								<i class="fa-regular fa-folder-closed fa-fw"></i>
-								<span class="tth">Name</span>
-							</th>
-							<td>${name}</td>
-						</tr>
-						<tr>
-							<th>
-								<i class="fa-regular fa-clock fa-fw"></i>
-								<span class="tth">Datetime</span>
-							</th>
-							<td>${createdTime}</td>
-						</tr>
-						<tr>
-							<th>
-								<i class="fa-solid fa-tag fa-fw"></i>
-								<span class="tth">Type</span>
-							</th>
-							<td>${mimeType}</td>
-						</tr>
-						<tr>
-							<th>
-								<i class="fa-solid fa-box-archive fa-fw"></i>
-								<span class="tth">Size</span>
-							</th>
-							<td>${size}</td>
-						</tr>
-						<tr>
-							<th>
-								<i class="fa-solid fa-file-circle-check fa-fw"></i>
-								<span class="tth">Checksum</span>
-							</th>
-							<td>MD5: <code>${md5Checksum}</code>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				${UI.disable_audio_download ? `` : `
-				<div class="input-group">
-					<span class="input-group-text" id="">Full URL</span>
-					<input type="text" class="form-control" id="dlurl" value="${url}" readonly> ` + copyButton + `
-				</div>`}
-			</div>
-			${UI.disable_audio_download ? `` : `
-			<div class="col-md-12">
-				<div class="text-center">
-					<p class="mb-2">Download via</p>
-					<div class="btn-group text-center"> ${UI.display_drive_link ? ` <a class="btn btn-secondary d-flex align-items-center gap-2" href="https://sharer.winten.my.id/f/${file_id}" id="file_drive_link" target="_blank">`+gdrive_icon+`Google Drive</a>` : ``} <a href="${url}" type="button" class="btn btn-success">
-							<i class="fas fa-bolt fa-fw"></i>Index Link</a>
-						<button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<span class="sr-only"></span>
-						</button>
-						<div class="dropdown-menu">
-							<a class="dropdown-item" href="iina://weblink?url=${url}">IINA</a>
-							<a class="dropdown-item" href="potplayer://${url}">PotPlayer</a>
-							<a class="dropdown-item" href="vlc://${url}">VLC Mobile</a>
-							<a class="dropdown-item" href="${url}">VLC Desktop</a>
-							<a class="dropdown-item" href="nplayer-${url}">nPlayer</a>
-							<a class="dropdown-item" href="intent://${url}#Intent;type=audio/any;package=is.xyz.mpv;scheme=https;end;">mpv-android</a>
-							<a class="dropdown-item" href="mpv://${url_base64}">mpv x64</a>
-							<a class="dropdown-item" href="intent:${url}#Intent;package=com.mxtech.videoplayer.ad;S.title=${encoded_name};end">MX Player (Free)</a>
-							<a class="dropdown-item" href="intent:${url}#Intent;package=com.mxtech.videoplayer.pro;S.title=${encoded_name};end">MX Player (Pro)</a>
-							<a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM (Free)</a>
-							<a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.adm.lite/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM (Lite)</a>
-							<a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM+ (Plus)</a>
-						</div>
-					</div> `+ copyFileBox +`
-				</div>
-			</div>`}
-		</div>
-	</div>`;
+    <div class="container text-center"><br>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          ${navigation}
+        </ol>
+      </nav>
+      <div class="card text-center">
+        <div class="text-center">
+          <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>${size}</div>
+          ${UI.disable_player ? `` : `
+          <video id="aplayer" poster="${UI.audioposter}" muted=true class="video-js vjs-default-skin" controls preload="auto" width="100%" height="100%" data-setup='{"fluid": true}' style="--plyr-captions-text-color: #ffffff;--plyr-captions-background: #000000;">
+            <source src="${url}" type="audio/mpeg" />
+            <source src="${url}" type="audio/ogg" />
+            <source src="${url}" type="audio/wav" />
+          </video>`}
+        </div>
+        </br>
+        ${UI.disable_audio_download ? `` : `
+          <div class="card-body">
+          <div class="input-group mb-4">
+          <input type="text" class="form-control" id="dlurl" value="${url}" readonly>
+          </div>
+          <div class="btn-group text-center">
+              <a href="${url}" type="button" class="btn btn-primary">Download</a>
+              <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="sr-only"></span>
+              </button>
+              <div class="dropdown-menu">
+              <a class="dropdown-item" href="iina://weblink?url=${url}">IINA</a>
+              <a class="dropdown-item" href="potplayer://${url}">PotPlayer</a>
+              <a class="dropdown-item" href="vlc://${url}">VLC Mobile</a>
+              <a class="dropdown-item" href="${url}">VLC Desktop</a>
+              <a class="dropdown-item" href="nplayer-${url}">nPlayer</a>
+              <a class="dropdown-item" href="intent://${url}#Intent;type=audio/any;package=is.xyz.mpv;scheme=https;end;">mpv-android</a>
+              <a class="dropdown-item" href="mpv://${url_base64}">mpv x64</a>
+              <a class="dropdown-item" href="intent:${url}#Intent;package=com.mxtech.videoplayer.ad;S.title=${encoded_name};end">MX Player (Free)</a>
+              <a class="dropdown-item" href="intent:${url}#Intent;package=com.mxtech.videoplayer.pro;S.title=${encoded_name};end">MX Player (Pro)</a>
+              <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM (Free)</a>
+              <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.adm.lite/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM (Lite)</a>
+              <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM+ (Plus)</a>
+              </div>
+          </div>
+          `+copyButton+copyFileBox+`
+          <br>
+          </div>
+          </div>
+          `}
+      </div>
+    </div>
+  `;
 	$("#content").html(content);
 
 	// Load Video.js and initialize the player
 	var videoJsScript = document.createElement('script');
-	videoJsScript.src = 'https://vjs.zencdn.net/' + player_config.videojs_version + '/video.min.js';
+	videoJsScript.src = 'https://vjs.zencdn.net/' + UI.videojs_version + '/video.min.js';
 	videoJsScript.onload = function() {
 		// Video.js is loaded, initialize the player
 		const player = videojs('aplayer');
@@ -1987,28 +1659,164 @@ function file_audio(name, encoded_name, size, url, mimeType, md5Checksum, create
 	document.head.appendChild(videoJsScript);
 
 	var videoJsStylesheet = document.createElement('link');
-	videoJsStylesheet.href = 'https://vjs.zencdn.net/' + player_config.videojs_version + '/video-js.css';
+	videoJsStylesheet.href = 'https://vjs.zencdn.net/' + UI.videojs_version + '/video-js.css';
 	videoJsStylesheet.rel = 'stylesheet';
 	document.head.appendChild(videoJsStylesheet);
 }
 
 
+
+// Document display pdf
+function file_pdf(name, encoded_name, size, url, file_id, cookie_folder_id) {
+	// Split the file path into parts
+	var path = window.location.pathname;
+	var pathParts = path.split('/');
+	const copyFileBox = UI.allow_file_copy ? generateCopyFileBox(file_id, cookie_folder_id) : '';
+	// Generate the navigation based on path parts
+	var navigation = '';
+	var new_path = '';
+	for (var i = 0; i < pathParts.length; i++) {
+		var part = pathParts[i];
+		if (i == pathParts.length - 1) {
+			new_path += part + '?a=view'
+		} else {
+			new_path += part + '/'
+		}
+		if (part.length > 15) {
+			part = decodeURIComponent(part);
+			part = part.substring(0, 10) + '...';
+		}
+		if (part == '') {
+			part = 'Home'
+		}
+		navigation += '<a href="' + new_path + '" class="breadcrumb-item">' + part + '</a>';
+	}
+
+	// Add the container and card elements
+	var content = `
+    <div class="container text-center"><br>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          ${navigation}
+        </ol>
+      </nav>
+    <div class="card">
+    <div class="card-body text-center">
+    <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>${size}</div>
+    <div>
+    </div><br>
+    <iframe src="https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true" style="width:100%; height:500px;" frameborder="0"></iframe>
+    </div>
+    <div class="card-body">
+    <div class="input-group mb-4">
+    <input type="text" class="form-control" id="dlurl" value="${url}" readonly>
+    </div>
+    <div class="card-text text-center">
+    <div class="btn-group text-center">
+        <a href="${url}" type="button" class="btn btn-primary">Download</a>
+        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="sr-only"></span>
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM (Free)</a>
+            <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.adm.lite/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM (Lite)</a>
+            <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM+ (Plus)</a>
+        </div>
+    </div>
+    ` + copyButton + `
+    </div>
+    <br>
+    
+    </div>
+    </div>
+    </div>  
+  `;
+	$("#content").html(content);
+}
+
+// image display
+function file_image(name, encoded_name, size, url, file_id, cookie_folder_id) {
+	// Split the file path into parts
+	var path = window.location.pathname;
+	var pathParts = path.split('/');
+	const copyFileBox = UI.allow_file_copy ? generateCopyFileBox(file_id, cookie_folder_id) : '';
+	// Generate the navigation based on path parts
+	var navigation = '';
+	var new_path = '';
+	for (var i = 0; i < pathParts.length; i++) {
+		var part = pathParts[i];
+		if (i == pathParts.length - 1) {
+			new_path += part + '?a=view'
+		} else {
+			new_path += part + '/'
+		}
+		if (part.length > 15) {
+			part = decodeURIComponent(part);
+			part = part.substring(0, 10) + '...';
+		}
+		if (part == '') {
+			part = 'Home'
+		}
+		navigation += '<a href="' + new_path + '" class="breadcrumb-item">' + part + '</a>';
+	}
+
+	// Add the container and card elements // wait until image is loaded and then hide spinner
+	var content = `
+    <div class="container text-center"><br>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          ${navigation}
+        </ol>
+      </nav>
+      <div class="card">
+        <div class="card-body text-center">
+          <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>${size}</div>
+          <img src="${url}" id="load_image" width="100%">
+        </div>
+        <div class="card-body">
+          <div class="input-group mb-4">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="">Full URL</span>
+            </div>
+            <input type="text" class="form-control" id="dlurl" value="${url}" readonly>
+          </div>
+          <div class="card-text text-center">
+            <div class="btn-group text-center">
+              <a href="${url}" type="button" class="btn btn-primary">Download</a>
+              <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only"></span>
+              </button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM (Free)</a>
+                <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.adm.lite/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM (Lite)</a>
+                <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM+ (Plus)</a>
+              </div>
+            </div>
+            ` + copyButton + copyFileBox + `
+          </div>
+          <br>
+        </div>
+      </div>
+    </div>
+  `;
+	$('#content').html(content);
+}
+
 // Time conversion
-function utc2jakarta(utc_datetime) {
-	// Convert UTC datetime to local Jakarta time
+function utc2delhi(utc_datetime) {
+	// Convert UTC datetime to local Delhi time
 	var utcDate = new Date(utc_datetime);
-	var jakartaOptions = { timeZone: 'Asia/Jakarta' };
-	var jakartaDate = new Date(utcDate.toLocaleString('en-US', jakartaOptions));
+	var delhiDate = new Date(utcDate.getTime() + 5.5 * 60 * 60 * 1000);
 
-	// Format the Jakarta date and time
-	var year = jakartaDate.getFullYear();
-	var month = ('0' + (jakartaDate.getMonth() + 1)).slice(-2);
-	var date = ('0' + jakartaDate.getDate()).slice(-2);
-	var hour = ('0' + jakartaDate.getHours()).slice(-2);
-	var minute = ('0' + jakartaDate.getMinutes()).slice(-2);
-	var second = ('0' + jakartaDate.getSeconds()).slice(-2);
+	// Format the Delhi date and time
+	var year = delhiDate.getFullYear();
+	var month = ('0' + (delhiDate.getMonth() + 1)).slice(-2);
+	var date = ('0' + delhiDate.getDate()).slice(-2);
+	var hour = ('0' + delhiDate.getHours()).slice(-2);
+	var minute = ('0' + delhiDate.getMinutes()).slice(-2);
+	var second = ('0' + delhiDate.getSeconds()).slice(-2);
 
-	return `${date}-${month}-${year} ${hour}:${minute}`;
+	return `${date}-${month}-${year} ${hour}:${minute}:${second}`;
 }
 
 
@@ -2081,7 +1889,7 @@ function copyFunction() {
 	navigator.clipboard.writeText(copyText.value)
 		.then(function() {
 			var tooltip = document.getElementById("myTooltip");
-			tooltip.innerHTML = `<i class="fas fa-check fa-fw"></i>Copied`;
+			tooltip.innerHTML = "Copied";
 		})
 		.catch(function(error) {
 			console.error("Failed to copy text: ", error);
@@ -2090,7 +1898,7 @@ function copyFunction() {
 
 function outFunc() {
 	var tooltip = document.getElementById("myTooltip");
-	tooltip.innerHTML = `<i class="fas fa-copy fa-fw"></i>Copy`;
+	tooltip.innerHTML = "Copy";
 }
 
 // function to update the list of checkboxes
