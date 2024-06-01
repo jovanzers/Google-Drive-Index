@@ -26,10 +26,10 @@ function init() {
             </div>
         </div>
         <br>
-        <footer class="footer mt-auto py-3 text-muted ${UI.footer_style_class}" style="${UI.fixed_footer ? 'position: fixed; ' : ''}left: 0; bottom: 0; width: 100%; color: white; z-index: 9999;${UI.hide_footer ? ' display:none;' : ' display:block;'}">
-            <div class="container" style="width: auto; padding: 0 20px;">
-                ${UI.credit ? '<p style="padding-left: 20px; padding-right: 20px;">Uploaded from original Sigma books channel by Sayyed <a href="https://t.me/Deleech" target="_blank">"De area"</a>, Enjoy.</p>' : ''}
-                <p style="padding-left: 20px; padding-right: 20px;">© ${UI.copyright_year} - <a href="https://t.me/SiGMABooks" target="_blank">Sigma books</a>, All Rights Reserved.</p>
+        <footer class="footer mt-auto py-3 text-muted ${uiConfig.footer_style_class}" style="${uiConfig.fixed_footer ? 'position: fixed; ' : ''}left: 0; bottom: 0; width: 100%; color: white; z-index: 9999;${uiConfig.hide_footer ? ' display:none;' : ' display:block;'}">
+            <div class="bottom-container">
+                ${uiConfig.credit ? '<p>Uploaded from original Sigma books channel by Sayyed <a href="https://t.me/Deleech" target="_blank">"De area"</a>, Enjoy.</p>' : ''}
+                <p>© 2024 - <a href="https://t.me/SiGMABooks" target="_blank">Sigma books</a>, All Rights Reserved.</p>
             </div>
         </footer>
     `;
