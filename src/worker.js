@@ -639,17 +639,13 @@ const homepage = `<!DOCTYPE html>
               <i class="fa-solid fa-mug-hot fa-fw"></i>Donate a coffee
             </div>
             <div class="card-body d-flex align-items-center justify-content-center">
-              <div class="donate btn-group">
-                <a class="btn" href="https://trakteer.id/jovanzers/tip" title="Click me!" style="background: #BE1E2D;" target="_blank">
+              <div class="donate btn p-0">
+                <a class="btn" href="https://trakteer.id/kaceku/tip" title="Click me!" style="background: #BE1E2D;" target="_blank">
                   <i class="fab fa-paypal"></i>Trakteer </a>
-                <a class="btn" href="https://paypal.me/jovanzers" title="Click me!" style="background-color: #0079C1;" target="_blank">
-                  <i class="fab fa-paypal"></i>PayPal </a>
                 <div class="qrcode card" style="padding: 1rem 1rem 0 1rem;">
                   <div style="padding-bottom: 1rem;">Thank you very much ❤</div>
                   <img alt="Love" src="https://kaceku.onrender.com/static/img/love.png">
                 </div>
-                <a class="btn" href="https://saweria.co/jovanzers" title="Click me!" style="background: #f5a623FF;" target="_blank">
-                  <i class="fab fa-paypal"></i>Saweria </a>
               </div>
             </div>
           </div>
