@@ -58,17 +58,13 @@ function init() {
 					<i class="fa-solid fa-mug-hot fa-fw"></i>Donate a coffee
 				</div>
             	<div class="card-body d-flex align-items-center justify-content-center">
-					<div class="donate btn-group">
-						<a class="btn" href="https://trakteer.id/jovanzers/tip" title="Click me!" style="background: #BE1E2D;" target="_blank">
+					<div class="donate btn p-0">
+						<a class="btn" href="https://trakteer.id/kaceku/tip" title="Click me!" style="background: #BE1E2D;" target="_blank">
 						<i class="fab fa-paypal"></i>Trakteer </a>
-						<a class="btn" href="https://paypal.me/jovanzers" title="Click me!" style="background-color: #0079C1;" target="_blank">
-						<i class="fab fa-paypal"></i>PayPal </a>
 						<div class="qrcode card" style="padding: 1rem 1rem 0 1rem;">
 							<div style="padding-bottom: 1rem;">Thank you very much ❤</div>
-							<img alt="Love" src="https://sharer.winten.my.id/static/img/love.png">
+							<img alt="Love" src="https://kaceku.onrender.com/static/img/love.png">
 						</div>
-						<a class="btn" href="https://saweria.co/jovanzers" title="Click me!" style="background: #f5a623FF;" target="_blank">
-						<i class="fab fa-paypal"></i>Saweria </a>
 					</div>
             	</div>
         	</div>
@@ -80,13 +76,13 @@ function init() {
             	</div>
             	<div class="card-body d-flex flex-wrap gap-2 justify-content-evenly align-items-center">
 					<a href="https://akannikah.id" target="_blank" title="Akannikah.id">
-						<img class="image" alt="Akannikah.id" style="height: 32px;" src="https://sharer.winten.my.id/static/img/Akannikah.id.png">
+						<img class="image" alt="Akannikah.id" style="height: 32px;" src="https://kaceku.onrender.com/static/img/Akannikah.id.png">
 					</a>
 					<a href="https://merakit.co.id" target="_blank" title="Merakit Indonesia">
-						<img class="image" alt="Merakit Indonesia" src="https://sharer.winten.my.id/static/img/merakit.co.id.png">
+						<img class="image" alt="Merakit Indonesia" src="https://kaceku.onrender.com/static/img/merakit.co.id.png">
 					</a>
-					<a href="https://eksan127.github.io/paperplane" target="_blank" title="Paper Plane">
-						<img class="image" alt="Paper Plane" style="width: 32px;" src="https://sharer.winten.my.id/static/img/PaperPlane.png">
+					<a href="https://eksan127.blogspot.com" target="_blank" title="Eksan127">
+						<img class="image" alt="Eksan127" src="https://kaceku.onrender.com/static/img/eksan127.png">
 					</a>
 					<a href="https://azhe.my.id" target="_blank" title="azhe403">azhe403</a>
             	</div>
@@ -678,6 +674,12 @@ function append_files_to_fallback_list(path, files) {
 		let targetFiles = [];
 		var totalsize = 0;
 		var is_file = false
+		if (files.length == 0) {
+			html = `<div class="card-body"><div class="d-flex justify-content-center align-items-center flex-column gap-3 pt-4 pb-4">
+						<span><i class="fa-solid fa-heart-crack fa-2xl me-0"></i></span>
+						<span>This folder is empty</span>
+					</div></div>`;
+		}
 		for (i in files) {
 			var item = files[i];
 			var p = "/fallback?id=" + item.id
@@ -824,6 +826,12 @@ function append_files_to_list(path, files) {
 	let targetFiles = [];
 	var totalsize = 0;
 	var is_file = false
+	if (files.length == 0) {
+		html = `<div class="card-body"><div class="d-flex justify-content-center align-items-center flex-column gap-3 pt-4 pb-4">
+					<span><i class="fa-solid fa-heart-crack fa-2xl me-0"></i></span>
+					<span>This folder is empty</span>
+				</div></div>`;
+	}
 	for (i in files) {
 		var item = files[i];
 		var ep = encodeURIComponent(item.name).replace(/\//g, '%2F') + '/';
@@ -863,25 +871,25 @@ function append_files_to_list(path, files) {
 			//}
 			html += `<div class="list-group-item list-group-item-action d-flex align-items-center flex-md-nowrap flex-wrap justify-sm-content-between column-gap-2">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}<a class="countitems size_items w-100 d-flex align-items-start align-items-xl-center gap-2" style="text-decoration: none; color: ${UI.css_a_tag_color};" href="${pn}"><span>`
 
-      if ("|mp4|webm|avi|mpg|mpeg|mkv|rm|rmvb|mov|wmv|asf|ts|flv|".indexOf(`|${ext}|`) >= 0) {
-        html += video_icon
-      } else if ("|html|php|css|go|java|js|json|txt|sh|".indexOf(`|${ext}|`) >= 0) {
-        html += code_icon
-      } else if ("|zip|rar|tar|.7z|.gz|".indexOf(`|${ext}|`) >= 0) {
-        html += zip_icon
-      } else if ("|bmp|jpg|jpeg|png|gif|".indexOf(`|${ext}|`) >= 0) {
-        html += image_icon
-      } else if ("|m4a|mp3|flac|wav|ogg|".indexOf(`|${ext}|`) >= 0) {
-        html += audio_icon
-      } else if ("|md|".indexOf(`|${ext}|`) >= 0) {
-        html += markdown_icon
-      } else if ("|pdf|".indexOf(`|${ext}|`) >= 0) {
-        html += pdf_icon
-      } else if (item.mimeType.startsWith('application/vnd.google-apps.')) {
-		html += `<img src="${item.iconLink}" class="d-flex" style="width: 1.24rem; margin-left: 0.12rem; margin-right: 0.12rem;">`
-	  } else {
-        html += file_icon
-      }
+			if ("|mp4|webm|avi|mpg|mpeg|mkv|rm|rmvb|mov|wmv|asf|ts|flv|".indexOf(`|${ext}|`) >= 0) {
+				html += video_icon
+			} else if ("|html|php|css|go|java|js|json|txt|sh|".indexOf(`|${ext}|`) >= 0) {
+				html += code_icon
+			} else if ("|zip|rar|tar|.7z|.gz|".indexOf(`|${ext}|`) >= 0) {
+				html += zip_icon
+			} else if ("|bmp|jpg|jpeg|png|gif|".indexOf(`|${ext}|`) >= 0) {
+				html += image_icon
+			} else if ("|m4a|mp3|flac|wav|ogg|".indexOf(`|${ext}|`) >= 0) {
+				html += audio_icon
+			} else if ("|md|".indexOf(`|${ext}|`) >= 0) {
+				html += markdown_icon
+			} else if ("|pdf|".indexOf(`|${ext}|`) >= 0) {
+				html += pdf_icon
+			} else if (item.mimeType.startsWith('application/vnd.google-apps.')) {
+				html += `<img src="${item.iconLink}" class="d-flex" style="width: 1.24rem; margin-left: 0.12rem; margin-right: 0.12rem;">`
+			} else {
+				html += file_icon
+			}
 
 			html += `</span>${item.name}</a>${UI.display_time ? `<span class="badge bg-info" style="margin-left: 2rem;">` + item['createdTime'] + `</span>` : ``}${UI.display_size ? `<span class="badge bg-primary my-1 ${item['size'] == '—' ? 'text-center' : 'text-end'}" style="min-width: 85px;">` + item['size'] + `</span>` : ``}<span class="d-flex gap-2">
 			${UI.display_drive_link ? `<a class="d-flex align-items-center" href="https://sharer.winten.my.id/f/${item['fid']}" target="_blank" title="via Google Drive">${gdrive_icon}</a>` : ``}
@@ -970,7 +978,7 @@ function render_search_result_list() {
 		</div>
 	</div>
 	<div class="card">
-		<div class="card-header text-truncate"><i class="fas fa-search fa-fw"></i> Search results for <code>${model.q}</code></div>
+		<div class="card-header text-truncate"><i class="fas fa-search fa-fw"></i> Search: <code>${model.q}</code></div>
 		<div id="list" class="list-group list-group-flush text-break">
 		</div>
 		<div class="card-footer text-muted d-flex align-items-center gap-2" id="count"><span class="number badge text-bg-dark">0 item</span><span class="totalsize badge text-bg-dark"></span></div>
@@ -1352,17 +1360,16 @@ async function fallback(id, type) {
 			})
 			.catch(function(error) {
 				var content = `
-		  <div class="card text-center">
-            <div class="card-body text-center">
-              <div class="${UI.file_view_alert_class}" id="file_details" role="alert"><b>404.</b> That’s an error. ` + error + `</div>
-            </div>
-            <p>The requested URL was not found on this server. That’s all we know.</p>
-            <div class="card-text text-center">
-              <div class="btn-group text-center">
-                <a href="/" type="button" class="btn btn-success">Homepage</a>
-              </div>
-            </div><br>
-          </div>`;
+				<div class="card">
+					<div class="card-header ${UI.file_view_alert_class}">
+						<i class="fas fa-file-alt fa-fw"></i>File Information
+					</div>
+					<div class="card-body text-center">
+						<div class="${UI.file_view_alert_class}" id="file_details" role="alert"><b>404.</b> That’s an error. ` + error + `</div>
+						<p>The requested URL was not found on this server. That’s all we know.</p>
+						<a href="/" type="button" class="btn btn-success"><i class="fas fa-home fa-fw"></i>Home</a>
+					</div>
+				</div>`;
 				$("#content").html(content);
 			});
 	} else { // is a folder id
@@ -1407,7 +1414,7 @@ async function file(path) {
 				const size = formatFileSize(obj.size) || '—';
 				const encoded_name = encodeURIComponent(name);
 				const url = UI.second_domain_for_dl ? UI.downloaddomain + obj.link : window.location.origin + obj.link;
-				const file_id = obj.id;
+				const file_id = obj.fid;
 				var poster = obj.thumbnailLink ? obj.thumbnailLink.replace("s220", "s0") : null;
 				if (mimeType.includes("video") || video.includes(fileExtension)) {
 					var poster = obj.thumbnailLink ? poster : UI.poster;
@@ -1423,24 +1430,23 @@ async function file(path) {
 		})
 		.catch(function(error) {
 			var content = `
-		  <div class="card text-center">
-            <div class="card-body text-center">
-              <div class="${UI.file_view_alert_class}" id="file_details" role="alert"><b>404.</b> That’s an error. ` + error + `</div>
-            </div>
-            <p>The requested URL was not found on this server. That’s all we know.</p>
-            <div class="card-text text-center">
-              <div class="btn-group text-center">
-                <a href="/" type="button" class="btn btn-success">Homepage</a>
-              </div>
-            </div><br>
-          </div>`;
+			<div class="card">
+				<div class="card-header ${UI.file_view_alert_class}">
+					<i class="fas fa-file-alt fa-fw"></i>File Information
+				</div>
+				<div class="card-body text-center">
+					<div class="${UI.file_view_alert_class}" id="file_details" role="alert"><b>404.</b> That’s an error. ` + error + `</div>
+					<p>The requested URL was not found on this server. That’s all we know.</p>
+					<a href="/" type="button" class="btn btn-success"><i class="fas fa-home fa-fw"></i>Home</a>
+				</div>
+			</div>`;
 			$("#content").html(content);
 		});
 }
 
 const trakteerWidget = `<div class="col-md-12">
 <div class="card" style="padding: 0 0 0.3rem 0;border-radius:.5rem;width:100%;overflow:hidden;">
-  <iframe src="https://stream.trakteer.id/running-text-default.html?rt_font=Lato&amp;rt_count=6&amp;rt_speed=normal&amp;rt_theme=default&amp;rt_1_clr1=rgba%280%2C+0%2C+0%2C+0%29&amp;rt_2_clr1=rgba%28190%2C+30%2C+45%2C+1%29&amp;rt_2_clr2=rgba%28255%2C+255%2C+255%2C+1%29&amp;rt_2_clr3=rgba%28255%2C+200%2C+73%2C+1%29&amp;rt_septype=image&amp;rt_messages=Donasi+via+%26nbsp%3B%3Ca+href%3D%27https%3A%2F%2Ftrakteer.id%2Fjovanzers%2Ftip%27+style%3D%27color%3A%23FFC849%3B+text-decoration%3A+none%3B%27+target%3D%27_blank%27%3ETrakteer%3C%2Fa%3E+%2F+%26nbsp%3B%3Ca+href%3D%27https%3A%2F%2Fsaweria.co%2Fjovanzers%27+style%3D%27color%3A%23FFC849%3B+text-decoration%3A+none%3B%27+target%3D%27_blank%27%3ESaweria%3C%2Fa%3E&amp;rt_txtshadow=false&amp;creator_name=jovanzers&amp;page_url=trakteer.id/jovanzers&amp;mod=3&amp;key=trstream-0Cd1Li6Gi6gLtK6GT84w&amp;hash=q07y4nqv7kp4wkxv" height="40px" width="100%" style="border:none; color-scheme: light;"></iframe>
+  <iframe src="https://stream.trakteer.id/running-text-default.html?rt_font=Lato&amp;rt_count=6&amp;rt_speed=normal&amp;rt_theme=default&amp;rt_1_clr1=rgba%280%2C+0%2C+0%2C+0%29&amp;rt_2_clr1=rgba%28190%2C+30%2C+45%2C+1%29&amp;rt_2_clr2=rgba%28255%2C+255%2C+255%2C+1%29&amp;rt_2_clr3=rgba%28255%2C+200%2C+73%2C+1%29&amp;rt_septype=image&amp;rt_messages=Donasi+kuy&amp;rt_txtshadow=false&amp;creator_name=jovanzers&amp;page_url=trakteer.id/jovanzers&amp;mod=3&amp;key=trstream-0Cd1Li6Gi6gLtK6GT84w&amp;hash=q07y4nqv7kp4wkxv" height="40px" width="100%" style="border:none; color-scheme: light;"></iframe>
 </div>
 </div>`;
 
