@@ -167,7 +167,7 @@ function html(current_drive_order = 0, model = {}) {
         height: 100vh;
         top: 0;
         left: 0;
-        background-image: url('https://sharer.winten.my.id/static/img/pattern-32-inv.svg'),
+        background-image: url('https://kaceku.onrender.com/static/img/pattern-32-inv.svg'),
             linear-gradient(#61045F, transparent),
             linear-gradient(to top left, lime, transparent),
             linear-gradient(to top right, blue, transparent);
@@ -394,7 +394,7 @@ const homepage = `<!DOCTYPE html>
           height: 100vh;
           top: 0;
           left: 0;
-          background-image: url('https://sharer.winten.my.id/static/img/pattern-32-inv.svg'),
+          background-image: url('https://kaceku.onrender.com/static/img/pattern-32-inv.svg'),
               linear-gradient(#61045F, transparent),
               linear-gradient(to top left, lime, transparent),
               linear-gradient(to top right, blue, transparent);
@@ -646,7 +646,7 @@ const homepage = `<!DOCTYPE html>
                   <i class="fab fa-paypal"></i>PayPal </a>
                 <div class="qrcode card" style="padding: 1rem 1rem 0 1rem;">
                   <div style="padding-bottom: 1rem;">Thank you very much ❤</div>
-                  <img alt="Love" src="https://sharer.winten.my.id/static/img/love.png">
+                  <img alt="Love" src="https://kaceku.onrender.com/static/img/love.png">
                 </div>
                 <a class="btn" href="https://saweria.co/jovanzers" title="Click me!" style="background: #f5a623FF;" target="_blank">
                   <i class="fab fa-paypal"></i>Saweria </a>
@@ -661,13 +661,13 @@ const homepage = `<!DOCTYPE html>
             </div>
             <div class="card-body d-flex flex-wrap gap-2 justify-content-evenly align-items-center">
               <a href="https://akannikah.id" target="_blank" title="Akannikah.id">
-                <img class="image" alt="Akannikah.id" style="height: 32px;" src="https://sharer.winten.my.id/static/img/Akannikah.id.png">
+                <img class="image" alt="Akannikah.id" style="height: 32px;" src="https://kaceku.onrender.com/static/img/Akannikah.id.png">
               </a>
               <a href="https://merakit.co.id" target="_blank" title="Merakit Indonesia">
-                <img class="image" alt="Merakit Indonesia" src="https://sharer.winten.my.id/static/img/merakit.co.id.png">
+                <img class="image" alt="Merakit Indonesia" src="https://kaceku.onrender.com/static/img/merakit.co.id.png">
               </a>
               <a href="https://eksan127.blogspot.com" target="_blank" title="Eksan127">
-                <img class="image" alt="Eksan127" src="https://sharer.winten.my.id/static/img/eksan127.png">
+                <img class="image" alt="Eksan127" src="https://kaceku.onrender.com/static/img/eksan127.png">
               </a>
               <a href="https://azhe.my.id" target="_blank" title="azhe403">azhe403</a>
             </div>
