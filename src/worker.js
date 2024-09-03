@@ -1214,7 +1214,7 @@ async function handleRequest(request, event) {
     });
   }
   if (path == '/assets/homepage.js') {
-    const js = await fetch('https://gitlab.com/jovanzers/Google-Drive-Index/-/raw/dev/assets/homepage.js', {
+    const js = await fetch('https://gitlab.com/jovanzers/Google-Drive-Index/-/raw/tlg/assets/homepage.js', {
       method: 'GET',
     })
     const data = await js.text()
