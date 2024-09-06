@@ -315,6 +315,9 @@ function html(current_drive_order = 0, model = {}) {
         border-top: none;
         padding-top: 0;
     }
+    .trbtn-overlay-container {
+        z-index: 2;
+    }
     .video-js, .vjs-tech, div.vjs-poster > picture > img {
       border-radius: 0.375rem;
       height: 100%!important;
@@ -358,6 +361,7 @@ function html(current_drive_order = 0, model = {}) {
   <script src="https://cdn.jsdelivr.net/npm/marked@5.1.1/lib/marked.umd.min.js"></script>
   <script async src="https://arc.io/widget.min.js#${uiConfig.arc_code}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script type='text/javascript' src='https://assets.trakteer.id/js/trbtn-overlay.min.js'></script>
 </head>
 <body class="d-flex flex-column min-vh-100 bg-zers">
 </body>
