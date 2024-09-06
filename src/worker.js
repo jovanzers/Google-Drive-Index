@@ -632,44 +632,6 @@ const homepage = `<!DOCTYPE html>
           </div>
         </div>
       </div>
-      <div class="row g-3 mt-0">
-        <div class="col-lg-6 col-md-12">
-          <div class="card text-white mb-3 h-100">
-            <div class="card-header">
-              <i class="fa-solid fa-mug-hot fa-fw"></i>Donate a coffee
-            </div>
-            <div class="card-body d-flex align-items-center justify-content-center">
-              <div class="donate btn p-0">
-                <a class="btn" href="https://trakteer.id/kaceku/tip" title="Click me!" style="background: #BE1E2D;" target="_blank">
-                  <i class="fab fa-paypal"></i>Trakteer </a>
-                <div class="qrcode card" style="padding: 1rem 1rem 0 1rem;">
-                  <div style="padding-bottom: 1rem;">Thank you very much ❤</div>
-                  <img alt="Love" src="https://kaceku.onrender.com/static/img/love.png">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-6 col-md-12">
-          <div class="card text-white mb-3 h-100">
-            <div class="card-header">
-              <i class="fa-regular fa-snowflake fa-fw"></i>Sponsors
-            </div>
-            <div class="card-body d-flex flex-wrap gap-2 justify-content-evenly align-items-center">
-              <a href="https://akannikah.id" target="_blank" title="Akannikah.id">
-                <img class="image" alt="Akannikah.id" style="height: 32px;" src="https://kaceku.onrender.com/static/img/Akannikah.id.png">
-              </a>
-              <a href="https://merakit.co.id" target="_blank" title="Merakit Indonesia">
-                <img class="image" alt="Merakit Indonesia" src="https://kaceku.onrender.com/static/img/merakit.co.id.png">
-              </a>
-              <a href="https://eksan127.blogspot.com" target="_blank" title="Eksan127">
-                <img class="image" alt="Eksan127" src="https://kaceku.onrender.com/static/img/eksan127.png">
-              </a>
-              <a href="https://azhe.my.id" target="_blank" title="azhe403">azhe403</a>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
       <div class="modal fade" id="SearchModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="SearchModelLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
