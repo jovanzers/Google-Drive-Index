@@ -167,9 +167,9 @@ function html(current_drive_order = 0, model = {}) {
         height: 100vh;
         top: 0;
         left: 0;
-        background-image: url('https://kaceku.onrender.com/static/img/pattern-32-inv.svg'),
+        background-image: url('https://kaceku.onrender.com/static/img/pattern-33.svg'),
             linear-gradient(#61045F, transparent),
-            linear-gradient(to top left, lime, transparent),
+            linear-gradient(to top left, red, transparent),
             linear-gradient(to top right, blue, transparent);
         background-size: contain;
         background-position: left;
@@ -394,9 +394,9 @@ const homepage = `<!DOCTYPE html>
           height: 100vh;
           top: 0;
           left: 0;
-          background-image: url('https://kaceku.onrender.com/static/img/pattern-32-inv.svg'),
+          background-image: url('https://kaceku.onrender.com/static/img/pattern-33.svg'),
               linear-gradient(#61045F, transparent),
-              linear-gradient(to top left, lime, transparent),
+              linear-gradient(to top left, red, transparent),
               linear-gradient(to top right, blue, transparent);
           background-size: contain;
           background-position: left;
