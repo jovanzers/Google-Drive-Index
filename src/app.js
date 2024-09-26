@@ -107,6 +107,7 @@ function init() {
   </div>
 </div>
 <button id="back-to-top" class="btn btn-secondary btn-lg back-to-top shadow border border-light" style="--bs-border-opacity: .4;" role="button"><i class="fas fa-chevron-up m-0"></i></button>
+<script type='text/javascript' class='troverlay'>(function() {var trbtnId = trbtnOverlay.init('Donasi','#be1e2d','https://trakteer.id/jovanzers/tip/embed/modal','https://cdn.trakteer.id/images/mix/cendol.png','40','floating-left');trbtnOverlay.draw(trbtnId);})();</script>
 <footer class="footer text-center mt-auto container ${UI.footer_style_class}" style="${UI.fixed_footer ?'position: fixed;': ''} ${UI.hide_footer ? ' display:none;': ' display:block;'}">
     <div class="container" style="padding-top: 15px;">
       <div class="row">
