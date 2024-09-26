@@ -106,7 +106,6 @@ const uiConfig = {
   "render_readme_md": true, // Render Readme.md
   "unauthorized_owner_link": "https://telegram.dog/Telegram", // Unauthorized Error Page Link to Owner
   "unauthorized_owner_email": "abuse@telegram.org", // Unauthorized Error Page Owner Email
-  "arc_code": "XsaTW23Y", // arc.io Integration Code, get yours from https://portal.arc.io
   "downloaddomain": domain_for_dl, // Ignore this and set domains at top of this page after service accounts.
   "show_logout_button": authConfig.enable_login ? true : false, // set to true if you want to add logout button
   "allow_file_copy": false, // set to false if you want to disable file copy
@@ -359,7 +358,6 @@ function html(current_drive_order = 0, model = {}) {
   </style>
   <script src="${app_js_file}"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked@5.1.1/lib/marked.umd.min.js"></script>
-  <script async src="https://arc.io/widget.min.js#${uiConfig.arc_code}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script type='text/javascript' src='https://assets.trakteer.id/js/trbtn-overlay.min.js'></script>
 </head>
@@ -585,7 +583,6 @@ const homepage = `<!DOCTYPE html>
         text-decoration: none!important;
       }
     </style>
-    <script async src="https://arc.io/widget.min.js#${uiConfig.arc_code}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
    </head>
    <body class="d-flex flex-column min-vh-100 bg-zers">
@@ -752,7 +749,6 @@ const login_html = `<html>
       }		  
      });
     </script>
-    <script async src="https://arc.io/widget.min.js#${uiConfig.arc_code}"></script>
    </head>
    <body>
     <div class="container-fluid">
@@ -850,7 +846,6 @@ const signup_html = `<html>
       }		  
      });
     </script>
-    <script async src="https://arc.io/widget.min.js#${uiConfig.arc_code}"></script>
    </head>
    <body>
     <div class="container-fluid">
@@ -944,7 +939,6 @@ const asn_blocked = `<html>
   }
 
   </style>
-  <script async src="https://arc.io/widget.min.js#${uiConfig.arc_code}"></script>
   </head>
   <body>
   <div class="container">
@@ -990,7 +984,6 @@ const directlink = `
   }
 
   </style>
-  <script async src="https://arc.io/widget.min.js#${uiConfig.arc_code}"></script>
   </head>
   <body>
   <div class="container">
@@ -1163,9 +1156,6 @@ async function handleRequest(request, event) {
   let url = new URL(request.url);
   let path = url.pathname;
   let hostname = url.hostname;
-  if (path.toLowerCase() == '/arc-sw.js') {
-    return fetch("https://arc.io/arc-sw.js")
-  }
   if (path == '/app.js') {
     const js = await fetch('https://gitlab.com/jovanzers/Google-Drive-Index/-/raw/kck/src/app.js', {
       method: 'GET',
