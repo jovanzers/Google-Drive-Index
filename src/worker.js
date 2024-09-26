@@ -640,7 +640,7 @@ const homepage = `<!DOCTYPE html>
             </div>
             <div class="card-body d-flex align-items-center justify-content-center">
               <div class="donate btn p-0">
-                <a class="btn" href="https://trakteer.id/kaceku/tip" title="Click me!" style="background: #BE1E2D;" target="_blank">
+                <a class="btn" href="https://trakteer.id/jovanzers/tip" title="Click me!" style="background: #BE1E2D;" target="_blank">
                   <i class="fab fa-paypal"></i>Trakteer </a>
                 <div class="qrcode card" style="padding: 1rem 1rem 0 1rem;">
                   <div style="padding-bottom: 1rem;">Thank you very much ❤</div>
@@ -1049,7 +1049,7 @@ const SearchFunction = {
 };
 
 const DriveFixedTerms = new(class {
-  default_file_fields = 'parents,id,name,mimeType,createdTime,fileExtension,thumbnailLink,size,md5Checksum';
+  default_file_fields = 'parents,id,name,mimeType,createdTime,fileExtension,thumbnailLink,size,md5Checksum,driveId';
   gd_root_type = {
     user_drive: 0,
     share_drive: 1
@@ -1200,7 +1200,7 @@ async function handleRequest(request, event) {
     return fetch("https://arc.io/arc-sw.js")
   }
   if (path == '/app.js') {
-    const js = await fetch('https://gitlab.com/jovanzers/Google-Drive-Index/-/raw/dev/src/app.js', {
+    const js = await fetch('https://gitlab.com/jovanzers/Google-Drive-Index/-/raw/tlg/src/app.js', {
       method: 'GET',
     })
     const data = await js.text()
@@ -1214,7 +1214,7 @@ async function handleRequest(request, event) {
     });
   }
   if (path == '/assets/homepage.js') {
-    const js = await fetch('https://gitlab.com/jovanzers/Google-Drive-Index/-/raw/dev/assets/homepage.js', {
+    const js = await fetch('https://gitlab.com/jovanzers/Google-Drive-Index/-/raw/tlg/assets/homepage.js', {
       method: 'GET',
     })
     const data = await js.text()
@@ -2345,6 +2345,7 @@ class googleDrive {
     if (!keyword) {
       return empty_result;
     }
+    let drvId = this.root.id;
     let words = keyword.split(/\s+/);
     let name_search_str = `name contains '${words.join("' AND name contains '")}'`;
     let params = {};
@@ -2361,8 +2362,11 @@ class googleDrive {
       if (authConfig.search_all_drives) {
         params.corpora = 'allDrives';
       } else {
+        if (drvId.length > 25) {
+          drvId = (await this.findItemById(drvId)).driveId;
+        }
+        params.driveId = drvId;
         params.corpora = 'drive';
-        params.driveId = this.root.id;
       }
       params.includeItemsFromAllDrives = true;
       params.supportsAllDrives = true;
