@@ -1049,7 +1049,7 @@ const SearchFunction = {
 };
 
 const DriveFixedTerms = new(class {
-  default_file_fields = 'parents,id,name,mimeType,createdTime,fileExtension,thumbnailLink,size,md5Checksum';
+  default_file_fields = 'parents,id,name,mimeType,createdTime,fileExtension,thumbnailLink,size,md5Checksum,driveId';
   gd_root_type = {
     user_drive: 0,
     share_drive: 1
@@ -2345,6 +2345,7 @@ class googleDrive {
     if (!keyword) {
       return empty_result;
     }
+    let drvId = this.root.id;
     let words = keyword.split(/\s+/);
     let name_search_str = `name contains '${words.join("' AND name contains '")}'`;
     let params = {};
@@ -2361,8 +2362,11 @@ class googleDrive {
       if (authConfig.search_all_drives) {
         params.corpora = 'allDrives';
       } else {
+        if (drvId.length > 25) {
+          drvId = (await this.findItemById(drvId)).driveId;
+        }
+        params.driveId = drvId;
         params.corpora = 'drive';
-        params.driveId = this.root.id;
       }
       params.includeItemsFromAllDrives = true;
       params.supportsAllDrives = true;
