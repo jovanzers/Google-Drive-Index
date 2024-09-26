@@ -314,6 +314,9 @@ function html(current_drive_order = 0, model = {}) {
         border-top: none;
         padding-top: 0;
     }
+    .trbtn-overlay-container {
+      z-index: 2;
+    }
     .video-js, .vjs-tech, div.vjs-poster > picture > img {
       border-radius: 0.375rem;
       height: 100%!important;
@@ -356,6 +359,7 @@ function html(current_drive_order = 0, model = {}) {
   <script src="${app_js_file}"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked@5.1.1/lib/marked.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script type='text/javascript' src='https://assets.trakteer.id/js/trbtn-overlay.min.js'></script>
 </head>
 <body class="d-flex flex-column min-vh-100 bg-zers">
 </body>
@@ -726,6 +730,7 @@ const homepage = `<!DOCTYPE html>
    </body>
   <script src="${uiConfig.jsdelivr_cdn_src}@${uiConfig.version}/assets/homepage.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
+  <script type='text/javascript' src='https://assets.trakteer.id/js/trbtn-overlay.min.js'></script><script type='text/javascript' class='troverlay'>(function() {var trbtnId = trbtnOverlay.init('Donasi','#be1e2d','https://trakteer.id/jovanzers/tip/embed/modal','https://cdn.trakteer.id/images/mix/cendol.png','40','floating-left');trbtnOverlay.draw(trbtnId);})();</script>
 </html>`
 
 const login_html = `<html>
