@@ -11,8 +11,8 @@
 [![Month](https://data.jsdelivr.com/v1/package/npm/@googledrive/index/badge/month)](https://www.jsdelivr.com/package/npm/@googledrive/index)
 [![Week](https://data.jsdelivr.com/v1/package/npm/@googledrive/index/badge/week)](https://www.jsdelivr.com/package/npm/@googledrive/index)
 [![Day](https://data.jsdelivr.com/v1/package/npm/@googledrive/index/badge/day)](https://www.jsdelivr.com/package/npm/@googledrive/index)
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://gitlab.com/ParveenBhadooOfficial/Google-Drive-Index&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://www.npmjs.com/package/@googledrive/index)
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://gitlab.com/GoogleDriveIndex/Google-Drive-Index&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://www.npmjs.com/package/@googledrive/index)
+[![Hits](https://hitscounter.dev/api/hit?url=https://gitlab.com/ParveenBhadooOfficial/Google-Drive-Index&label=hits&icon=bar-chart-fill&color=%23198754)](https://www.npmjs.com/package/@googledrive/index)
+[![Hits](https://hitscounter.dev/api/hit?url=https://gitlab.com/GoogleDriveIndex/Google-Drive-Index&label=hits&icon=bar-chart-fill&color=%23198754)](https://www.npmjs.com/package/@googledrive/index)
 
 ## Full White label and Customizable Index | One of a kind
 

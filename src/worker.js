@@ -666,7 +666,7 @@ const homepage = `<!DOCTYPE html>
         <p>
           <a href="#"><img id="hits" src=""/></a>
         </p>
-        <script>document.getElementById("hits").src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2F" + window.location.host + "&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false";</script>
+        <script>document.getElementById("hits").src="https://hitscounter.dev/api/hit?url=https%3A%2F%2F" + window.location.host + "&label=hits&icon=bar-chart-fill&color=%23198754";</script>
       </div>
       <script>
         let btt = document.getElementById("back-to-top");
