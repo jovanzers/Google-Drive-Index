@@ -1206,7 +1206,6 @@ function onSearchResultItemClick(file_id, can_preview, file) {
 	var title = `Loading...`;
 	$('#SearchModelLabel').html(title);
 	var content = `<div class="d-flex justify-content-center"><div class="spinner-border ${UI.loading_spinner_class} m-5" role="status" id="spinner"><span class="sr-only"></span></div>`;
-	var gdrive_btn = `<a class="btn btn-secondary d-flex align-items-center gap-2" href="https://kaceku.onrender.com/f/${file['fid']}" id="file_drive_link" target="_blank">${gdrive_icon}Google Drive</a>`;
 	var close_btn = `<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>`;
 	$('#modal-body-space').html(content);
 	$('#modal-body-space-buttons').html(close_btn);
@@ -1259,6 +1258,11 @@ function onSearchResultItemClick(file_id, can_preview, file) {
 	content += `
 		</tbody>
 	</table>`;
+	
+	// Create the shortxlinks URL WITHOUT encoding the destination URL
+	const directUrl = `${window.location.origin}/fallback?id=${file_id}${can_preview ? '&a=view' : ''}`;
+	const shortxlinksUrl = `https://shortxlinks.com/st?api=c71342bc5deab6b9a408d2501968365c6cb7ffe0&url=${directUrl}`;
+	
 	// Request a path
 	fetch(`/${cur}:id2path`, {
 			method: 'POST',
@@ -1276,20 +1280,24 @@ function onSearchResultItemClick(file_id, can_preview, file) {
 		})
 		.then(function(obj) {
 			var href = `${obj.path}`;
-			var encodedUrl = href.replace(new RegExp('#', 'g'), '%23').replace(new RegExp('\\?', 'g'), '%3F')
+			var encodedUrl = href.replace(new RegExp('#', 'g'), '%23').replace(new RegExp('\\?', 'g'), '%3F');
 			$('#SearchModelLabel').html(title);
-			btn = `<div class="btn-group">`+ gdrive_btn +`
-				<a href="${encodedUrl}${can_preview ? '?a=view' : ''}" type="button" class="btn btn-success" target="_blank"><i class="fas fa-bolt fa-fw"></i>Index</a>
+			
+			btn = `<div class="btn-group">
+				<a href="${shortxlinksUrl}" type="button" class="btn btn-success" target="_blank"><i class="fas fa-bolt fa-fw"></i>ShortXLink</a>
 				</div>` + close_btn;
+			
 			$('#modal-body-space').html(content);
 			$('#modal-body-space-buttons').html(btn);
 		})
 		.catch(function(error) {
 			console.log(error);
 			$('#SearchModelLabel').html(title);
-			btn = `<div class="btn-group">`+ gdrive_btn +`
-				<a href="/fallback?id=${file_id}&${can_preview ? 'a=view' : ''}" type="button" class="btn btn-success" target="_blank"><i class="fas fa-bolt fa-fw"></i>Index</a>
+			
+			btn = `<div class="btn-group">
+				<a href="${shortxlinksUrl}" type="button" class="btn btn-success" target="_blank"><i class="fas fa-bolt fa-fw"></i>ShortXLink</a>
 				</div>` + close_btn;
+			
 			$('#modal-body-space').html(content);
 			$('#modal-body-space-buttons').html(btn);
 		});
