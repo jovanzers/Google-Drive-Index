@@ -1,4 +1,4 @@
-name = "google-drive-index"
+name = "file1"
 main = "src/worker.js"
 compatibility_date = "2023-07-06"
 
