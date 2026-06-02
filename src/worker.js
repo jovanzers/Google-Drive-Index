@@ -317,6 +317,9 @@ function html(current_drive_order = 0, model = {}) {
     .trbtn-overlay-container {
       z-index: 2;
     }
+    #trbtn-overlay-0 {
+        color-scheme: light;
+    }
     .video-js, .vjs-tech, div.vjs-poster > picture > img {
       border-radius: 0.375rem;
       height: 100%!important;
@@ -527,6 +530,9 @@ const homepage = `<!DOCTYPE html>
         height: 100%;
         background: rgba(0, 0, 0);
         opacity: .9;
+      }
+      #trbtn-overlay-0 {
+          color-scheme: light;
       }
       table {
           word-break: break-word;
